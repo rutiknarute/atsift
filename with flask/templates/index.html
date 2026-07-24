@@ -1,0 +1,2111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+
+    <title>ATSift</title>
+
+    <style>
+        :root {
+            --background: #f4f6fb;
+            --surface: #ffffff;
+            --surface-soft: #f8fafc;
+            --text: #172033;
+            --muted: #687386;
+            --border: #e2e7ef;
+            --primary: #4f46e5;
+            --primary-dark: #3730a3;
+            --green: #14804a;
+            --green-soft: #e9f8f0;
+            --red: #b42336;
+            --red-soft: #fff0f1;
+            --purple: #7138c7;
+            --purple-soft: #f2ebff;
+            --blue-soft: #eaf1ff;
+            --orange-soft: #fff2dc;
+            --shadow:
+                0 10px 30px rgba(27, 39, 72, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+            color: var(--text);
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(79, 70, 229, 0.08),
+                    transparent 30%
+                ),
+                var(--background);
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        .page {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+            padding: 34px 0 70px;
+        }
+
+        .hero {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 30px;
+            margin-bottom: 24px;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .live-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #18a05e;
+            box-shadow:
+                0 0 0 5px rgba(24, 160, 94, 0.12);
+        }
+
+        h1 {
+            margin: 0;
+            max-width: 760px;
+            font-size: clamp(34px, 5vw, 58px);
+            line-height: 1.02;
+            letter-spacing: -0.045em;
+        }
+
+        .hero-description {
+            max-width: 730px;
+            margin: 17px 0 0;
+            color: var(--muted);
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .opt-note {
+            max-width: 730px;
+            margin: 10px 0 0;
+            color: #7a5b17;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .scan-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-shrink: 0;
+        }
+
+        .lookback-select {
+            min-height: 48px;
+            padding: 0 36px 0 15px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            outline: none;
+            color: var(--text);
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            font-weight: 750;
+        }
+
+        .lookback-select:focus {
+            border-color: rgba(79, 70, 229, 0.65);
+            box-shadow:
+                0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .scan-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 145px;
+            min-height: 48px;
+            padding: 0 22px;
+            border: 0;
+            border-radius: 14px;
+            color: #ffffff;
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--primary),
+                    #6d5ce7
+                );
+            box-shadow:
+                0 10px 22px rgba(79, 70, 229, 0.25);
+            cursor: pointer;
+            font-weight: 800;
+            transition:
+                transform 150ms ease,
+                box-shadow 150ms ease,
+                opacity 150ms ease;
+        }
+
+        .scan-button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow:
+                0 14px 28px rgba(79, 70, 229, 0.3);
+        }
+
+        .scan-button:disabled,
+        .lookback-select:disabled {
+            opacity: 0.65;
+            cursor: not-allowed;
+        }
+
+        .status-panel {
+            margin-bottom: 22px;
+            padding: 16px 18px;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.82);
+            backdrop-filter: blur(12px);
+            box-shadow: var(--shadow);
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .status-message {
+            color: var(--text);
+            font-weight: 700;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 8px;
+            margin-top: 12px;
+            overflow: hidden;
+            border-radius: 99px;
+            background: #e9edf4;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            border-radius: inherit;
+            background:
+                linear-gradient(
+                    90deg,
+                    var(--primary),
+                    #8b5cf6
+                );
+            transition: width 300ms ease;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns:
+                repeat(4, minmax(0, 1fr));
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .stat-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .stat-label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 30px;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns:
+                minmax(240px, 1fr)
+                minmax(160px, 210px)
+                minmax(180px, 260px)
+                minmax(160px, 220px);
+            gap: 12px;
+            margin-bottom: 18px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .field > input,
+        .field > select,
+        .check-dropdown > summary {
+            width: 100%;
+            min-height: 46px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            outline: none;
+            color: var(--text);
+            background: var(--surface-soft);
+        }
+
+        .field > input:focus,
+        .field > select:focus,
+        .check-dropdown > summary:focus {
+            border-color: rgba(79, 70, 229, 0.65);
+            box-shadow:
+                0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .check-dropdown {
+            position: relative;
+        }
+
+        .check-dropdown > summary {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .check-dropdown > summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .check-dropdown > summary::after {
+            content: "⌄";
+            color: var(--muted);
+            font-size: 16px;
+        }
+
+        .check-menu {
+            position: absolute;
+            z-index: 30;
+            top: calc(100% + 6px);
+            left: 0;
+            width: max(100%, 220px);
+            max-height: 320px;
+            overflow-y: auto;
+            padding: 6px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            background: var(--surface);
+            box-shadow: var(--shadow);
+        }
+
+        .check-option {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-height: 40px;
+            padding: 7px 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .check-option:hover,
+        .check-option:focus-within {
+            background: var(--surface-soft);
+        }
+
+        .check-option input {
+            width: 16px;
+            height: 16px;
+            flex: 0 0 auto;
+            accent-color: var(--primary);
+        }
+
+        .result-line {
+            display: flex;
+            justify-content: space-between;
+            gap: 18px;
+            margin: 18px 2px 14px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .jobs {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .job-card {
+            padding: 24px;
+            border: 1px solid var(--border);
+            border-radius: 22px;
+            background: var(--surface);
+            box-shadow: var(--shadow);
+            transition:
+                transform 160ms ease,
+                box-shadow 160ms ease,
+                border-color 160ms ease;
+        }
+
+        .job-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(79, 70, 229, 0.26);
+            box-shadow:
+                0 18px 42px rgba(27, 39, 72, 0.12);
+        }
+
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-bottom: 14px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            min-height: 27px;
+            padding: 0 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .badge-greenhouse {
+            color: #126338;
+            background: var(--green-soft);
+        }
+
+        .badge-ashby {
+            color: #5828a5;
+            background: var(--purple-soft);
+        }
+
+        .badge-lever {
+            color: #075985;
+            background: #e0f2fe;
+        }
+
+        .badge-smartrecruiters {
+            color: #9a3412;
+            background: #ffedd5;
+        }
+
+        .badge-workable {
+            color: #115e59;
+            background: #ccfbf1;
+        }
+
+        .badge-ai {
+            color: #314fa3;
+            background: var(--blue-soft);
+        }
+
+        .badge-warning {
+            color: #865304;
+            background: var(--orange-soft);
+        }
+
+        .job-title {
+            margin: 0;
+            font-size: 25px;
+            line-height: 1.28;
+            letter-spacing: -0.025em;
+        }
+
+        .company-name {
+            margin-top: 10px;
+            color: var(--primary);
+            font-size: 16px;
+            font-weight: 800;
+        }
+
+        .location {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .date-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .date-card {
+            padding: 13px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fbfcfe;
+        }
+
+        .date-label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .date-relative {
+            display: block;
+            font-size: 14px;
+            font-weight: 850;
+        }
+
+        .date-exact {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .section-title {
+            margin: 0 0 14px;
+            font-size: 16px;
+            font-weight: 900;
+            letter-spacing: -0.015em;
+        }
+
+        .analysis-box {
+            margin-top: 20px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--surface-soft);
+        }
+
+        .qa-item {
+            display: grid;
+            grid-template-columns: 34px minmax(0, 1fr);
+            gap: 12px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .qa-item:last-child {
+            border-bottom: 0;
+        }
+
+        .qa-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
+            color: var(--primary);
+            background: #ebeafe;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .qa-question {
+            margin: 0 0 7px;
+            font-size: 14px;
+            font-weight: 900;
+        }
+
+        .answer-text {
+            margin: 0;
+            color: #465268;
+            font-size: 13px;
+            line-height: 1.55;
+        }
+
+        .answer-row {
+            display: grid;
+            grid-template-columns: 110px minmax(0, 1fr);
+            gap: 9px;
+            margin-top: 5px;
+            color: #465268;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .answer-label {
+            color: var(--muted);
+            font-weight: 750;
+        }
+
+        .decision {
+            display: inline-flex;
+            align-items: center;
+            min-height: 28px;
+            padding: 0 11px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .decision-yes {
+            color: #126338;
+            background: var(--green-soft);
+        }
+
+        .decision-no {
+            color: var(--red);
+            background: var(--red-soft);
+        }
+
+        .decision-unknown {
+            color: #865304;
+            background: var(--orange-soft);
+        }
+
+        .blocking-line {
+            margin: 9px 0 0;
+            padding: 10px 12px;
+            border-left: 3px solid var(--red);
+            border-radius: 0 9px 9px 0;
+            color: #7e2732;
+            background: var(--red-soft);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .chip {
+            display: inline-flex;
+            padding: 6px 9px;
+            border: 1px solid #dbe1eb;
+            border-radius: 999px;
+            color: #465268;
+            background: #ffffff;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .stop-note {
+            margin: 14px 0 0;
+            padding: 12px 14px;
+            border-radius: 12px;
+            color: var(--red);
+            background: var(--red-soft);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .summary-box {
+            margin-top: 14px;
+            padding: 18px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: #ffffff;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(2, minmax(0, 1fr));
+            gap: 10px 20px;
+        }
+
+        .summary-row {
+            display: grid;
+            grid-template-columns: 80px minmax(0, 1fr);
+            gap: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .summary-label {
+            color: var(--muted);
+            font-weight: 800;
+        }
+
+        .summary-value {
+            color: var(--text);
+            overflow-wrap: anywhere;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+            margin-top: 18px;
+        }
+
+        .source-link {
+            display: block;
+            overflow: hidden;
+            color: var(--muted);
+            font-size: 12px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-decoration: none;
+        }
+
+        .source-link:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .apply-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 47px;
+            padding: 0 18px;
+            border-radius: 13px;
+            color: #ffffff;
+            background: var(--primary);
+            font-weight: 850;
+            text-decoration: none;
+        }
+
+        .apply-button:hover {
+            background: var(--primary-dark);
+        }
+
+        .empty-state {
+            padding: 60px 25px;
+            border: 1px dashed #cbd3df;
+            border-radius: 22px;
+            color: var(--muted);
+            background: rgba(255, 255, 255, 0.58);
+            text-align: center;
+        }
+
+        .empty-state h2 {
+            margin: 0 0 8px;
+            color: var(--text);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .footer {
+            margin-top: 30px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.7;
+            text-align: center;
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+            }
+
+            .scan-controls {
+                width: 100%;
+            }
+
+            .lookback-select,
+            .scan-button {
+                flex: 1;
+            }
+
+            .stats {
+                grid-template-columns:
+                    repeat(2, minmax(0, 1fr));
+            }
+
+            .toolbar {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .page {
+                width: min(100% - 20px, 1180px);
+                padding-top: 22px;
+            }
+
+            .scan-controls {
+                flex-direction: column;
+            }
+
+            .lookback-select,
+            .scan-button {
+                width: 100%;
+            }
+
+            .date-grid,
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .answer-row {
+                grid-template-columns: 1fr;
+                gap: 2px;
+            }
+
+            .status-row,
+            .result-line {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .job-card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <main class="page">
+        <header class="hero">
+            <div>
+                <div class="eyebrow">
+                    <span class="live-dot"></span>
+                    Local six-ATS job monitor
+                </div>
+
+                <h1>ATSift</h1>
+
+                <p class="hero-description">
+                    Showing title-matched jobs first published
+                    during the last
+                    <strong id="lookbackText">
+                        {{ selected_lookback }}
+                        hour{% if selected_lookback != 1 %}s{% endif %}
+                    </strong>. Times are shown in
+                    {{ timezone_name }}.
+                    {% if ollama_enabled %}
+                        Ollama {{ ollama_model }} generates the
+                        job analysis locally.
+                    {% endif %}
+                </p>
+
+                <p class="opt-note">
+                    OPT Eligible is a JD-text screening result.
+                    YES means no explicit blocker was found.
+                    Confirm eligibility with the employer and
+                    your international-student adviser.
+                </p>
+            </div>
+
+            <div class="scan-controls">
+                <select
+                    id="lookbackSelect"
+                    class="lookback-select"
+                    aria-label="Select scan period"
+                >
+                    {% for hours in allowed_lookbacks %}
+                        <option
+                            value="{{ hours }}"
+                            {% if hours == selected_lookback %}
+                                selected
+                            {% endif %}
+                        >
+                            Last {{ hours }}
+                            hour{% if hours != 1 %}s{% endif %}
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <button
+                    id="scanButton"
+                    class="scan-button"
+                    type="button"
+                >
+                    Scan Now
+                </button>
+            </div>
+        </header>
+
+        <section class="status-panel">
+            <div class="status-row">
+                <span
+                    id="statusMessage"
+                    class="status-message"
+                >
+                    {{ status.message }}
+                </span>
+
+                <span id="statusNumbers">
+                    {% if status.total %}
+                        {{ status.current }} /
+                        {{ status.total }} companies ·
+                        {{ status.errors }} errors
+                    {% else %}
+                        Waiting for scan
+                    {% endif %}
+                </span>
+            </div>
+
+            <div class="progress-track">
+                <div
+                    id="progressBar"
+                    class="progress-bar"
+                ></div>
+            </div>
+        </section>
+
+        <section class="stats">
+            <article class="stat-card">
+                <span class="stat-label">
+                    Visible jobs
+                </span>
+
+                <span class="stat-value">
+                    {{ stats.total }}
+                </span>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">
+                    Greenhouse
+                </span>
+
+                <span class="stat-value">
+                    {{ stats.greenhouse }}
+                </span>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">
+                    Ashby
+                </span>
+
+                <span class="stat-value">
+                    {{ stats.ashby }}
+                </span>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">
+                    Lever
+                </span>
+
+                <span class="stat-value">
+                    {{ stats.lever }}
+                </span>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">
+                    SmartRecruiters
+                </span>
+
+                <span class="stat-value">
+                    {{ stats.smartrecruiters }}
+                </span>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">
+                    Workable
+                </span>
+
+                <span class="stat-value">
+                    {{ stats.workable }}
+                </span>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">
+                    Workday
+                </span>
+
+                <span class="stat-value">
+                    {{ stats.workday }}
+                </span>
+            </article>
+
+            <article class="stat-card">
+                <span class="stat-label">
+                    Companies
+                </span>
+
+                <span class="stat-value">
+                    {{ stats.companies }}
+                </span>
+            </article>
+        </section>
+
+        <section class="toolbar">
+            <div class="field">
+                <input
+                    id="searchInput"
+                    type="search"
+                    placeholder="Search title, company or location…"
+                    autocomplete="off"
+                    aria-label="Search jobs"
+                >
+            </div>
+
+            <details class="field check-dropdown">
+                <summary id="roleCategorySummary">
+                    All role categories
+                </summary>
+                <div
+                    id="roleCategoryFilter"
+                    class="check-menu"
+                    role="group"
+                    aria-label="Filter by role categories"
+                >
+                    <label class="check-option">
+                        <input type="checkbox" data-all checked>
+                        <span>All role categories</span>
+                    </label>
+
+                    {% for value, label in role_categories.items() %}
+                        <label class="check-option">
+                            <input
+                                type="checkbox"
+                                value="{{ value }}"
+                            >
+                            <span>{{ label }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </details>
+
+            <details class="field check-dropdown">
+                <summary id="companySummary">
+                    All companies
+                </summary>
+                <div
+                    id="companyFilter"
+                    class="check-menu"
+                    role="group"
+                    aria-label="Filter by companies"
+                >
+                    <label class="check-option">
+                        <input type="checkbox" data-all checked>
+                        <span>All companies</span>
+                    </label>
+                </div>
+            </details>
+
+            <details class="field check-dropdown">
+                <summary id="sourceSummary">
+                    All ATS platforms
+                </summary>
+                <div
+                    id="sourceFilter"
+                    class="check-menu"
+                    role="group"
+                    aria-label="Filter by ATS platforms"
+                >
+                    <label class="check-option">
+                        <input type="checkbox" data-all checked>
+                        <span>All ATS platforms</span>
+                    </label>
+
+                    {% for source, label in {
+                        "greenhouse": "Greenhouse",
+                        "ashby": "Ashby",
+                        "lever": "Lever",
+                        "smartrecruiters": "SmartRecruiters",
+                        "workable": "Workable",
+                        "workday": "Workday"
+                    }.items() %}
+                        <label class="check-option">
+                            <input
+                                type="checkbox"
+                                value="{{ source }}"
+                            >
+                            <span>{{ label }}</span>
+                        </label>
+                    {% endfor %}
+                </div>
+            </details>
+        </section>
+
+        <div class="result-line">
+            <span id="filteredCount">
+                {{ stats.total }}
+                job{% if stats.total != 1 %}s{% endif %}
+            </span>
+
+            <span>
+                Last scan:
+                {% if last_scan_display.available %}
+                    {{ last_scan_display.relative }}
+                    · {{ last_scan_display.absolute }}
+                {% else %}
+                    Not scanned yet
+                {% endif %}
+            </span>
+        </div>
+
+        <section id="jobGrid" class="jobs">
+            {% for job in jobs %}
+                <article
+                    class="job-card"
+                    data-source="{{ job.source }}"
+                    data-company="{{ job.company|lower }}"
+                    data-categories="{{ job.categories|join(' ') }}"
+                    data-search="
+                        {{ job.title }}
+                        {{ job.company }}
+                        {{ job.location }}
+                        {{ job.id }}
+                        {{ job.team_display }}
+                    "
+                >
+                    <div class="badges">
+                        <span
+                            class="
+                                badge
+                                badge-{{ job.source }}
+                            "
+                        >
+                            {{ job.source_label }}
+                        </span>
+
+                        {% if ollama_enabled %}
+                            <span class="badge badge-ai">
+                                Ollama analyzed
+                            </span>
+                        {% endif %}
+
+                        {% if job.analysis.analysis_failed %}
+                            <span class="badge badge-warning">
+                                Analysis unavailable
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <h2 class="job-title">
+                        {{ job.title }}
+                    </h2>
+
+                    <div class="company-name">
+                        {{ job.company }}
+                    </div>
+
+                    <div class="location">
+                        {% if job.location %}
+                            📍 {{ job.location }}
+                        {% else %}
+                            📍 Location not provided
+                        {% endif %}
+                    </div>
+
+                    <div class="date-grid">
+                        <div class="date-card">
+                            <span class="date-label">
+                                First published
+                            </span>
+
+                            <span class="date-relative">
+                                {{
+                                    job
+                                    .published_display
+                                    .relative
+                                }}
+                            </span>
+
+                            <span class="date-exact">
+                                {{
+                                    job
+                                    .published_display
+                                    .absolute
+                                }}
+                            </span>
+                        </div>
+
+                        <div class="date-card">
+                            <span class="date-label">
+                                Source updated
+                            </span>
+
+                            {% if job.updated_display.available %}
+                                <span class="date-relative">
+                                    {{
+                                        job
+                                        .updated_display
+                                        .relative
+                                    }}
+                                </span>
+
+                                <span class="date-exact">
+                                    {{
+                                        job
+                                        .updated_display
+                                        .absolute
+                                    }}
+                                </span>
+                            {% else %}
+                                <span class="date-relative">
+                                    Not provided
+                                </span>
+
+                                <span class="date-exact">
+                                    Not exposed by this ATS.
+                                </span>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <section class="analysis-box">
+                        <h3 class="section-title">
+                            Q and A
+                        </h3>
+
+                        <div class="qa-item">
+                            <div class="qa-number">1</div>
+
+                            <div>
+                                <h4 class="qa-question">
+                                    OPT Eligible?
+                                </h4>
+
+                                <span
+                                    class="
+                                        decision
+                                        {% if job.analysis.opt_eligible == 'YES' %}
+                                            decision-yes
+                                        {% elif job.analysis.opt_eligible == 'NO' %}
+                                            decision-no
+                                        {% else %}
+                                            decision-unknown
+                                        {% endif %}
+                                    "
+                                >
+                                    {{
+                                        job
+                                        .analysis
+                                        .opt_eligible
+                                    }}
+                                </span>
+
+                                {% if
+                                    job.analysis.opt_eligible == "NO"
+                                    and
+                                    job.analysis.opt_blocking_line
+                                %}
+                                    <blockquote
+                                        class="blocking-line"
+                                    >
+                                        {{
+                                            job
+                                            .analysis
+                                            .opt_blocking_line
+                                        }}
+                                    </blockquote>
+                                {% elif
+                                    job.analysis.opt_eligible == "UNKNOWN"
+                                %}
+                                    <p class="blocking-line">
+                                        {{
+                                            job
+                                            .analysis
+                                            .opt_blocking_line
+                                        }}
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="qa-item">
+                            <div class="qa-number">2</div>
+
+                            <div>
+                                <h4 class="qa-question">
+                                    Requirements
+                                </h4>
+
+                                <div class="answer-row">
+                                    <span class="answer-label">
+                                        Degree
+                                    </span>
+
+                                    <span>
+                                        {{
+                                            job
+                                            .analysis
+                                            .degree
+                                        }}
+                                    </span>
+                                </div>
+
+                                <div class="answer-row">
+                                    <span class="answer-label">
+                                        Qualifications
+                                    </span>
+
+                                    <span>
+                                        {{
+                                            job
+                                            .analysis
+                                            .qualifications
+                                        }}
+                                    </span>
+                                </div>
+
+                                <div class="answer-row">
+                                    <span class="answer-label">
+                                        Eligibility
+                                    </span>
+
+                                    <span>
+                                        {{
+                                            job
+                                            .analysis
+                                            .eligibility
+                                        }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="qa-item">
+                            <div class="qa-number">3</div>
+
+                            <div>
+                                <h4 class="qa-question">
+                                    Key Tech and Skills
+                                </h4>
+
+                                {% if
+                                    job.analysis.key_tech_skills
+                                %}
+                                    <div class="chips">
+                                        {% for skill in
+                                            job.analysis.key_tech_skills
+                                        %}
+                                            <span class="chip">
+                                                {{ skill }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    <p class="answer-text">
+                                        Not clearly stated.
+                                    </p>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="qa-item">
+                            <div class="qa-number">4</div>
+
+                            <div>
+                                <h4 class="qa-question">
+                                    Experience Required?
+                                </h4>
+
+                                <p class="answer-text">
+                                    {{
+                                        job
+                                        .analysis
+                                        .experience_years
+                                    }}
+                                </p>
+
+                                <div style="margin-top: 8px;">
+                                    <span
+                                        class="
+                                            decision
+                                            {% if job.analysis.experience_fit == 'YES' %}
+                                                decision-yes
+                                            {% elif job.analysis.experience_fit == 'NO' %}
+                                                decision-no
+                                            {% else %}
+                                                decision-unknown
+                                            {% endif %}
+                                        "
+                                    >
+                                        {{
+                                            job
+                                            .analysis
+                                            .experience_fit
+                                        }}
+                                    </span>
+                                </div>
+
+                                {% if
+                                    job.analysis.stop_after_experience
+                                %}
+                                    <div class="stop-note">
+                                        Stopped: this role requires
+                                        4 or more years of experience.
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if
+                            not job.analysis.stop_after_experience
+                        %}
+                            <div class="qa-item">
+                                <div class="qa-number">5</div>
+
+                                <div>
+                                    <h4 class="qa-question">
+                                        Top ATS Keywords
+                                    </h4>
+
+                                    {% if
+                                        job.analysis.ats_keywords
+                                    %}
+                                        <div class="chips">
+                                            {% for keyword in
+                                                job.analysis.ats_keywords
+                                            %}
+                                                <span class="chip">
+                                                    {{ keyword }}
+                                                </span>
+                                            {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <p class="answer-text">
+                                            Not clearly stated.
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <div class="qa-item">
+                                <div class="qa-number">6</div>
+
+                                <div>
+                                    <h4 class="qa-question">
+                                        One Tip based on JD
+                                    </h4>
+
+                                    <p class="answer-text">
+                                        {{
+                                            job
+                                            .analysis
+                                            .tip
+                                        }}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="qa-item">
+                                <div class="qa-number">8</div>
+
+                                <div>
+                                    <h4 class="qa-question">
+                                        Salary
+                                    </h4>
+
+                                    <p class="answer-text">
+                                        {{
+                                            job
+                                            .analysis
+                                            .salary
+                                        }}
+                                    </p>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </section>
+
+                    <section class="summary-box">
+                        <h3 class="section-title">
+                            Summary
+                        </h3>
+
+                        <div class="summary-grid">
+                            <div class="summary-row">
+                                <span class="summary-label">
+                                    ID
+                                </span>
+
+                                <span class="summary-value">
+                                    {{ job.id }}
+                                </span>
+                            </div>
+
+                            <div class="summary-row">
+                                <span class="summary-label">
+                                    Team
+                                </span>
+
+                                <span class="summary-value">
+                                    {{ job.team_display }}
+                                </span>
+                            </div>
+
+                            <div class="summary-row">
+                                <span class="summary-label">
+                                    Title
+                                </span>
+
+                                <span class="summary-value">
+                                    {{ job.title }}
+                                </span>
+                            </div>
+
+                            <div class="summary-row">
+                                <span class="summary-label">
+                                    Company
+                                </span>
+
+                                <span class="summary-value">
+                                    {{ job.company }}
+                                </span>
+                            </div>
+
+                            <div class="summary-row">
+                                <span class="summary-label">
+                                    Location
+                                </span>
+
+                                <span class="summary-value">
+                                    {{
+                                        job.location
+                                        or "Not listed."
+                                    }}
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div class="card-actions">
+                        {% if job.job_url %}
+                            <a
+                                class="source-link"
+                                href="{{ job.job_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                title="{{ job.job_url }}"
+                            >
+                                {{ job.job_url }}
+                            </a>
+                        {% endif %}
+
+                        {% if job.apply_url %}
+                            <a
+                                class="apply-button"
+                                data-apply-button
+                                data-job-uid="{{ job.uid }}"
+                                href="{{ job.apply_url }}"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                <span data-apply-label>
+                                    {{ "Viewed" if job.viewed_at else "Apply Now" }}
+                                </span>
+                                ↗
+                            </a>
+                        {% endif %}
+                    </div>
+                </article>
+            {% endfor %}
+
+            <div
+                id="emptyState"
+                class="
+                    empty-state
+                    {% if jobs %}hidden{% endif %}
+                "
+            >
+                <h2>No matching jobs yet</h2>
+
+                <p>
+                    Select a time period and press
+                    Scan Now.
+                </p>
+            </div>
+        </section>
+
+        <footer class="footer">
+            Jobs are collected from public Greenhouse,
+            Ashby, Lever, SmartRecruiters, Workable, and Workday
+            job-board endpoints. Confirm
+            eligibility, salary, sponsorship, and
+            requirements on the employer’s official
+            posting before applying.
+        </footer>
+    </main>
+
+    <script>
+        const initialStatus =
+            {{ status | tojson }};
+
+        const scanButton =
+            document.getElementById("scanButton");
+
+        const lookbackSelect =
+            document.getElementById(
+                "lookbackSelect"
+            );
+
+        const lookbackText =
+            document.getElementById(
+                "lookbackText"
+            );
+
+        const statusMessage =
+            document.getElementById(
+                "statusMessage"
+            );
+
+        const statusNumbers =
+            document.getElementById(
+                "statusNumbers"
+            );
+
+        const progressBar =
+            document.getElementById(
+                "progressBar"
+            );
+
+        const searchInput =
+            document.getElementById(
+                "searchInput"
+            );
+
+        const sourceFilter =
+            document.getElementById(
+                "sourceFilter"
+            );
+
+        const sourceSummary =
+            document.getElementById(
+                "sourceSummary"
+            );
+
+        const roleCategoryFilter =
+            document.getElementById(
+                "roleCategoryFilter"
+            );
+
+        const roleCategorySummary =
+            document.getElementById(
+                "roleCategorySummary"
+            );
+
+        const companyFilter =
+            document.getElementById(
+                "companyFilter"
+            );
+
+        const companySummary =
+            document.getElementById(
+                "companySummary"
+            );
+
+        const filteredCount =
+            document.getElementById(
+                "filteredCount"
+            );
+
+        const emptyState =
+            document.getElementById(
+                "emptyState"
+            );
+
+        const cards = Array.from(
+            document.querySelectorAll(
+                ".job-card"
+            )
+        );
+
+        let scanWasRunning =
+            Boolean(initialStatus.running);
+
+
+        function populateCompanyFilter() {
+            const companies = [
+                ...new Set(
+                    cards
+                        .map(
+                            card =>
+                                card.dataset.company
+                        )
+                        .filter(Boolean)
+                )
+            ].sort();
+
+            for (const company of companies) {
+                const matchingCard = cards.find(
+                    card =>
+                        card.dataset.company
+                        === company
+                );
+
+                const visibleName =
+                    matchingCard
+                        ?.querySelector(
+                            ".company-name"
+                        )
+                        ?.textContent
+                        ?.trim()
+                    || company;
+
+                const label =
+                    document.createElement("label");
+                label.className = "check-option";
+
+                const checkbox =
+                    document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.value = company;
+
+                const text =
+                    document.createElement("span");
+                text.textContent = visibleName;
+
+                label.append(checkbox, text);
+
+                companyFilter.appendChild(
+                    label
+                );
+            }
+        }
+
+
+        function checkedValues(container) {
+            return Array.from(
+                container.querySelectorAll(
+                    "input:not([data-all]):checked"
+                )
+            ).map(input => input.value);
+        }
+
+
+        function updateCheckSummary(
+            container,
+            summary,
+            allLabel
+        ) {
+            const checked = Array.from(
+                container.querySelectorAll(
+                    "input:not([data-all]):checked"
+                )
+            );
+
+            const allCheckbox =
+                container.querySelector(
+                    "input[data-all]"
+                );
+
+            allCheckbox.checked = checked.length === 0;
+
+            if (checked.length === 0) {
+                summary.textContent = allLabel;
+            } else if (checked.length === 1) {
+                summary.textContent =
+                    checked[0]
+                        .closest("label")
+                        .querySelector("span")
+                        .textContent;
+            } else {
+                summary.textContent =
+                    `${checked.length} selected`;
+            }
+        }
+
+
+        function handleCheckChange(
+            container,
+            summary,
+            allLabel,
+            event
+        ) {
+            if (event.target.matches("input[data-all]")) {
+                for (const checkbox of
+                    container.querySelectorAll(
+                        "input:not([data-all])"
+                    )) {
+                    checkbox.checked = false;
+                }
+            }
+
+            updateCheckSummary(
+                container,
+                summary,
+                allLabel
+            );
+            applyFilters();
+        }
+
+
+        function applyFilters() {
+            const query =
+                searchInput.value
+                    .trim()
+                    .toLowerCase();
+
+            const selectedSources =
+                checkedValues(sourceFilter);
+
+            const selectedRoleCategories =
+                checkedValues(roleCategoryFilter);
+
+            const selectedCompanies =
+                checkedValues(companyFilter);
+
+            let visible = 0;
+
+            for (const card of cards) {
+                const searchableText =
+                    card.dataset.search
+                        .toLowerCase();
+
+                const matchesSearch =
+                    !query
+                    || searchableText.includes(
+                        query
+                    );
+
+                const matchesSource =
+                    selectedSources.length === 0
+                    || selectedSources.includes(
+                        card.dataset.source
+                    );
+
+                const matchesRoleCategory =
+                    selectedRoleCategories.length === 0
+                    || card.dataset.categories
+                        .split(" ")
+                        .some(category =>
+                            selectedRoleCategories
+                                .includes(category)
+                        );
+
+                const matchesCompany =
+                    selectedCompanies.length === 0
+                    || selectedCompanies.includes(
+                        card.dataset.company
+                    );
+
+                const shouldShow =
+                    matchesSearch
+                    && matchesSource
+                    && matchesRoleCategory
+                    && matchesCompany;
+
+                card.classList.toggle(
+                    "hidden",
+                    !shouldShow
+                );
+
+                if (shouldShow) {
+                    visible += 1;
+                }
+            }
+
+            filteredCount.textContent =
+                `${visible} job${
+                    visible === 1 ? "" : "s"
+                }`;
+
+            emptyState.classList.toggle(
+                "hidden",
+                visible !== 0
+            );
+
+            if (visible === 0) {
+                emptyState
+                    .querySelector("h2")
+                    .textContent =
+                    "No jobs match these filters";
+
+                emptyState
+                    .querySelector("p")
+                    .textContent =
+                    "Try a different keyword, "
+                    + "company, or ATS.";
+            }
+        }
+
+
+        function updateStatusUI(status) {
+            statusMessage.textContent =
+                status.message
+                || "Ready to scan";
+
+            const current =
+                Number(status.current || 0);
+
+            const total =
+                Number(status.total || 0);
+
+            const errors =
+                Number(status.errors || 0);
+
+            if (total > 0) {
+                statusNumbers.textContent =
+                    `${current} / ${total} companies · ${errors} errors`;
+
+                const percentage = Math.min(
+                    100,
+                    Math.max(
+                        0,
+                        current / total * 100
+                    )
+                );
+
+                progressBar.style.width =
+                    `${percentage}%`;
+            } else {
+                statusNumbers.textContent =
+                    "Waiting for scan";
+
+                progressBar.style.width =
+                    "0%";
+            }
+
+            const running =
+                Boolean(status.running);
+
+            scanButton.disabled = running;
+            lookbackSelect.disabled = running;
+
+            scanButton.textContent =
+                running
+                    ? "Scanning…"
+                    : "Scan Now";
+        }
+
+
+        async function pollStatus() {
+            try {
+                const response = await fetch(
+                    "/api/status",
+                    {
+                        cache: "no-store"
+                    }
+                );
+
+                const status =
+                    await response.json();
+
+                updateStatusUI(status);
+
+                if (status.running) {
+                    scanWasRunning = true;
+
+                    setTimeout(
+                        pollStatus,
+                        1000
+                    );
+
+                    return;
+                }
+
+                if (scanWasRunning) {
+                    setTimeout(
+                        () =>
+                            window.location.reload(),
+                        700
+                    );
+                }
+
+            } catch (error) {
+                statusMessage.textContent =
+                    "Could not read scan status.";
+
+                scanButton.disabled = false;
+                lookbackSelect.disabled = false;
+                scanButton.textContent =
+                    "Scan Now";
+            }
+        }
+
+
+        async function startScan() {
+            const lookbackHours =
+                Number(lookbackSelect.value);
+
+            lookbackText.textContent =
+                `${lookbackHours} ${
+                    lookbackHours === 1
+                        ? "hour"
+                        : "hours"
+                }`;
+
+            scanButton.disabled = true;
+            lookbackSelect.disabled = true;
+            scanButton.textContent =
+                "Starting…";
+
+            try {
+                const response = await fetch(
+                    "/api/scan",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type":
+                                "application/json"
+                        },
+                        body: JSON.stringify({
+                            lookback_hours:
+                                lookbackHours
+                        })
+                    }
+                );
+
+                const result =
+                    await response.json();
+
+                if (
+                    !response.ok
+                    && response.status !== 409
+                ) {
+                    throw new Error(
+                        result.message
+                        || "Could not start scan."
+                    );
+                }
+
+                scanWasRunning = true;
+                await pollStatus();
+
+            } catch (error) {
+                statusMessage.textContent =
+                    error.message;
+
+                scanButton.disabled = false;
+                lookbackSelect.disabled = false;
+                scanButton.textContent =
+                    "Scan Now";
+            }
+        }
+
+
+        lookbackSelect.addEventListener(
+            "change",
+            () => {
+                lookbackText.textContent =
+                    `${lookbackSelect.value} ${
+                        lookbackSelect.value === "1"
+                            ? "hour"
+                            : "hours"
+                    }`;
+            }
+        );
+
+        searchInput.addEventListener(
+            "input",
+            applyFilters
+        );
+
+        sourceFilter.addEventListener(
+            "change",
+            event => handleCheckChange(
+                sourceFilter,
+                sourceSummary,
+                "All ATS platforms",
+                event
+            )
+        );
+
+        roleCategoryFilter.addEventListener(
+            "change",
+            event => handleCheckChange(
+                roleCategoryFilter,
+                roleCategorySummary,
+                "All role categories",
+                event
+            )
+        );
+
+        companyFilter.addEventListener(
+            "change",
+            event => handleCheckChange(
+                companyFilter,
+                companySummary,
+                "All companies",
+                event
+            )
+        );
+
+        scanButton.addEventListener(
+            "click",
+            startScan
+        );
+
+        document.querySelectorAll(
+            "[data-apply-button]"
+        ).forEach((button) => {
+            button.addEventListener("click", () => {
+                const uid = button.dataset.jobUid;
+                const label = button.querySelector(
+                    "[data-apply-label]"
+                );
+
+                if (
+                    !uid
+                    || !label
+                    || label.textContent.trim() === "Viewed"
+                ) {
+                    return;
+                }
+
+                label.textContent = "Viewed";
+
+                fetch("/api/jobs/viewed", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ uid }),
+                    keepalive: true,
+                }).catch(() => {
+                    label.textContent = "Apply Now";
+                });
+            });
+        });
+
+        populateCompanyFilter();
+        applyFilters();
+        updateStatusUI(initialStatus);
+
+        if (initialStatus.running) {
+            pollStatus();
+        }
+    </script>
+</body>
+</html>

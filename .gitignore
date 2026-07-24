@@ -1,0 +1,17 @@
+# Nested repo with its own history/remote - managed independently
+with flask/web/
+
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.DS_Store
+
+.env
+jobs_store.json
+viewed_jobs.json
+analysis_cache.json
+brandfetch_logo_cache.json
+relevance_cache.json
+scan_status.json
+seen_ids.json

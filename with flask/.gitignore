@@ -1,0 +1,31 @@
+# Python artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env
+
+# Flask cache/files
+*.sqlite3
+instance/
+
+# OS files
+.DS_Store
+
+
+.env
+__pycache__/
+*.pyc
+.DS_Store
+
+jobs_store.json
+viewed_jobs.json
+analysis_cache.json
+brandfetch_logo_cache.json
+scan_status.json
+
+venv/
+.venv/
