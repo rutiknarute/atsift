@@ -7,7 +7,6 @@ import { ScanProgress } from "@/components/scan-progress"
 import { Results } from "@/components/results"
 import { JobScout } from "@/components/job-scout"
 import type {
-  CategoryId,
   Job,
   JobsResponse,
   ScanStatus,
@@ -26,7 +25,6 @@ export default function Page() {
 
   const [lookbackHours, setLookbackHours] = useState(24)
   const [dataset, setDataset] = useState("main")
-  const [categories, setCategories] = useState<CategoryId[]>([])
 
   const wasRunning = useRef(false)
 
@@ -47,15 +45,42 @@ export default function Page() {
 
   // Initial load.
   useEffect(() => {
-    fetch("/api/meta")
+    const controller = new AbortController()
+
+    fetch("/api/meta", { signal: controller.signal })
       .then((response) => response.json())
-      .then(setMeta)
-      .catch(() => setError("Could not reach the app."))
+      .then((data) => {
+        if (!controller.signal.aborted) setMeta(data)
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setError("Could not reach the app.")
+      })
+
+    return () => controller.abort()
   }, [])
 
+  // Reload results whenever the chosen window changes. Aborting on cleanup
+  // keeps a slow response from overwriting a newer one.
   useEffect(() => {
-    void loadJobs()
-  }, [loadJobs])
+    const controller = new AbortController()
+
+    fetch(`/api/jobs?lookback_hours=${lookbackHours}`, {
+      signal: controller.signal,
+    })
+      .then((response) => response.json())
+      .then((data: JobsResponse & { source: "scanner" | "snapshot" }) => {
+        if (controller.signal.aborted) return
+
+        setJobs(data.jobs ?? [])
+        setSource(data.source ?? "snapshot")
+        setScannedAt(data.scanned_at ?? null)
+      })
+      .catch(() => {
+        if (!controller.signal.aborted) setError("Could not load results.")
+      })
+
+    return () => controller.abort()
+  }, [lookbackHours])
 
   // Poll status while a scan runs, and refresh results when it lands.
   useEffect(() => {
@@ -98,10 +123,11 @@ export default function Page() {
       const response = await fetch("/api/scan", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        // Categories are no longer a scan input — the sweep always applies the
+        // full boolean search, and the results view filters by role instead.
         body: JSON.stringify({
           lookback_hours: lookbackHours,
           dataset,
-          categories: categories.length ? categories : null,
         }),
       })
 
@@ -143,7 +169,7 @@ export default function Page() {
     <main className="relative min-h-screen">
       <div className="aurora" aria-hidden="true" />
 
-      <div className="relative mx-auto w-full max-w-3xl px-5 py-14 sm:py-20">
+      <div className="relative mx-auto w-full max-w-5xl px-5 py-14 sm:py-20">
         <header className="mb-10">
           <div className="flex items-center gap-2">
             <span className="size-2 rounded-full bg-accent" />
@@ -173,8 +199,6 @@ export default function Page() {
               onLookbackChange={setLookbackHours}
               dataset={dataset}
               onDatasetChange={setDataset}
-              categories={categories}
-              onCategoriesChange={setCategories}
               running={running}
               scannerAvailable={scannerAvailable}
               onRun={runScan}

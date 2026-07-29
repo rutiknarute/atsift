@@ -3,14 +3,15 @@
 import { useState } from "react"
 import {
   ArrowUpRight,
-  BadgeCheck,
+  Building2,
+  CheckCircle2,
   ChevronDown,
-  Clock,
+  CircleHelp,
   MapPin,
   TriangleAlert,
 } from "lucide-react"
 
-import { cn, formatAge } from "@/lib/utils"
+import { cleanExperience, cn, formatAge, formatStamp } from "@/lib/utils"
 import type { Job } from "@/lib/types"
 
 const ATS_LABELS: Record<string, string> = {
@@ -22,47 +23,42 @@ const ATS_LABELS: Record<string, string> = {
   workday: "Workday",
 }
 
+type Panel = "qa" | "summary" | null
+
 interface JobCardProps {
   job: Job
+  lastSeen: string | null
   onView: (uid: string) => void
 }
 
-export function JobCard({ job, onView }: JobCardProps) {
-  const [open, setOpen] = useState(false)
+export function JobCard({ job, lastSeen, onView }: JobCardProps) {
+  const [panel, setPanel] = useState<Panel>(null)
+
   const analysis = job.analysis
   const blocked = analysis?.opt_eligible === "NO"
-  const fresh = job.age_hours !== null && job.age_hours <= 12
+  const stale = job.age_hours !== null && job.age_hours > 120
+
+  function toggle(next: Exclude<Panel, null>) {
+    setPanel((current) => (current === next ? null : next))
+  }
 
   return (
     <article
       className={cn(
-        "group rounded-[var(--radius-card)] border bg-surface/60 backdrop-blur-sm transition-all duration-200",
-        "hover:border-faint hover:bg-surface",
-        job.viewed ? "border-line-soft/60 opacity-70" : "border-line-soft",
+        "rounded-[var(--radius-card)] border bg-surface/60 backdrop-blur-sm transition-colors",
+        job.viewed ? "border-line-soft/60" : "border-line-soft",
+        "hover:border-faint",
       )}
     >
       <div className="p-5">
-        <div className="flex items-start justify-between gap-4">
+        {/* Title block */}
+        <div className="flex items-start gap-3">
+          <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line-soft bg-surface-2 text-faint">
+            <Building2 className="size-4" />
+          </span>
+
           <div className="min-w-0 flex-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="text-sm font-medium text-muted">
-                {job.company}
-              </span>
-
-              {fresh && (
-                <span className="rounded-full bg-accent/15 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent">
-                  Fresh
-                </span>
-              )}
-
-              {job.viewed && (
-                <span className="text-[10px] uppercase tracking-wide text-faint">
-                  Viewed
-                </span>
-              )}
-            </div>
-
-            <h3 className="mt-1 text-balance text-lg font-semibold leading-snug">
+            <h3 className="text-balance text-base font-semibold leading-snug">
               <a
                 href={job.url}
                 target="_blank"
@@ -71,74 +67,116 @@ export function JobCard({ job, onView }: JobCardProps) {
                 className="transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
               >
                 {job.title}
-                <ArrowUpRight className="ml-1 inline size-4 opacity-0 transition-opacity group-hover:opacity-60" />
+                <ArrowUpRight className="ml-1 inline size-3.5 opacity-50" />
               </a>
             </h3>
+
+            <p className="mt-0.5 text-sm font-medium text-muted">
+              {job.company}
+            </p>
+
+            <p className="mt-1 flex items-center gap-1.5 text-xs text-faint">
+              <MapPin className="size-3" />
+              {job.location || "Not listed"}
+              <span className="text-line">·</span>
+              {ATS_LABELS[job.ats] ?? job.ats}
+            </p>
           </div>
 
-          {blocked ? (
-            <span
-              title="This posting appears to block OPT candidates"
-              className="flex shrink-0 items-center gap-1 rounded-full border border-danger/30 bg-danger/10 px-2.5 py-1 text-[11px] font-medium text-danger"
-            >
-              <TriangleAlert className="size-3" />
-              OPT blocked
+          {job.viewed && (
+            <span className="shrink-0 rounded-full border border-line-soft px-2 py-0.5 text-[10px] uppercase tracking-wide text-faint">
+              Viewed
             </span>
-          ) : analysis?.opt_eligible === "YES" ? (
-            <span className="flex shrink-0 items-center gap-1 rounded-full border border-accent/30 bg-accent/10 px-2.5 py-1 text-[11px] font-medium text-accent">
-              <BadgeCheck className="size-3" />
-              OPT ok
-            </span>
-          ) : null}
-        </div>
-
-        <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-faint">
-          <span className="flex items-center gap-1.5">
-            <MapPin className="size-3" />
-            {job.location || "Not listed"}
-          </span>
-          <span className="flex items-center gap-1.5">
-            <Clock className="size-3" />
-            {formatAge(job.age_hours)}
-          </span>
-          <span>{ATS_LABELS[job.ats] ?? job.ats}</span>
-          {analysis?.salary && analysis.salary !== "Not listed." && (
-            <span className="text-accent">{analysis.salary}</span>
           )}
         </div>
 
-        {job.category_labels.length > 0 && (
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {job.category_labels.map((label) => (
+        {/* Stat tiles */}
+        <dl className="mt-4 grid gap-2 sm:grid-cols-3">
+          <Tile label="Experience">
+            <div className="flex items-center justify-between gap-2">
               <span
-                key={label}
-                className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] text-muted"
+                className={cn(
+                  "text-sm font-semibold",
+                  analysis?.minimum_years && analysis.minimum_years >= 4
+                    ? "text-danger"
+                    : "text-text",
+                )}
               >
-                {label}
+                {analysis?.minimum_years != null
+                  ? `${analysis.minimum_years}+ years`
+                  : cleanExperience(analysis?.experience_years)}
               </span>
-            ))}
+
+              {analysis && <FitBadge analysis={analysis} />}
+            </div>
+          </Tile>
+
+          <Tile label="First published">
+            <span className="text-sm font-semibold">
+              {formatAge(job.age_hours)}
+            </span>
+            <span className="mt-0.5 block text-[11px] text-faint">
+              {formatStamp(job.posted_at)}
+            </span>
+          </Tile>
+
+          <Tile label="Last seen">
+            <span
+              className={cn(
+                "text-sm font-semibold",
+                stale ? "text-warn" : "text-text",
+              )}
+            >
+              {lastSeen ? formatStamp(lastSeen) : "This scan"}
+            </span>
+            {stale && (
+              <span className="mt-0.5 block text-[11px] text-warn">
+                may no longer be open
+              </span>
+            )}
+          </Tile>
+        </dl>
+
+        {/* OPT verdict */}
+        {analysis && (
+          <div className="mt-3">
+            {blocked ? (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-danger/30 bg-danger/10 px-3 py-1 text-xs font-medium text-danger">
+                <TriangleAlert className="size-3.5" />
+                OPT: NO
+              </span>
+            ) : analysis.opt_eligible === "YES" ? (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
+                <CheckCircle2 className="size-3.5" />
+                OPT: YES
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-line-soft px-3 py-1 text-xs text-faint">
+                <CircleHelp className="size-3.5" />
+                OPT: not screened
+              </span>
+            )}
           </div>
         )}
 
+        {/* Panel toggles */}
         {analysis && (
-          <button
-            type="button"
-            onClick={() => setOpen((value) => !value)}
-            aria-expanded={open}
-            className="mt-4 flex items-center gap-1.5 text-xs text-muted transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-          >
-            <ChevronDown
-              className={cn(
-                "size-3.5 transition-transform duration-200",
-                open && "rotate-180",
-              )}
+          <div className="mt-4 flex flex-wrap gap-2">
+            <PanelToggle
+              active={panel === "qa"}
+              onClick={() => toggle("qa")}
+              label="Q&A"
             />
-            {open ? "Hide" : "Show"} AI breakdown
-          </button>
+            <PanelToggle
+              active={panel === "summary"}
+              onClick={() => toggle("summary")}
+              label="Summary"
+            />
+          </div>
         )}
       </div>
 
-      {analysis && open && (
+      {analysis && panel === "qa" && (
         <div className="rise border-t border-line-soft bg-surface-2/30 p-5">
           {blocked && analysis.opt_blocking_line && (
             <p className="mb-4 rounded-lg border border-danger/25 bg-danger/10 px-3 py-2 text-xs leading-relaxed text-danger">
@@ -147,30 +185,64 @@ export function JobCard({ job, onView }: JobCardProps) {
             </p>
           )}
 
-          <dl className="grid gap-4 sm:grid-cols-2">
-            <Field label="Degree" value={analysis.degree} />
-            <Field label="Experience" value={analysis.experience_years} />
-            <Field label="Qualifications" value={analysis.qualifications} />
-            <Field label="Team" value={analysis.team} />
-          </dl>
+          <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:gap-8">
+            <dl className="space-y-2.5">
+              <Row label="Degree" value={analysis.degree} />
+              <Row label="Qualifications" value={analysis.qualifications} />
+              <Row label="Eligibility" value={analysis.eligibility} />
+              <Row
+                label="Experience"
+                value={cleanExperience(analysis.experience_years)}
+              />
+            </dl>
+
+            <dl className="sm:w-44">
+              <dt className="text-[11px] uppercase tracking-wide text-faint">
+                Salary
+              </dt>
+              <dd className="mt-0.5 text-sm text-muted">{analysis.salary}</dd>
+
+              <dt className="mt-3 text-[11px] uppercase tracking-wide text-faint">
+                Team
+              </dt>
+              <dd className="mt-0.5 text-sm text-muted">{analysis.team}</dd>
+            </dl>
+          </div>
 
           {analysis.key_tech_skills.length > 0 && (
-            <ChipRow label="Key skills" items={analysis.key_tech_skills} />
+            <ChipRow label="Key tech and skills" items={analysis.key_tech_skills} />
           )}
 
           {analysis.ats_keywords.length > 0 && (
-            <ChipRow
-              label="ATS résumé keywords"
-              items={analysis.ats_keywords}
-              muted
-            />
+            <ChipRow label="Top ATS keywords" items={analysis.ats_keywords} muted />
           )}
+        </div>
+      )}
+
+      {analysis && panel === "summary" && (
+        <div className="rise border-t border-line-soft bg-surface-2/30 p-5">
+          <p className="text-sm leading-relaxed text-muted">
+            {analysis.qualifications}
+          </p>
 
           {analysis.tip && analysis.tip !== "Analysis unavailable." && (
-            <p className="mt-4 rounded-lg border border-info/25 bg-info/10 px-3 py-2 text-xs leading-relaxed">
+            <p className="mt-4 rounded-lg border border-info/25 bg-info/10 px-3 py-2 text-sm leading-relaxed">
               <span className="font-medium text-info">Tip: </span>
               {analysis.tip}
             </p>
+          )}
+
+          {job.category_labels.length > 0 && (
+            <div className="mt-4 flex flex-wrap gap-1.5">
+              {job.category_labels.map((label) => (
+                <span
+                  key={label}
+                  className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] text-muted"
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
           )}
         </div>
       )}
@@ -178,13 +250,85 @@ export function JobCard({ job, onView }: JobCardProps) {
   )
 }
 
-function Field({ label, value }: { label: string; value: string }) {
+function Tile({
+  label,
+  children,
+}: {
+  label: string
+  children: React.ReactNode
+}) {
   return (
-    <div>
-      <dt className="text-[11px] uppercase tracking-wide text-faint">
+    <div className="rounded-xl border border-line-soft bg-surface-2/40 px-3 py-2.5">
+      <dt className="text-[10px] uppercase tracking-wide text-faint">
         {label}
       </dt>
-      <dd className="mt-0.5 text-sm leading-relaxed text-muted">{value}</dd>
+      <dd className="mt-1">{children}</dd>
+    </div>
+  )
+}
+
+function FitBadge({ analysis }: { analysis: NonNullable<Job["analysis"]> }) {
+  const years = analysis.minimum_years
+
+  if (years == null) {
+    return (
+      <span className="rounded-full border border-line-soft px-2 py-0.5 text-[10px] uppercase tracking-wide text-faint">
+        Fit: review
+      </span>
+    )
+  }
+
+  const good = years <= 2
+
+  return (
+    <span
+      className={cn(
+        "rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wide",
+        good
+          ? "border border-accent/30 bg-accent/10 text-accent"
+          : "border border-warn/30 bg-warn/10 text-warn",
+      )}
+    >
+      Fit: {good ? "good" : "review"}
+    </span>
+  )
+}
+
+function PanelToggle({
+  active,
+  onClick,
+  label,
+}: {
+  active: boolean
+  onClick: () => void
+  label: string
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-expanded={active}
+      className={cn(
+        "inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors",
+        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+        active
+          ? "border-accent bg-accent/10 text-accent"
+          : "border-line-soft bg-surface-2/50 text-muted hover:text-text",
+      )}
+    >
+      {label}
+      <ChevronDown
+        className={cn("size-3 transition-transform", active && "rotate-180")}
+      />
+    </button>
+  )
+}
+
+function Row({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex flex-wrap gap-x-2 text-sm leading-relaxed">
+      <dt className="text-faint">{label}:</dt>
+      <dd className="flex-1 text-muted">{value}</dd>
     </div>
   )
 }
@@ -200,7 +344,7 @@ function ChipRow({
 }) {
   return (
     <div className="mt-4">
-      <span className="text-[11px] uppercase tracking-wide text-faint">
+      <span className="text-[10px] uppercase tracking-wide text-faint">
         {label}
       </span>
       <div className="mt-1.5 flex flex-wrap gap-1.5">
@@ -208,9 +352,9 @@ function ChipRow({
           <span
             key={item}
             className={cn(
-              "rounded-md px-2 py-0.5 text-[11px]",
+              "rounded-md px-2 py-1 text-[11px]",
               muted
-                ? "bg-surface-2 text-faint"
+                ? "border border-line-soft text-faint"
                 : "border border-accent/25 bg-accent/10 text-accent",
             )}
           >

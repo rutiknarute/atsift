@@ -53,28 +53,88 @@ US_CITIES = {
 }
 
 NON_US_MARKERS = [
-    "canada", "toronto", "vancouver", "montreal", "ottawa", "calgary",
-    "united kingdom", "uk", "london", "manchester", "edinburgh", "dublin",
-    "ireland", "germany", "berlin", "munich", "hamburg", "france", "paris",
-    "spain", "madrid", "barcelona", "portugal", "lisbon", "porto",
-    "netherlands", "amsterdam", "belgium", "brussels", "switzerland",
-    "zurich", "geneva", "austria", "vienna", "sweden", "stockholm",
-    "norway", "oslo", "denmark", "copenhagen", "finland", "helsinki",
-    "poland", "warsaw", "krakow", "czech", "prague", "romania",
-    "bucharest", "hungary", "budapest", "greece", "athens", "italy",
-    "rome", "milan", "india", "bangalore", "bengaluru", "hyderabad",
-    "mumbai", "delhi", "gurgaon", "gurugram", "pune", "chennai", "noida",
-    "china", "beijing", "shanghai", "shenzhen", "hong kong", "taiwan",
-    "taipei", "japan", "tokyo", "osaka", "korea", "seoul", "singapore",
-    "malaysia", "kuala lumpur", "indonesia", "jakarta", "thailand",
-    "bangkok", "vietnam", "hanoi", "philippines", "manila", "australia",
-    "sydney", "melbourne", "brisbane", "new zealand", "auckland",
-    "brazil", "sao paulo", "mexico", "mexico city", "guadalajara",
-    "argentina", "buenos aires", "chile", "santiago", "colombia",
-    "bogota", "israel", "tel aviv", "uae", "dubai", "abu dhabi",
-    "saudi", "riyadh", "egypt", "cairo", "south africa", "cape town",
-    "nigeria", "lagos", "kenya", "nairobi", "turkey", "istanbul",
-    "ukraine", "kyiv", "emea", "apac", "latam",
+    # Countries and territories. Deliberately near-exhaustive: a partial list
+    # is what let Pakistan, Moldova, Honduras and Suriname through as
+    # "ambiguous" and into US-only results.
+    "afghanistan", "albania", "algeria", "andorra", "angola", "antigua",
+    "argentina", "armenia", "aruba", "australia", "austria", "azerbaijan",
+    "bahamas", "bahrain", "bangladesh", "barbados", "belarus", "belgium",
+    "belize", "benin", "bermuda", "bhutan", "bolivia", "bosnia",
+    "bosnia and herzegovina", "botswana", "brazil", "brunei", "bulgaria",
+    "burkina faso", "burundi", "cambodia", "cameroon", "canada",
+    "cape verde", "cayman islands", "chad", "chile", "china", "colombia",
+    "comoros", "congo", "costa rica", "croatia", "cuba", "curacao",
+    "cyprus", "czech republic", "czechia", "czech", "denmark", "djibouti",
+    "dominica", "dominican republic", "ecuador", "egypt", "el salvador",
+    "estonia", "eswatini", "ethiopia", "fiji", "finland", "france",
+    "gabon", "gambia", "germany", "ghana", "gibraltar", "greece",
+    "greenland", "grenada", "guatemala", "guernsey", "guinea", "guyana",
+    "haiti", "honduras", "hong kong", "hungary", "iceland", "india",
+    "indonesia", "iran", "iraq", "ireland", "isle of man", "israel",
+    "italy", "ivory coast", "jamaica", "japan", "jersey", "jordan",
+    "kazakhstan", "kenya", "kosovo", "kuwait", "kyrgyzstan", "laos",
+    "latvia", "lesotho", "liberia", "libya", "liechtenstein", "lithuania",
+    "luxembourg", "macau", "madagascar", "malawi", "malaysia", "maldives",
+    "mali", "malta", "mauritania", "mauritius", "moldova", "monaco",
+    "mongolia", "montenegro", "morocco", "mozambique", "myanmar",
+    "namibia", "nepal", "netherlands", "new zealand", "nicaragua",
+    "niger", "nigeria", "north macedonia", "macedonia", "norway", "oman",
+    "pakistan", "palestine", "panama", "papua new guinea", "paraguay",
+    "peru", "philippines", "poland", "portugal", "qatar", "romania",
+    "russia", "rwanda", "san marino", "saudi arabia", "saudi", "senegal",
+    "serbia", "seychelles", "sierra leone", "singapore", "slovakia",
+    "slovenia", "somalia", "south africa", "south korea", "korea",
+    "north korea", "south sudan", "spain", "sri lanka", "sudan",
+    "suriname", "sweden", "switzerland", "syria", "taiwan", "tajikistan",
+    "tanzania", "thailand", "togo", "trinidad", "tunisia", "turkey",
+    "türkiye", "turkmenistan", "uganda", "ukraine", "united kingdom",
+    "uk", "u.k.", "great britain", "england", "scotland", "wales",
+    "northern ireland", "united arab emirates", "uae", "uruguay",
+    "uzbekistan", "venezuela", "vietnam", "yemen", "zambia", "zimbabwe",
+    # Major non-US metros that appear without a country.
+    "toronto", "vancouver", "montreal", "ottawa", "calgary", "edmonton",
+    "winnipeg", "london", "manchester", "birmingham uk", "edinburgh",
+    "glasgow", "bristol", "leeds", "dublin", "belfast", "berlin",
+    "munich", "hamburg", "frankfurt", "cologne", "stuttgart", "paris",
+    "lyon", "marseille", "toulouse", "madrid", "barcelona", "valencia",
+    "seville", "lisbon", "porto", "amsterdam", "rotterdam", "utrecht",
+    "brussels", "antwerp", "zurich", "geneva", "basel", "bern", "vienna",
+    "stockholm", "gothenburg", "oslo", "copenhagen", "helsinki",
+    "reykjavik", "warsaw", "krakow", "wroclaw", "gdansk", "poznan",
+    "prague", "brno", "bratislava", "budapest", "bucharest", "cluj",
+    "sofia", "belgrade", "zagreb", "ljubljana", "sarajevo", "skopje",
+    "tirana", "athens", "thessaloniki", "rome", "milan", "turin",
+    "naples", "florence", "bologna", "kyiv", "kiev", "lviv", "odesa",
+    "minsk", "moscow", "st petersburg", "istanbul", "ankara", "izmir",
+    "tel aviv", "jerusalem", "haifa", "dubai", "abu dhabi", "sharjah",
+    "doha", "riyadh", "jeddah", "kuwait city", "manama", "muscat",
+    "amman", "beirut", "cairo", "alexandria", "casablanca", "rabat",
+    "tunis", "algiers", "lagos", "abuja", "accra", "nairobi",
+    "kampala", "dar es salaam", "addis ababa", "johannesburg",
+    "cape town", "durban", "pretoria", "bangalore", "bengaluru",
+    "hyderabad", "mumbai", "new delhi", "delhi", "gurgaon", "gurugram",
+    "pune", "chennai", "kolkata", "noida", "ahmedabad", "jaipur",
+    "kochi", "coimbatore", "indore", "karachi", "lahore", "islamabad",
+    "dhaka", "colombo", "kathmandu", "beijing", "shanghai", "shenzhen",
+    "guangzhou", "hangzhou", "chengdu", "taipei", "tokyo", "osaka",
+    "kyoto", "yokohama", "seoul", "busan", "kuala lumpur", "jakarta",
+    "bandung", "bangkok", "chiang mai", "hanoi", "ho chi minh",
+    "saigon", "da nang", "manila", "cebu", "makati", "sydney",
+    "melbourne", "brisbane", "perth", "adelaide", "canberra",
+    "auckland", "wellington", "christchurch", "sao paulo", "são paulo",
+    "rio de janeiro", "brasilia", "belo horizonte", "porto alegre",
+    "curitiba", "recife", "mexico city", "guadalajara", "monterrey",
+    "buenos aires", "cordoba", "santiago", "bogota", "bogotá",
+    "medellin", "medellín", "lima", "quito", "guayaquil", "caracas",
+    "montevideo", "asuncion", "la paz", "san jose costa rica",
+    "panama city", "tegucigalpa", "managua", "san salvador",
+    "guatemala city", "santo domingo", "havana", "kingston",
+    # Regions.
+    "emea", "apac", "latam", "anz", "mena", "benelux", "nordics",
+    "europe", "european union", "eurozone", "asia", "asia pacific",
+    "southeast asia", "south asia", "east asia", "middle east",
+    "africa", "south america", "latin america", "central america",
+    "caribbean", "oceania",
 ]
 
 _ZIP = re.compile(r"\b\d{5}(?:-\d{4})?\b")
@@ -103,42 +163,53 @@ def screen_location(location: str | None) -> str:
     if not text:
         return "AMBIGUOUS"
 
-    has_non_us = any(
+    # Order is the whole design here. Strong US signals are checked before
+    # country names so that US places sharing a country's name still read as
+    # US — Georgia the state, New Mexico, Panama City FL. Weaker US signals
+    # (a bare two-letter code, a city name) are checked *after* the country
+    # list, so "Toronto, CA" is Canada rather than California.
+
+    # 1. An explicit country reference. Also settles multi-region postings
+    #    like "Remote (US or Canada)" in favour of the US.
+    if any(marker in text for marker in US_MARKERS) or _US_TOKEN.search(text):
+        return "US"
+
+    # 2. A spelled-out state name.
+    for state in US_STATES:
+        if re.search(rf"(?<!\w){re.escape(state)}(?!\w)", text):
+            return "US"
+
+    # 3. A ZIP code.
+    if _ZIP.search(text):
+        return "US"
+
+    # 4. A two-letter state code. This has to beat the country list, because
+    #    a great many US cities share a foreign city's name — Naples FL,
+    #    Athens GA, Vienna VA, Rome NY, Manchester NH, Panama City FL — and
+    #    those postings are nearly always written "City, XX". Reading them as
+    #    foreign would silently discard real US jobs, which is the one
+    #    failure this screen must not make.
+    #
+    #    The cost is "Toronto, CA" reading as California. Canadian postings
+    #    almost always carry a province code or the word Canada, both of
+    #    which are caught below, so the exchange is worth it.
+    if _STATE_ABBR.search(str(location or "")):
+        return "US"
+
+    # 5. A country or region we can place outside the US.
+    if any(
         re.search(rf"(?<!\w){re.escape(marker)}(?!\w)", text)
         for marker in NON_US_MARKERS
-    )
-
-    has_us = any(marker in text for marker in US_MARKERS) or bool(
-        _US_TOKEN.search(text)
-    )
-
-    if has_us and not has_non_us:
-        return "US"
-
-    # A full state name, a two-letter state code, or a ZIP settles it.
-    if not has_non_us:
-        for state in US_STATES:
-            if re.search(rf"(?<!\w){re.escape(state)}(?!\w)", text):
-                return "US"
-
-        if _STATE_ABBR.search(str(location or "")):
-            return "US"
-
-        if _ZIP.search(text):
-            return "US"
-
-        for city in US_CITIES:
-            if re.search(rf"(?<!\w){re.escape(city)}(?!\w)", text):
-                return "US"
-
-    if has_non_us and has_us:
-        # Multi-region posting that includes the US. Good enough.
-        return "US"
-
-    if has_non_us:
+    ):
         return "NON_US"
 
-    # Bare "Remote" with nothing else, or a city we cannot place.
+    # 6. A US metro we recognise by name alone.
+    for city in US_CITIES:
+        if re.search(rf"(?<!\w){re.escape(city)}(?!\w)", text):
+            return "US"
+
+    # Bare "Remote", "Worldwide", or a city we cannot place. These genuinely
+    # may include the US, so they go to the model rather than being guessed.
     return "AMBIGUOUS"
 
 

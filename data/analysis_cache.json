@@ -10022,20 +10022,20 @@
     "analyzed_at": "2026-07-24T09:00:32.761756+00:00"
   },
   "ashby:webfx:8a29234f-1b15-4f4f-ac20-a38b650fc72c": {
-    "fingerprint": "f5a7af57b0f4a96f5ee183494acde2c6c0ccb221c87f46ce5e30da05c1fdca76",
+    "fingerprint": "0dc49b4f221bce7a42cd7238d446ce9f75ce845846191fa9510e36863d19c54b",
     "analysis": {
       "us_location_eligible": "YES",
       "opt_eligible": "YES",
       "opt_blocking_line": "",
       "degree": "Bachelor's Degree: All majors welcome!",
-      "qualifications": "Strong verbal and written communication skills, Customer service experience (in any industry), Presentation skills, Analytical and research skills, Digital marketing experience (a bonus!), Copywriting for the web experience (a bonus!)",
-      "eligibility": "Not clearly stated",
+      "qualifications": "Suggested Experience and Skills: Prior experience working, in any field (for example: a part-time job, summer job, internship, etc)",
+      "eligibility": "Not clearly stated.",
       "key_tech_skills": [
         "Excel/Google Suite",
         "Google Analytics",
         "Basic HTML"
       ],
-      "experience_years": "No minimum required professional experience specified.",
+      "experience_years": "None specified",
       "minimum_years": null,
       "experience_fit": "UNKNOWN",
       "stop_after_experience": false,
@@ -10045,22 +10045,22 @@
         "PPC",
         "Content Strategy",
         "Data Analysis",
-        "Marketing Research",
+        "Research",
+        "Testing",
+        "Communication",
         "Customer Service",
-        "Communication Skills",
-        "Analytical Skills",
-        "Research Skills",
-        "Presentation Skills"
+        "Presentation",
+        "Analytical Skills"
       ],
       "tip": "Communicate with Clients",
       "salary": "$50,000 - $53,000 (potentially higher based on work experience)",
       "team": "Account Management",
       "analysis_failed": false
     },
-    "analyzed_at": "2026-07-24T09:00:44.813816+00:00"
+    "analyzed_at": "2026-07-29T03:34:47.041422+00:00"
   },
   "ashby:webfx:3851a96a-34d2-41df-8da2-0f12ab5c396d": {
-    "fingerprint": "1c237ee3c79ba6b09d7180fd8ab21d72db270a9854187d249d60c5102ef7da57",
+    "fingerprint": "4c58f7520a2f42737861a7b3dc18f8501475645d80e5a3c6aee4e4ff2d3e7fb2",
     "analysis": {
       "us_location_eligible": "YES",
       "opt_eligible": "YES",
@@ -10087,55 +10087,49 @@
         "Coding skills",
         "Debugging",
         "Problem-solving",
-        "Technical ideas",
-        "Designs"
+        "Troubleshooting",
+        "Client projects",
+        "Assignments"
       ],
       "tip": "Work alongside our full-time web developers to assist them in various client projects and assignments.",
       "salary": "$22/hour",
       "team": "Interactive Internships",
       "analysis_failed": false
     },
-    "analyzed_at": "2026-07-24T09:00:56.703340+00:00"
+    "analyzed_at": "2026-07-29T03:35:02.414495+00:00"
   },
   "ashby:webfx:826faa7a-658b-4d70-b434-d73f14ad7b78": {
-    "fingerprint": "295ad827fa42e0ca68cb901d35a5190a0ec2802ae3e339f69a024b71551f2d87",
+    "fingerprint": "d0bd4e5a50325f8275696666cc147526f375d5340306ae5f5255468eb2d4413a",
     "analysis": {
       "us_location_eligible": "YES",
       "opt_eligible": "YES",
       "opt_blocking_line": "",
       "degree": "Bachelor's Degree: All majors welcome!",
-      "qualifications": "Strong verbal and written communication skills, Customer service experience (in any industry), Analytical and research skills, Ability to translate technical information into simple terms, Digital marketing experience (a bonus!), Experience in analyzing data…",
-      "eligibility": "Professional, dependable, and self-motivated",
+      "qualifications": "Suggested Experience and Skills: Prior experience working, in any field (for example: a part-time job, summer job, internship, etc)",
+      "eligibility": "Not clearly stated.",
       "key_tech_skills": [
         "Excel/Google Suite",
         "Google Analytics, Google Tag Manager, or Google Ads",
-        "CRMs"
+        "CRMs (such as Salesforce, Hubspot, Pipedrive, or similar)"
       ],
-      "experience_years": "0-1 years",
+      "experience_years": "None specified",
       "minimum_years": null,
       "experience_fit": "UNKNOWN",
       "stop_after_experience": false,
       "ats_keywords": [
-        "Data Analysis",
-        "Marketing Consulting",
-        "Customer Service",
-        "Communication Skills",
-        "Digital Marketing",
-        "Data Reporting",
-        "Analytics",
-        "Research Skills",
-        "Technical Writing",
-        "Project Management",
-        "Teamwork",
-        "Problem Solving",
-        "Time Management"
+        "Excel",
+        "Google Analytics",
+        "Google Tag Manager",
+        "CRM",
+        "Data analysis",
+        "Marketing analytics"
       ],
       "tip": "Consult with Clients on Technical and Analytical Solutions",
       "salary": "$50,000-$55,000 (potentially higher based on work experience)",
       "team": "DataTech Architects",
       "analysis_failed": false
     },
-    "analyzed_at": "2026-07-24T09:01:09.869538+00:00"
+    "analyzed_at": "2026-07-29T03:35:21.303349+00:00"
   },
   "workday:appliedis:ais_careers:JR2026001300": {
     "fingerprint": "db1071f4be41a4e070e388535fd8665bc7c203dfa0dae900148dc78e1c923c4a",
@@ -23080,40 +23074,41 @@
     "analyzed_at": "2026-07-24T21:09:48.348548+00:00"
   },
   "greenhouse:baltgroup:4937545101": {
-    "fingerprint": "b0ca2f72878218208ec5ccbf7d1497116474ef9a9662ff06ccd6a09cd3451e4e",
+    "fingerprint": "9029d3449ac6874e7803b7f261dc968a653ef03d9c08b2dc441d29f1c69df7bb",
     "analysis": {
       "us_location_eligible": "YES",
       "opt_eligible": "YES",
       "opt_blocking_line": "",
-      "degree": "Bachelor’s degree in Finance, Accounting, Business Administration, Information Systems, Computer Science or related field.",
-      "qualifications": "Not clearly stated.",
-      "eligibility": "Not clearly stated.",
+      "degree": "Bachelor’s degree in Finance, Accounting, Business Administration, Information Systems, Computer Science, or a related field.",
+      "qualifications": "3–5 years of experience supporting finance systems, FP&amp;A, business systems, or financial reporting.",
+      "eligibility": "Not clearly stated",
       "key_tech_skills": [
-        "Oracle EPM",
-        "Snowflake People Data",
-        "Amelkis Consolidation",
-        "Tableau/BI",
-        "Organimi",
-        "WFP"
+        "Advanced Microsoft Excel",
+        "Financial systems administration",
+        "Data governance and validation",
+        "Process improvement and automation"
       ],
-      "experience_years": "2-4 years of experience in finance, accounting, or a related field.",
-      "minimum_years": 2,
-      "experience_fit": "YES",
+      "experience_years": "3-5",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
       "stop_after_experience": false,
       "ats_keywords": [
+        "Financial systems administration",
+        "Data governance",
+        "Process improvement",
+        "Automation",
+        "Excel",
         "Oracle EPM",
         "Snowflake People Data",
         "Amelkis Consolidation",
-        "Tableau/BI",
-        "Organimi",
-        "WFP"
+        "Tableau/BI"
       ],
-      "tip": "Administer and maintain Oracle EPM, Snowflake People Data, Amelkis Consolidation, Tableau/BI, Organimi, WFP, and other finance applications.",
-      "salary": "Not listed",
+      "tip": "Administer and maintain finance applications.",
+      "salary": "$120,000 - $130,000 USD",
       "team": "Finance",
       "analysis_failed": false
     },
-    "analyzed_at": "2026-07-24T21:10:05.241138+00:00"
+    "analyzed_at": "2026-07-29T03:47:33.421989+00:00"
   },
   "greenhouse:toast:8059808": {
     "fingerprint": "f3d42912b747a973c03bfa176650d163f304252c9d273290d141734613d6aec6",
@@ -36299,13 +36294,13 @@
     "analyzed_at": "2026-07-27T20:50:00.768754+00:00"
   },
   "greenhouse:agilesix:7815777003": {
-    "fingerprint": "cc85415d44ab025da4af0c42425e1def151d6f808fe6b10180edaa557de6974a",
+    "fingerprint": "3f94b0a531ea7c9793f146d8385a87eba64302cac460af10c12bffedeac066c6",
     "analysis": {
       "us_location_eligible": "YES",
       "opt_eligible": "YES",
       "opt_blocking_line": "",
       "degree": "Masters Degree required",
-      "qualifications": "5+ years of relevant analytics experience",
+      "qualifications": "Minimum 5 years of relevant analytics experience required",
       "eligibility": "Not clearly stated",
       "key_tech_skills": [
         "Adobe Analytics",
@@ -36314,35 +36309,35 @@
         "Datadog",
         "JavaScript",
         "HTML",
-        "CSS",
+        "CSS selectors",
         "R",
         "Python",
-        "SQL"
+        "SQL",
+        "Excel"
       ],
-      "experience_years": "5+ years",
+      "experience_years": "At least 5 years of relevant analytics experience required",
       "minimum_years": null,
       "experience_fit": "UNKNOWN",
       "stop_after_experience": false,
       "ats_keywords": [
-        "Data Analysis",
-        "Dashboarding",
-        "Reporting",
-        "ETL",
-        "Web Analytics",
-        "Tagging",
         "Adobe Analytics",
+        "Tag Management Systems",
         "Qualtrics",
         "Datadog",
         "JavaScript",
+        "HTML",
+        "CSS selectors",
+        "R",
         "Python",
-        "SQL"
+        "SQL",
+        "Excel"
       ],
-      "tip": "Implement Tracking",
+      "tip": "Implement Tracking: Design and deploy robust data layer specifications across digital properties.",
       "salary": "Not listed",
       "team": "Solutions",
       "analysis_failed": false
     },
-    "analyzed_at": "2026-07-27T20:50:16.385994+00:00"
+    "analyzed_at": "2026-07-29T03:38:36.941028+00:00"
   },
   "greenhouse:mobentertainment:5196815007": {
     "fingerprint": "84d5e7019da52d1becfaaf37dbab208000afc26148529706c57c48b4fbcec135",
@@ -37586,7 +37581,7 @@
     "analyzed_at": "2026-07-27T20:58:47.510027+00:00"
   },
   "greenhouse:arcoeducacao:6126648004": {
-    "fingerprint": "febb82c10298918ac5c498ec68e80ac93adcd87d1d05e0f8dba73db0b1eddcb0",
+    "fingerprint": "0050857514b6576849a7a5215611bc15b9f9339581b000479259e56234307759",
     "analysis": {
       "us_location_eligible": "YES",
       "opt_eligible": "YES",
@@ -37622,13 +37617,13 @@
       ],
       "tip": "Desenvolver projetos em microsserviços de alto impacto garantindo a segurança, alta disponibilidade e resiliência para os nossos clientes.",
       "salary": "Not listed",
-      "team": "Arcotech",
+      "team": "Arco",
       "analysis_failed": false
     },
-    "analyzed_at": "2026-07-27T20:59:03.211165+00:00"
+    "analyzed_at": "2026-07-29T03:44:21.525873+00:00"
   },
   "greenhouse:arcoeducacao:6126708004": {
-    "fingerprint": "50a53bd16121e53735aeaf77ac699f1ab6bbe2564af2dc34deb88d6a868dcaf4",
+    "fingerprint": "3da3e6f5ae87e8728cde810e7bb3c14796863504cd586e13de51287cfc3e5abc",
     "analysis": {
       "us_location_eligible": "YES",
       "opt_eligible": "YES",
@@ -37637,39 +37632,41 @@
       "qualifications": "Not clearly stated.",
       "eligibility": "Not clearly stated.",
       "key_tech_skills": [
+        "React",
         "HTML",
         "CSS",
         "JavaScript",
         "TypeScript",
-        "React",
-        "Vue.js"
+        "AWS",
+        "GCP"
       ],
-      "experience_years": "2",
+      "experience_years": "2-4 years",
       "minimum_years": 2,
       "experience_fit": "YES",
       "stop_after_experience": false,
       "ats_keywords": [
         "Frontend Development",
         "Software Engineering",
-        "Web Development",
         "React",
-        "Vue.js",
         "JavaScript",
         "TypeScript",
         "HTML",
         "CSS",
-        "Algorithms",
-        "Data Structures",
-        "Computer Science",
-        "Testing",
-        "Collaboration"
+        "AWS",
+        "GCP",
+        "Cloud Computing",
+        "DevOps",
+        "Agile Development",
+        "Test-Driven Development",
+        "Continuous Integration",
+        "Continuous Deployment"
       ],
       "tip": "Develop soluções frontend de alto impacto para os nossos clientes.",
       "salary": "Not listed",
-      "team": "Arcotech",
+      "team": "Arco",
       "analysis_failed": false
     },
-    "analyzed_at": "2026-07-27T20:59:16.973088+00:00"
+    "analyzed_at": "2026-07-29T03:44:37.429885+00:00"
   },
   "ashby:mintmcp:2773cc16-9ecf-47fc-904c-e096078dfc09": {
     "fingerprint": "88ad2c710186c180b76df2c6917ea2df60b65a33a7b9dba70ea4cb7b5b5edb65",
@@ -50781,7 +50778,7 @@
     "analyzed_at": "2026-07-28T07:59:15.287413+00:00"
   },
   "ashby:whippy:c4ca7aa4-1451-4f0f-9bd8-16396dc8c12f": {
-    "fingerprint": "a6bc9354831a381de7032d3eac3dffb5d45c82219c75b8a41e307f21af0dca86",
+    "fingerprint": "1b141d4fab76154874e54ad55b3b88f82d5be0c40309d37ee00ec907c9f1bb25",
     "analysis": {
       "us_location_eligible": "YES",
       "opt_eligible": "YES",
@@ -50800,26 +50797,27 @@
       "experience_fit": "YES",
       "stop_after_experience": false,
       "ats_keywords": [
-        "Sales",
-        "Account Executive",
-        "Remote",
-        "East Coast",
-        "Sales Cycle",
-        "Pipeline",
-        "Commission",
-        "Uncapped Commission",
-        "Customer Feedback",
-        "Product Roadmap"
+        "Salesforce",
+        "CRM",
+        "AI",
+        "Machine Learning",
+        "Cloud Computing",
+        "Data Analysis",
+        "Communication Skills",
+        "Negotiation",
+        "Strategic Thinking",
+        "Leadership",
+        "Account Management"
       ],
       "tip": "Build long-term customer relationships.",
       "salary": "$200K OTE ($100K base / $100K variable)",
       "team": "Sales",
       "analysis_failed": false
     },
-    "analyzed_at": "2026-07-28T07:59:23.474433+00:00"
+    "analyzed_at": "2026-07-29T03:34:31.562120+00:00"
   },
   "ashby:embedding-vc:4b7b35d9-6a2c-43a2-8c36-2bf6974e3b0f": {
-    "fingerprint": "e32b92a0e68d8a9b04d200567f3b4502fd07737957b22405162ade39761ed8fe",
+    "fingerprint": "d701e801313628d144c46aa2ed0bfc4196a3ce36a1f15ea3653293d2b905c6b6",
     "analysis": {
       "us_location_eligible": "YES",
       "opt_eligible": "YES",
@@ -50832,9 +50830,9 @@
         "Machine Learning",
         "Deep Learning",
         "Cloud Computing",
-        "Data Science"
+        "Data Engineering"
       ],
-      "experience_years": "2-4 years",
+      "experience_years": "2-3 years",
       "minimum_years": 2,
       "experience_fit": "YES",
       "stop_after_experience": false,
@@ -50842,21 +50840,4121 @@
         "Artificial Intelligence",
         "Machine Learning Engineer",
         "Cloud Architecture",
-        "Data Analysis",
+        "Data Science",
         "DevOps",
         "Agile Development",
         "Frontend Development",
         "Backend Development",
         "Full Stack Development",
         "Cybersecurity",
-        "Database Management",
-        "Project Management"
+        "Data Engineering",
+        "Cloud Computing"
       ],
-      "tip": "Build an agentic platform at the intersection of medicine and law.",
+      "tip": "Ship high-quality code fast, and can take a vague problem to a shipped solution without a spec.",
       "salary": "Not listed",
       "team": "Indigo",
       "analysis_failed": false
     },
-    "analyzed_at": "2026-07-28T07:59:31.609558+00:00"
+    "analyzed_at": "2026-07-29T03:26:28.662041+00:00"
+  },
+  "ashby:a-team:ad6efd64-18d8-4ba9-a832-61e813e4f73e": {
+    "fingerprint": "49dae15a735d5b682bf335595417a68195fcf829b914389a9778855bb81133e4",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "BA/BS degree required; MBA preferred",
+      "qualifications": "3+ years in consulting, sales, marketing, revenue operations, or a comparable client-facing or analytical role",
+      "eligibility": "Not clearly stated",
+      "key_tech_skills": [
+        "AI tools",
+        "CRM",
+        "Sales collateral",
+        "Expansion intelligence"
+      ],
+      "experience_years": "3+",
+      "minimum_years": 4,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "AI solutions",
+        "sales execution",
+        "account management",
+        "collateral creation",
+        "pipeline reporting"
+      ],
+      "tip": "Embed inside our marquee enterprise account — one of the world's largest CPG companies — as the connective tissue of our GTM motion there.",
+      "salary": "Not listed",
+      "team": "Enterprise",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:23:03.680269+00:00"
+  },
+  "ashby:abridge:897709b2-e03d-4574-8611-5cfd669adde9": {
+    "fingerprint": "3543935784f0430e928a3589a7cebaa4af7c15630793070110522e2f18a86ecc",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's or higher",
+      "qualifications": "3+ years of experience building production-grade systems, with 1–2+ years focused on LLM-powered or agentic products.",
+      "eligibility": "Must be a current F-1 student in good standing",
+      "key_tech_skills": [
+        "LLM APIs",
+        "Prompting strategies",
+        "Orchestration patterns",
+        "Retrieval systems",
+        "Agentic workflows"
+      ],
+      "experience_years": "Yes",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "LLM",
+        "Agentic",
+        "Retrieval",
+        "Prompting",
+        "Orchestration",
+        "Python",
+        "Async programming",
+        "Performance profiling",
+        "Packaging",
+        "Deployment tooling"
+      ],
+      "tip": "Design and build agentic systems that turn LLMs into composable, dependable tools.",
+      "salary": "$255K – $300K",
+      "team": "Science",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:23:21.021637+00:00"
+  },
+  "ashby:abby-care:ef358884-cf42-4f24-8bb0-1f93b4b117db": {
+    "fingerprint": "fb8c47d42b146c4fbc8d4534d9466d0584832b05befb0bff0fb6265142f1146e",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's Degree in Computer Science or related field is preferred.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "iOS",
+        "Android",
+        "React Native",
+        "React",
+        "Offline-first applications",
+        "Mobile CI/CD"
+      ],
+      "experience_years": "2+",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "iOS Development",
+        "Android Development",
+        "Mobile App Development",
+        "React Native",
+        "Testing Frameworks",
+        "CI/CD",
+        "Equity",
+        "Equity Options"
+      ],
+      "tip": "Lead mobile app development end-to-end.",
+      "salary": "$145K – $185K",
+      "team": "Analytics & Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:23:30.807235+00:00"
+  },
+  "ashby:antimetal:5cd7843d-613b-4497-a46f-40b17bfd09fb": {
+    "fingerprint": "cff1cae44c48266ce7149f958a080d3b5c24d44e033310055f55aa7aea3907e4",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated",
+      "qualifications": "Not clearly stated",
+      "eligibility": "Not clearly stated",
+      "key_tech_skills": [
+        "TypeScript",
+        "Kubernetes",
+        "CI/CD",
+        "Observability",
+        "Cloud Systems"
+      ],
+      "experience_years": "At least 3 years of experience",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "TypeScript",
+        "Kubernetes",
+        "CI/CD",
+        "Observability",
+        "Cloud Systems",
+        "Service-Oriented Architectures",
+        "Networking",
+        "Systems Design",
+        "AI",
+        "Machine Learning"
+      ],
+      "tip": "Take a product-focused approach to platform work.",
+      "salary": "$200K – $400K",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:23:40.935345+00:00"
+  },
+  "ashby:antimetal:bc0c847d-cca9-4852-93f5-774b6d8d983d": {
+    "fingerprint": "7e323f49507e23bb693a9b820dd8c7a30f08a6ed53f95c32f7cae23a5f5418aa",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "TypeScript",
+        "React",
+        "Postgres",
+        "NestJS"
+      ],
+      "experience_years": ",",
+      "minimum_years": 5,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "TypeScript",
+        "React",
+        "Postgres",
+        "NestJS",
+        "AI",
+        "Machine Learning",
+        "Cloud Computing",
+        "DevOps",
+        "Full-Stack",
+        "Software Engineering",
+        "Product Management",
+        "Agentic Products",
+        "Dev-Tools",
+        "Infrastructure",
+        "Observability"
+      ],
+      "tip": "Design and ship features powered by our agents, owning end-to-end delivery across the stack.",
+      "salary": "$200K – $400K",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:23:49.657841+00:00"
+  },
+  "ashby:antimetal:1f49cebc-ce5d-4c6d-b633-03e2bde2b0bb": {
+    "fingerprint": "f245e1511a5e18732a2ef55149e9434c5b4f7072acf85c30d40d8f2efddd7f73",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Typescript",
+        "React",
+        "Postgres",
+        "NestJS"
+      ],
+      "experience_years": ",",
+      "minimum_years": 5,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "LLMs",
+        "agent-based systems",
+        "orchestration",
+        "prompting",
+        "tool use",
+        "retrieval",
+        "semantic search",
+        "keyword",
+        "API",
+        "SQL",
+        "cloud infra",
+        "developer tools",
+        "infrastructure",
+        "observability"
+      ],
+      "tip": "Design and build agentic workflows for production incidents.",
+      "salary": "$200K – $400K",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:23:58.691090+00:00"
+  },
+  "ashby:backflip:1eba42fe-07a5-475a-b3ee-f17c533ee7a3": {
+    "fingerprint": "84fcae0360d548557f4888327e5af806ecc08244fa241576d911063c202f4ce8",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "4+ years of professional software engineering experience shipping production software.",
+      "eligibility": "Eligible for F-1 OPT.",
+      "key_tech_skills": [
+        "TypeScript/React",
+        "Python",
+        "LLMs",
+        "AI tooling"
+      ],
+      "experience_years": "4",
+      "minimum_years": 4,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "TypeScript",
+        "React",
+        "Python",
+        "APIs",
+        "Integrations",
+        "Reliability",
+        "Testing",
+        "Monitoring",
+        "Full-stack",
+        "Backend",
+        "Frontend",
+        "Shipping",
+        "Production",
+        "Software Engineering"
+      ],
+      "tip": "Ship first production change in week one.",
+      "salary": "$130K – $160K • OTE $143,000 – $182,000",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:24:07.916338+00:00"
+  },
+  "ashby:benchling:c66a06b7-5d9e-4b6c-b35b-12c86bb72a71": {
+    "fingerprint": "464b4fbe9acdd8cdab8e46ea37c53cef4a465a4123905d65188ec3d7e842157b",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not listed.",
+      "qualifications": "Not listed.",
+      "eligibility": "Not listed.",
+      "key_tech_skills": [
+        "LLMs",
+        "Python",
+        "React",
+        "Backend Systems"
+      ],
+      "experience_years": "2+",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "AI Agents",
+        "Machine Learning",
+        "Biotechnology",
+        "Data Analysis",
+        "Scientific Research"
+      ],
+      "tip": "Build end-to-end AI agents",
+      "salary": "$259,209 - $350,695",
+      "team": "Engineering: AI Agents",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:24:15.019903+00:00"
+  },
+  "ashby:boosters:8acd311e-962b-4ca6-89db-9c274760e006": {
+    "fingerprint": "c4458bbb783313356a77ddd074e914f6d87fa750806f85cf8670adffe05bdea4",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "SQL",
+        "Tableau",
+        "Power BI",
+        "Python",
+        "GCP"
+      ],
+      "experience_years": "2",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Data Analyst",
+        "Product Data Analyst",
+        "Business Intelligence",
+        "Analytics",
+        "SQL",
+        "Tableau",
+        "Power BI",
+        "Python",
+        "GCP",
+        "Data Science",
+        "Machine Learning",
+        "AI",
+        "EdTech"
+      ],
+      "tip": "Develop strong SQL skills.",
+      "salary": "Not listed",
+      "team": "Analytics",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:24:25.140449+00:00"
+  },
+  "ashby:braintrust:9728653e-49b9-4f5c-b6cd-7dbc6a6d5fcc": {
+    "fingerprint": "991a3fc9ebbafdff691a14263759b8996e5d3285e0780ce19b4688329f5477f9",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not listed.",
+      "qualifications": "Not listed.",
+      "eligibility": "Not listed.",
+      "key_tech_skills": [
+        "Node.js",
+        "Go",
+        "Python",
+        "Rust",
+        "Postgres",
+        "Redis",
+        "Terraform",
+        "Docker",
+        "AWS",
+        "Grafana",
+        "Prometheus",
+        "Datadog"
+      ],
+      "experience_years": ",",
+      "minimum_years": 5,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "Node.js",
+        "Go",
+        "Python",
+        "Rust",
+        "Postgres",
+        "Redis",
+        "Terraform",
+        "Docker",
+        "AWS",
+        "Grafana",
+        "Prometheus",
+        "Datadog"
+      ],
+      "tip": "Partner across the company to ship impactful work.",
+      "salary": "Not listed",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:24:33.138738+00:00"
+  },
+  "ashby:broccoli:54ee4695-4c19-4794-bbfe-b9e1fe205993": {
+    "fingerprint": "dca4796c1ff0a2795daeabcf74da65f64854cb53b3b5e930b299164f2dd3fd63",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated",
+      "qualifications": "Not clearly stated",
+      "eligibility": "Not clearly stated",
+      "key_tech_skills": [
+        "SQL",
+        "Python",
+        "ETL tooling",
+        "ClickHouse",
+        "Data modeling"
+      ],
+      "experience_years": "4-8",
+      "minimum_years": 4,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "SQL",
+        "Python",
+        "ETL",
+        "ClickHouse",
+        "Data modeling",
+        "Data analytics",
+        "Engineering",
+        "Data science",
+        "Data architecture",
+        "Data warehousing",
+        "Data integration",
+        "Data quality"
+      ],
+      "tip": "Build and run the pipelines.",
+      "salary": "Not listed",
+      "team": "Strategy and Operations",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:24:41.130871+00:00"
+  },
+  "ashby:civilgrid:9accbdad-aa59-47f1-b240-c1357f79b33a": {
+    "fingerprint": "6cd534bf983d63162b9067b1528b6c2ef50364d5140380308a0ec9fbd5c354b0",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "JavaScript/TypeScript",
+        "Playwright",
+        "Cypress",
+        "Appium"
+      ],
+      "experience_years": "4+",
+      "minimum_years": 4,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "JavaScript",
+        "TypeScript",
+        "Test Automation",
+        "CI/CD",
+        "Cloud Computing"
+      ],
+      "tip": "Build automated end-to-end and regression suites with modern frameworks.",
+      "salary": "$110K – $135K",
+      "team": "Product & Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:24:49.485669+00:00"
+  },
+  "ashby:clasp:335428b3-a1ff-4508-9322-7630eb064c72": {
+    "fingerprint": "3d505a9b4c33d1e228803497e01bbf6fcb422e789bdc73b461c19b80a985672e",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Django (Python)",
+        "React (TypeScript)"
+      ],
+      "experience_years": "5+",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Product Engineering",
+        "Benefits Administration",
+        "Embeddable Solutions"
+      ],
+      "tip": "Collaborate effectively with customers and partners to solve complex problems.",
+      "salary": "$180,000-$220,000",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:24:56.765853+00:00"
+  },
+  "ashby:claylabs:234bb7bc-5cb8-4df9-9fdf-6320d01519d4": {
+    "fingerprint": "af4e7d2242678f3b058b7710fbe89f7849ac4fc133947a12c565d746cdf99a01",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Notion",
+        "Gong",
+        "LMS",
+        "AI",
+        "Automation",
+        "Data workflows",
+        "Integrations"
+      ],
+      "experience_years": "We're looking for a full-time Growth Strategy (GS) Enablement hire to join our enablement team & build and scale onboarding & enablement for our customer-facing team.",
+      "minimum_years": 4,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "Growth Strategy",
+        "Enablement",
+        "Onboarding",
+        "Training",
+        "Customer Success",
+        "SaaS",
+        "Data Analysis",
+        "Automation",
+        "AI",
+        "Marketing"
+      ],
+      "tip": "Design and scale onboarding and ever-boarding programs that accelerate ramp time and set a consistent foundation for success through live workshops, certifications, and training.",
+      "salary": "$145K – $185K",
+      "team": "GTM - Ops",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:25:08.173285+00:00"
+  },
+  "ashby:clasp-group:9f555ce6-8f7b-4219-9735-984bb8fce573": {
+    "fingerprint": "9763151b11177f7f722471f87e85bdfd9d01a786bb2f98cf60664037bfe91300",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "HubSpot CRM",
+        "Salesforce",
+        "Communication skills"
+      ],
+      "experience_years": "2-3 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Sales",
+        "Business Development",
+        "Partnerships",
+        "CRM",
+        "Marketing",
+        "Communication",
+        "Relationship-building",
+        "Data analysis",
+        "Outreach",
+        "Follow-up",
+        "Storytelling",
+        "Persuasion"
+      ],
+      "tip": "Build relationships with school administrators and program directors.",
+      "salary": "$75,000 - $85,000 annually + incentive compensation",
+      "team": "Talent Fulfillment",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:25:16.975507+00:00"
+  },
+  "ashby:clasp-group:9425f592-09bf-4ec6-879c-ccc6c33b6f2e": {
+    "fingerprint": "0212628110abcea05a1e767572967da4215fa87a552d7469250740e45c7c56dd",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "HubSpot CRM",
+        "Salesforce",
+        "Communication skills"
+      ],
+      "experience_years": "2-3 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Sales",
+        "Business Development",
+        "Partnerships",
+        "CRM",
+        "Marketing",
+        "Outreach",
+        "Communication",
+        "Relationship-building",
+        "Data analysis",
+        "Project management",
+        "Time management",
+        "Goal-oriented"
+      ],
+      "tip": "Build relationships with school administrators and program directors.",
+      "salary": "$75,000 - $85,000 annually + incentive compensation",
+      "team": "Talent Fulfillment",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:25:25.753685+00:00"
+  },
+  "ashby:colonist:65b3b306-33c7-4875-8c12-f9f319d7fbd7": {
+    "fingerprint": "55ab75cba32b7de04a1d0c0ee944a4dda6b2ee8f536c2cc901b3c5a5812b79bd",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Figma",
+        "AI first-mindset",
+        "Animation principles",
+        "Game mechanics"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "UI design",
+        "Interaction design",
+        "Animation",
+        "Game development",
+        "Motion graphics",
+        "Game sound design",
+        "JavaScript",
+        "C#",
+        "AI-assisted tooling"
+      ],
+      "tip": "Create high-quality UI designs that set a new standard for creativity and usability.",
+      "salary": "$Competitive salary paid in USD (Negotiable range based on experience and location)",
+      "team": "Product",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:25:33.575097+00:00"
+  },
+  "ashby:crusoe:4f5d34ed-0c05-4eec-b8f8-14663e114b02": {
+    "fingerprint": "62e65264427d963b1ee2be55a23615e24f864d53f9a05bf9de5c6583b2919b66",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science, Engineering, or a related field (or equivalent practical experience)",
+      "qualifications": "Foundational Technical Skills: Some hands-on experience with building or operating software systems; exposure to cloud infrastructure or distributed systems is a plus but not required.",
+      "eligibility": "Not clearly stated",
+      "key_tech_skills": [
+        "Java",
+        "Go",
+        "Linux",
+        "Computer Architecture"
+      ],
+      "experience_years": "1 year",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Java",
+        "Cloud Infrastructure",
+        "Distributed Systems",
+        "Software Engineering",
+        "Storage Technologies"
+      ],
+      "tip": "Contribute to engineering efforts and software development.",
+      "salary": "$117,000 - $138,000 + Bonus",
+      "team": "Cloud Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:25:42.883982+00:00"
+  },
+  "ashby:crusoe:a212b163-5f6b-42d6-9e93-5578ccb869df": {
+    "fingerprint": "167dde3f4fbf7ac589182d446ec88f904e0093e6de5cdbd86d4006ad53c91956",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Docker",
+        "Kubernetes",
+        "Terraform",
+        "Go",
+        "Rust",
+        "Java",
+        "C++"
+      ],
+      "experience_years": ",",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "container registry",
+        "distributed systems",
+        "cloud-native infrastructure",
+        "microservices",
+        "performance optimization",
+        "observability",
+        "reliability",
+        "customer-centric design",
+        "energy-first approach",
+        "AI compute",
+        "power management"
+      ],
+      "tip": "Build at scale.",
+      "salary": "$140,000 - $165,000 + Bonus",
+      "team": "Managed Cloud",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:25:52.172631+00:00"
+  },
+  "ashby:eagle:00b0bfbe-b174-4c5b-8d29-3aba4a1ddeef": {
+    "fingerprint": "27f37d479d16fe55e8616cced089bf2465d00b0df89cdcdcbcd702a3cfdfa61b",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "NextJS",
+        "Kotlin",
+        "Python",
+        "Tailwind CSS",
+        "Pulumi"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "NextJS",
+        "Kotlin",
+        "AWS",
+        "Pulumi",
+        "CI/CD",
+        "Cloud Engineering",
+        "Platform Engineer",
+        "Multitenant Architecture",
+        "Observability",
+        "Incident Practice"
+      ],
+      "tip": "Show up with increasing product leverage.",
+      "salary": "$150K–$300K",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:26:00.121530+00:00"
+  },
+  "ashby:edra:775032d7-d014-4583-b571-c3bdefee6d4f": {
+    "fingerprint": "62fbd270c4ebd2d20ad0b719e11af0cea103a7e0dbf24d8f6726fef4af04c802",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "TypeScript",
+        "React",
+        "Next.js"
+      ],
+      "experience_years": ">=3",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "TypeScript",
+        "React",
+        "APIs",
+        "Libraries",
+        "Design Systems",
+        "Frontend Architecture",
+        "Product Engineering",
+        "AI Models",
+        "Enterprise AI",
+        "Machine Learning",
+        "Data Modeling",
+        "Systems Design"
+      ],
+      "tip": "Build high-quality user-facing product experiences.",
+      "salary": "$200K – $300K",
+      "team": "Product & Platform",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:26:09.484070+00:00"
+  },
+  "ashby:eliza:3190c7b1-a01f-42e0-9a16-2c6dfc40eb8d": {
+    "fingerprint": "b04b215924a2e5e42622453e8722c6524cc826245cccb31bf7fa5f8d04e04758",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Required: 0–2 years of software engineering experience, or equivalent demonstrated ability through internships, open-source contributions, or substantial personal projects.",
+      "eligibility": "Eligible for F-1 OPT candidates.",
+      "key_tech_skills": [
+        "Python",
+        "JavaScript/TypeScript",
+        "Go",
+        "LLMs (e.g., Anthropic, OpenAI, Cohere)",
+        "Vector search",
+        "Prompt engineering"
+      ],
+      "experience_years": "0–2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Python",
+        "JavaScript/TypeScript",
+        "Go",
+        "LLMs (e.g., Anthropic, OpenAI, Cohere)",
+        "Vector search",
+        "Prompt engineering",
+        "Cloud platforms (AWS, GCP, or Azure)",
+        "Version control / CI workflows"
+      ],
+      "tip": "Contribute to Client-Facing Solution Delivery.",
+      "salary": "Not listed",
+      "team": "Solutions Delivery",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:26:19.900223+00:00"
+  },
+  "ashby:farsight:820c851b-ae40-45a7-af9b-03ec087aff6c": {
+    "fingerprint": "9c826cadd0eb52ba4b1e5e4d3599cb8520f43d7b90480cd676ee4a42af1dd819",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "2+ years of experience deploying machine learning or LLM systems in production.",
+      "eligibility": "Valid U.S. work authorization required.",
+      "key_tech_skills": [
+        "Python",
+        "LLM systems",
+        "Agentic systems",
+        "Reliability engineering"
+      ],
+      "experience_years": "2+",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Machine learning",
+        "LLM",
+        "Agentic systems",
+        "Reliability engineering",
+        "Python",
+        "Financial data",
+        "Documents",
+        "Workflows"
+      ],
+      "tip": "Design agentic systems that produce client-ready financial deliverables.",
+      "salary": "$200K – $300K annually",
+      "team": "AI Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:26:37.753637+00:00"
+  },
+  "ashby:glade:276c0067-7ea0-49e5-83fd-f79cbd01442e": {
+    "fingerprint": "8af5dd3d51e5107c8551620eb422f0a13909dd94b3d195215374af576a6b4a8d",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "TypeScript",
+        "React",
+        "Node.js",
+        "PostgreSQL"
+      ],
+      "experience_years": ">=3",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "TypeScript",
+        "React",
+        "Node.js",
+        "PostgreSQL",
+        "Scalable",
+        "High-performance",
+        "Modern web applications",
+        "APIs",
+        "Software design",
+        "Architecture",
+        "State management",
+        "Data modeling"
+      ],
+      "tip": "Showcase a project related to Glade.",
+      "salary": "Not listed",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:26:46.805312+00:00"
+  },
+  "ashby:hirehire:f9d07b09-3515-4530-8ef2-b0d743d16d69": {
+    "fingerprint": "62d9727660f66f7d8b3e2a53eaee1def38cdb2b841eb2579e45f39a72b9ecf48",
+    "analysis": {
+      "us_location_eligible": "NO",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Generative AI",
+        "AI-native interfaces",
+        "Web products",
+        "Product strategy"
+      ],
+      "experience_years": "6 months",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Generative AI",
+        "AI-native",
+        "Web product",
+        "Product design",
+        "UX design",
+        "Design thinking",
+        "Complex systems",
+        "High-volume creative production",
+        "Real-world production workflows",
+        "User experience"
+      ],
+      "tip": "Packaging a complex system into a clear, usable self-serve product.",
+      "salary": "Not listed",
+      "team": "Product Design",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:26:56.233187+00:00"
+  },
+  "ashby:kinsteadhealth:18d2a588-05e6-4803-b521-3bb2d1bb39cb": {
+    "fingerprint": "665598170e797ad0c76cd64bd241576b13db480650c2a585fffb169816192ebb",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated",
+      "qualifications": "Not clearly stated",
+      "eligibility": "Not clearly stated",
+      "key_tech_skills": [
+        "Next.js",
+        "TypeScript",
+        "shadcn/ui",
+        "Python (Django, async-first)",
+        "PostgreSQL",
+        "Twilio",
+        "AWS",
+        "GCP",
+        "OpenAI",
+        "Medplum"
+      ],
+      "experience_years": "Not clearly stated",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Next.js",
+        "TypeScript",
+        "shadcn/ui",
+        "Python (Django, async-first)",
+        "PostgreSQL",
+        "Twilio",
+        "AWS",
+        "GCP",
+        "OpenAI",
+        "Medplum"
+      ],
+      "tip": "Own major clinician-facing workflows from whiteboard to production",
+      "salary": "$180K – $220K",
+      "team": "Engineering & Product",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:27:08.273616+00:00"
+  },
+  "ashby:koho:2903b2ea-ae70-4c87-a967-675d3f8dee59": {
+    "fingerprint": "2d6dc726a46cec705ab0a1c91a229e4a4c1a3a943885da2ddf20f556355842ad",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "DBT Core",
+        "DBT Cloud",
+        "Git",
+        "SQL",
+        "Redshift"
+      ],
+      "experience_years": "3+",
+      "minimum_years": 4,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "DBT",
+        "SQL",
+        "Data Engineering",
+        "Analytics",
+        "Fintech",
+        "Cloud Computing",
+        "Machine Learning",
+        "Data Science",
+        "Data Analysis",
+        "Data Visualization",
+        "Business Intelligence",
+        "Reporting",
+        "Data Modeling"
+      ],
+      "tip": "Build and scale data pipelines.",
+      "salary": "$110K - $135K CAD/year",
+      "team": "Analytics Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:27:20.857592+00:00"
+  },
+  "ashby:kognitos:a4bc3ebf-b619-4c1b-9c9e-784d16c8b148": {
+    "fingerprint": "c7b4666ca10b156e195b54d31d37125fb1a77c0b5c24e8a594b10b57055a5350",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Master's degree in Computer Science, Engineering, or a related technical field.",
+      "qualifications": "Solid programming fundamentals (comfortable with Python, or able to pick it up quickly).",
+      "eligibility": "Baseline Qualifications",
+      "key_tech_skills": [
+        "Python",
+        "Kognitos platform"
+      ],
+      "experience_years": "0",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Python",
+        "Automation",
+        "Business Process Management",
+        "Enterprise Software",
+        "Large Language Models",
+        "Neurosymbolic Reasoning Engine",
+        "Customer Feedback",
+        "Product Development",
+        "Engineering",
+        "Finance",
+        "Operations",
+        "Supply Chain"
+      ],
+      "tip": "Work directly with customers to understand their processes, gather requirements, and troubleshoot issues.",
+      "salary": "Not listed",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:27:30.184115+00:00"
+  },
+  "ashby:lynk:787ea297-ce48-4d8b-a08d-2df87d524645": {
+    "fingerprint": "d6cce83ef75ec21a5fa97128de82e4b8b27f635fb11124333d45c60b09c8c9d2",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor’s degree in Computer Science, Computer Engineering, Electrical Engineering, or a related technical field (or equivalent practical experience).",
+      "qualifications": "2+ years of professional experience in software development.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "C++",
+        "Python",
+        "Object-Oriented Design",
+        "CI/CD Pipelines",
+        "Simulation and Emulation"
+      ],
+      "experience_years": "2",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "C++",
+        "Python",
+        "Software Development",
+        "Distributed Systems",
+        "Real-Time Software",
+        "Global-Scale Operations"
+      ],
+      "tip": "Design, develop, test, and deploy high-reliability software for satellite and ground systems.",
+      "salary": "Not listed",
+      "team": "Telecommunications",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:27:39.585378+00:00"
+  },
+  "ashby:mercor:a217f1a6-c63c-4dfb-81c3-ecc0c5d44f98": {
+    "fingerprint": "1c8f36bfea6c36ef4d5e533c6ba8edfffe328d1933bbdf44aed00fa2de7b602d",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science or related field.",
+      "qualifications": "Strong production backend/data engineering experience — you've built and owned high-volume data pipelines.",
+      "eligibility": "Eligible for F-1 OPT.",
+      "key_tech_skills": [
+        "Python",
+        "AWS",
+        "Data Engineering",
+        "Backend Development"
+      ],
+      "experience_years": "2+ years of professional experience.",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Data Engineering",
+        "Backend Development",
+        "Python",
+        "AWS",
+        "Cloud Computing",
+        "Data Pipelines",
+        "Sensor Data",
+        "Video Processing",
+        "Multimodal ML",
+        "Computer Vision"
+      ],
+      "tip": "Build the end-to-end sensor data pipeline: ingest from capture devices in the field, through segmentation, pre-labeling, QC, and packaged delivery to customers.",
+      "salary": "$130K – $500K • Offers Equity",
+      "team": "Core Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:27:49.852147+00:00"
+  },
+  "ashby:mintmcp:0bcde789-1fe5-47a8-8681-e51368108833": {
+    "fingerprint": "997c28c81e8bb99a60e1b1ad945372e76d5cf3cc24fe5efdbcf8dcc8e11c455a",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "TypeScript",
+        "Python",
+        "CockroachDB"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "agent",
+        "infrastructure",
+        "security",
+        "gateway",
+        "backend",
+        "frontend",
+        "UX",
+        "product",
+        "architecture",
+        "design",
+        "system",
+        "engineering",
+        "cloud",
+        "database"
+      ],
+      "tip": "Ship features end-to-end.",
+      "salary": "Not listed",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:27:59.316019+00:00"
+  },
+  "ashby:mintmcp:695910ab-7797-49f3-9bf9-b6e20b0146d9": {
+    "fingerprint": "2e2d69b6b80eb348f78ed480219aa8498659dc0b76dba8311923defb8fead5f5",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "AI",
+        "Machine Learning",
+        "Python",
+        "Data Analysis",
+        "Marketing Automation"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Growth Marketing",
+        "Demand Generation",
+        "SEO",
+        "Paid Advertising",
+        "Content Marketing",
+        "Funnel Analytics",
+        "Attribution Modeling",
+        "CAC",
+        "Payback",
+        "Forecasting"
+      ],
+      "tip": "Use agents to multiply yourself.",
+      "salary": "Not listed",
+      "team": "GTM",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:28:09.458663+00:00"
+  },
+  "ashby:momentic:c5940610-eec6-43c1-8e2f-b9bf6c992124": {
+    "fingerprint": "33e72a6926d0b4386b94ee5504642045540f134f6ae1686ba7a1cad03c7f3b4b",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science or related field.",
+      "qualifications": "5+ years of professional software engineering experience.",
+      "eligibility": "Eligible for F-1 OPT sponsorship.",
+      "key_tech_skills": [
+        "TypeScript",
+        "React",
+        "Next.js",
+        "Node.js",
+        "PostgreSQL",
+        "Google Cloud",
+        "Kubernetes"
+      ],
+      "experience_years": "At least 5 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "TypeScript",
+        "React",
+        "Next.js",
+        "Node.js",
+        "PostgreSQL",
+        "Google Cloud",
+        "Kubernetes",
+        "AI-native automated testing platform",
+        "Quality gates",
+        "SDLC",
+        "Browser internals",
+        "Chrome DevTools Protocol"
+      ],
+      "tip": "Solve hard problems with product and technical ambiguity.",
+      "salary": "$150K – $220K",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:28:19.382400+00:00"
+  },
+  "ashby:office-hours:664c0299-27c5-4550-91ec-30c4a058e19f": {
+    "fingerprint": "3d32109da8095e1f0daca93a0f87bcb123a5689ce7416f27662d15fcf59e5211",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Node.js",
+        "Typescript",
+        "MongoDB & Postgres",
+        "OpenSearch",
+        "Temporal",
+        "React",
+        "Next.js",
+        "Tailwind",
+        "AWS",
+        "Kubernetes",
+        "Docker",
+        "Datadog",
+        "Sentry"
+      ],
+      "experience_years": "3+",
+      "minimum_years": 3,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Node.js",
+        "Typescript",
+        "MongoDB & Postgres",
+        "OpenSearch",
+        "Temporal",
+        "React",
+        "Next.js",
+        "Tailwind",
+        "AWS",
+        "Kubernetes",
+        "Docker",
+        "Datadog",
+        "Sentry"
+      ],
+      "tip": "Build and ship end-to-end product features across the front end and back end.",
+      "salary": "$165,000–$185,000",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:28:32.718545+00:00"
+  },
+  "ashby:optro:afe0521a-135a-45ba-a01f-e3e77c6b7892": {
+    "fingerprint": "48a1531b4382de1a9e40b68dc19cacc861fe83f07dc5ceb629b0253baf758a6f",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor’s degree preferred.",
+      "qualifications": "Experience: 1-2 years of experience in Revenue Operations, Proposals, or Sales Operations within a SaaS environment.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Salesforce (SFDC)",
+        "JIRA",
+        "Responsive"
+      ],
+      "experience_years": "1-2",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Salesforce",
+        "JIRA",
+        "Responsive",
+        "Proposals",
+        "Revenue Operations",
+        "SaaS",
+        "Project Management",
+        "Communication",
+        "Problem Solving",
+        "Emotional Intelligence"
+      ],
+      "tip": "Lead by Example approach.",
+      "salary": "$57.6K – $79.2K",
+      "team": "Revenue Operations",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:28:46.654237+00:00"
+  },
+  "ashby:outtake:c94d3009-2503-4e5a-a0fc-a334260bfda3": {
+    "fingerprint": "6aa4d2cf1fded7015f7c61dd5c01a84a1d5397314c826dfc389c0bc6ff3fa394",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "SQL",
+        "Postgres",
+        "Hex",
+        "Python",
+        "TypeScript"
+      ],
+      "experience_years": "5+",
+      "minimum_years": 4,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "SQL",
+        "Data Science",
+        "Analytics Engineering",
+        "AI Evaluation",
+        "Machine Learning",
+        "Cloud Computing",
+        "Data Modeling",
+        "Data Quality",
+        "Data Visualization",
+        "Business Intelligence",
+        "Product Development",
+        "Engineering",
+        "Finance"
+      ],
+      "tip": "Build reliable data pipelines.",
+      "salary": "Not listed",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:28:57.689017+00:00"
+  },
+  "ashby:owner:0d82c556-d107-4973-805b-d37614f56788": {
+    "fingerprint": "adb54ac6108faca328af8fc62779bc72a7e2eb7dd19797f1d88fbdf7b6a7f237",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "AI",
+        "Salesforce",
+        "Clay",
+        "Apollo",
+        "CRM"
+      ],
+      "experience_years": "5+",
+      "minimum_years": 5,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "AI",
+        "Salesforce",
+        "Growth Engine",
+        "Product Management",
+        "Software Engineering",
+        "Data Fluency",
+        "Customer Empathy",
+        "Technical Complexity",
+        "Ambiguity Handling",
+        "Communication Skills",
+        "Cloud Systems",
+        "Data Integration"
+      ],
+      "tip": "Partner closely with Engineering, Analytics, RevOps, and Design to build the technical and data systems behind Owner's growth engine.",
+      "salary": "$200-240K",
+      "team": "Product",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:29:10.604349+00:00"
+  },
+  "ashby:ramp:b614563f-3ce6-4dca-b5ba-0e5a6c8bda27": {
+    "fingerprint": "0dea3cda7871b4e9f5e582fc1add800b236f8d2a5059c3ff98a2efd053abe00b",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science or related field.",
+      "qualifications": "4+ years of experience in software engineering, solutions architecture, or pre-sales engineering.",
+      "eligibility": "Eligible for F-1 OPT.",
+      "key_tech_skills": [
+        "Python",
+        "TypeScript/JavaScript",
+        "Java",
+        "Go",
+        "ML/GenAI"
+      ],
+      "experience_years": "We require at least 4+ years of experience in shipping production software.",
+      "minimum_years": 4,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "Machine Learning",
+        "Artificial Intelligence",
+        "Cloud Architecture",
+        "Solutions Architecture",
+        "Software Engineering"
+      ],
+      "tip": "Partner directly with customers to understand current workflows and constraints.",
+      "salary": "$189K – $330K",
+      "team": "Forward Deployed AI",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:29:23.178494+00:00"
+  },
+  "ashby:red-gate:26a8d97d-bebb-4e16-b2b8-43a1eaa47b68": {
+    "fingerprint": "9170495f5e3c432f0bf316df2b8333f6d20ce5c7caa125145feb1757cd391f37",
+    "analysis": {
+      "us_location_eligible": "NO",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "C#",
+        ".NET",
+        "SQL",
+        "React",
+        "Azure",
+        "event-driven architecture"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "C#",
+        ".NET",
+        "SQL",
+        "React",
+        "Azure",
+        "CI/CD pipelines",
+        "Design principles",
+        "Architectural patterns",
+        "Distributed systems",
+        "Operational risk",
+        "Unit testing",
+        "Code review"
+      ],
+      "tip": "Apply with a strong portfolio showcasing modern C#/.NET experience.",
+      "salary": "Up to £55,000",
+      "team": "Shared Applications & Services",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:29:36.389307+00:00"
+  },
+  "ashby:reframesystems:706aef0d-916d-48df-b32b-7311d49dc094": {
+    "fingerprint": "589a4330f39776a54078b42d09879318ebd372bba776b990510191b5a148f69f",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Currently pursuing a BS in Mechanical Engineering or a related field; junior or senior standing preferred.",
+      "qualifications": "Solid CAD skills (Onshape, SolidWorks, Fusion 360, or similar) and the ability to go from a rough idea to a modeled part quickly.",
+      "eligibility": "Available for a full-time, semester-length co-op in Billerica, MA this fall.",
+      "key_tech_skills": [
+        "CAD",
+        "Mills",
+        "Lathes",
+        "Welders",
+        "3D Printers",
+        "Robotics",
+        "Automation"
+      ],
+      "experience_years": "1-2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Mechanical Engineering",
+        "CAD Design",
+        "Manufacturing",
+        "Robotics",
+        "Automation",
+        "Mills",
+        "Lathes",
+        "Welding",
+        "3D Printing",
+        "Design for Manufacturability"
+      ],
+      "tip": "Take a rough idea, iterate on it in CAD, get a physical version in hand, and improve it based on what they learn, on a tight timeline.",
+      "salary": "Not listed",
+      "team": "Technology",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:29:49.579051+00:00"
+  },
+  "ashby:restate:c9419551-7f51-4691-8ba9-d80a27f1e284": {
+    "fingerprint": "461696631cb56566ed99e7e81f04e05cb56e7ad623fa221eeac38efa87d3dc64",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Backend Event Driven Applications",
+        "Cloud providers",
+        "Kubernetes",
+        "Rust",
+        "TypeScript"
+      ],
+      "experience_years": "Yes",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Event-Driven Applications",
+        "Distributed Systems",
+        "Cloud Computing",
+        "Containerization",
+        "Observability",
+        "Networking",
+        "Security",
+        "Infrastructure as Code",
+        "DevOps",
+        "Kubernetes",
+        "Rust",
+        "TypeScript"
+      ],
+      "tip": "Partner directly with engineers to architect software and solve real-world problems.",
+      "salary": "$220K – $260K",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:30:02.472641+00:00"
+  },
+  "ashby:renuity:30fc2177-b943-4542-989a-c2769c183d56": {
+    "fingerprint": "6811ff7df77fc195e151578badfb8194b491ec360f62bcb4ee0d264f57c50023",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration"
+      ],
+      "experience_years": "1-2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration",
+        "Inbound Sales",
+        "Retail Sales",
+        "Account Management",
+        "Lead Generation",
+        "Product Knowledge",
+        "Presentation Skills",
+        "Travel",
+        "Weekend Availability"
+      ],
+      "tip": "Represent Renuity at in-store retail events and local marketing campaigns.",
+      "salary": "$50K – $80K",
+      "team": "Retail",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:30:15.540601+00:00"
+  },
+  "ashby:renuity:f711b81b-e3d9-4d8c-b291-9016d3fed558": {
+    "fingerprint": "bbe96edf95460ccc9b9847a0d41b4973323f84058645cfbf623cce6160f4371c",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration"
+      ],
+      "experience_years": "1-2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration",
+        "Inbound Sales",
+        "Outbound Sales",
+        "Lead Generation",
+        "Account Management",
+        "Product Knowledge",
+        "Presentation Skills",
+        "Travel",
+        "Weekend Availability"
+      ],
+      "tip": "Represent Renuity at in-store retail events and local marketing campaigns.",
+      "salary": "$50,000 - $60,000 per year (uncapped commission)",
+      "team": "Retail",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:30:27.072518+00:00"
+  },
+  "ashby:renuity:ccaf38b7-bb9a-4014-93d9-3cd9aef45e50": {
+    "fingerprint": "28f909e05cfa37a81d8957675c24a78fde75e18137817665ed215f0bc64d296c",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration"
+      ],
+      "experience_years": "1-2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration",
+        "Inbound Sales",
+        "Outbound Sales",
+        "Lead Generation",
+        "Account Management",
+        "Product Knowledge",
+        "Presentation Skills",
+        "Travel",
+        "Weekend Availability"
+      ],
+      "tip": "Represent Renuity at in-store retail events and local marketing campaigns.",
+      "salary": "$50,000 - $60,000 per year (uncapped commission structure)",
+      "team": "Retail",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:30:39.230698+00:00"
+  },
+  "ashby:renuity:de368161-beeb-4981-98aa-e89a27c4b219": {
+    "fingerprint": "010440fda3dca6a1c60e10ec525a8c51169ea1cd2dd54550ecdcf0f178e012e5",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration",
+        "Self-motivation"
+      ],
+      "experience_years": "1-2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration",
+        "Performance-based",
+        "Goal-driven",
+        "Inbound Sales",
+        "Outbound Sales",
+        "Account Management",
+        "Lead Generation",
+        "Product Knowledge"
+      ],
+      "tip": "Represent Renuity at in-store retail events and local marketing campaigns.",
+      "salary": "$50,000 - $60,000 per year (uncapped commission)",
+      "team": "Retail",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:30:51.615063+00:00"
+  },
+  "ashby:renuity:e2e3bfaf-0c0f-44af-8385-4deebdf9d455": {
+    "fingerprint": "73f64ae2535a0f1fff451f4dce6fddb159683d4389416cb051f567e1ac05314b",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration"
+      ],
+      "experience_years": "1-2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration",
+        "Inbound Sales",
+        "Outbound Sales",
+        "Lead Generation",
+        "Product Knowledge",
+        "Presentation Skills",
+        "Travel",
+        "Weekend Availability"
+      ],
+      "tip": "Represent Renuity at in-store retail events and local marketing campaigns.",
+      "salary": "$50K – $80K",
+      "team": "Retail",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:31:03.039789+00:00"
+  },
+  "ashby:renuity:6c94d9b9-724f-46ac-88f7-a81da45b179b": {
+    "fingerprint": "f8da346a2ae50a44207318eeddf12234e4238d6f3f0a73a456cfb9adb9350681",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration"
+      ],
+      "experience_years": "1-2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Sales",
+        "Customer Service",
+        "Communication",
+        "Collaboration",
+        "Inbound Sales",
+        "Outbound Sales",
+        "Lead Generation",
+        "Product Knowledge",
+        "Presentation Skills",
+        "Travel",
+        "Weekend Availability"
+      ],
+      "tip": "Represent Renuity at in-store retail events and local marketing campaigns.",
+      "salary": "$50K – $80K",
+      "team": "Retail",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:31:14.184763+00:00"
+  },
+  "ashby:renuity:c8461320-9b59-4c41-9101-3ee4f3a7820d": {
+    "fingerprint": "0f3b37a6a177db0c7ad9d34ccc7cc11b03b018aaf64ad35cd212f6817237aca8",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "1–2 years in a customer-facing role (retail, hospitality, service, or sales) preferred—but we welcome motivated beginners",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Communication",
+        "Interpersonal skills",
+        "Results-driven mindset",
+        "Coachable attitude"
+      ],
+      "experience_years": "1–2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Sales",
+        "Customer Service",
+        "Retail",
+        "Hospitality",
+        "Communication",
+        "Interpersonal skills",
+        "Results-driven mindset",
+        "Coachable attitude"
+      ],
+      "tip": "Represent the Renuity brand at local retail stores and community events",
+      "salary": "$18/hour + Uncapped Commission & Incentives",
+      "team": "Retail",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:31:26.497450+00:00"
+  },
+  "ashby:rox-data-corp:bd74dfe7-c825-4a34-8515-cf8297e214a7": {
+    "fingerprint": "b3107d63d615c1a40e280478d5133a8466133886da8997752c0c08e69b81113b",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "React",
+        "Next.js",
+        "TypeScript"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "React",
+        "Frontend Engineering",
+        "UI Architecture",
+        "State Management",
+        "Performance Optimization",
+        "API Orchestration",
+        "Business Logic",
+        "Scalability",
+        "Reliability",
+        "System Design"
+      ],
+      "tip": "Build and evolve complex production-grade user interfaces using React.",
+      "salary": "Not listed",
+      "team": "Product",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:31:36.387990+00:00"
+  },
+  "ashby:sensor-tower:573eb1c2-3262-436c-b473-1ca584c32e62": {
+    "fingerprint": "cd020b9ff7d0dead16828ddc041e68e70abd6b9deebae3f95d472dc72a90570e",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "C#",
+        "SQL",
+        "AWS",
+        "ASP.NET Core",
+        "EntityFramework",
+        "Mongo",
+        "Redshift"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "C#",
+        "SQL",
+        "AWS",
+        "ASP.NET Core",
+        "EntityFramework",
+        "Mongo",
+        "Redshift",
+        "Data Analytics",
+        "Full Stack Development",
+        "Cloud Computing",
+        "DevOps",
+        "Agile Methodologies",
+        "Team Collaboration",
+        "Problem-Solving",
+        "Code Refactoring"
+      ],
+      "tip": "Tackle interesting performance and scalability challenges.",
+      "salary": "$120,000 - $145,000 USD",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:31:49.055271+00:00"
+  },
+  "ashby:sensor-tower:e6555419-5d63-4d25-8969-d1be8676bb18": {
+    "fingerprint": "899c3f47e7973747342898988b1d81ac47f8e9246d63a07a304309a918e7e655",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "C#",
+        "SQL",
+        "AWS",
+        "ASP.NET Core",
+        "EntityFramework",
+        "Mongo",
+        "Redshift"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "C#",
+        "SQL",
+        "AWS",
+        "ASP.NET Core",
+        "EntityFramework",
+        "Mongo",
+        "Redshift",
+        "Data Analytics",
+        "Full Stack Development",
+        "Cloud Computing",
+        "DevOps",
+        "Agile Methodologies",
+        "Team Collaboration",
+        "Problem-Solving",
+        "Code Refactoring"
+      ],
+      "tip": "Tackle interesting performance and scalability challenges.",
+      "salary": "$120,000 - $145,000 USD",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:32:01.617417+00:00"
+  },
+  "ashby:simile:acc52a43-dec0-42b0-b8c8-739bd79ceabb": {
+    "fingerprint": "e986c69fca2e2877622de92e075601fd673766d0c2e54794b2075195d3335f22",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Data Operations",
+        "AI simulation",
+        "Machine learning",
+        "Data acquisition",
+        "Data analysis"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Data Operations",
+        "AI",
+        "Simulation",
+        "Machine Learning",
+        "Data Analysis",
+        "Data Science",
+        "Business Intelligence",
+        "Data Engineering",
+        "Data Management",
+        "Data Quality",
+        "Data Governance",
+        "Data Security"
+      ],
+      "tip": "Expand Simile's global data partnerships.",
+      "salary": "$200,000 – $300,000 USD",
+      "team": "Business Staff",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:32:13.949037+00:00"
+  },
+  "ashby:snowflake:db1375f0-ea5d-404a-b640-259f94dbc995": {
+    "fingerprint": "e9d2271c3b74866fb648001be07bf0e8b532fd1e9b8de3bd12d2189ed8944621",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor’s degree or foreign equivalent in Computer Science, Software Engineering or related field; Masters or PhD preferred.",
+      "qualifications": "2+ years industry experience working on commercial or open-source software.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Java",
+        "C++",
+        "Linux",
+        "Multi-threading",
+        "Concurrency",
+        "SQL",
+        "Query optimization",
+        "Distributed systems",
+        "Data structures",
+        "Algorithms"
+      ],
+      "experience_years": "2+",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Java",
+        "C++",
+        "Linux",
+        "Multi-threading",
+        "Concurrency",
+        "SQL",
+        "Query optimization",
+        "Distributed systems",
+        "Data structures",
+        "Algorithms",
+        "Database technologies",
+        "Large scale distributed systems"
+      ],
+      "tip": "Design, develop, and support a petabyte-scale cloud database.",
+      "salary": "$160K – $230K",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:32:26.477668+00:00"
+  },
+  "ashby:snowflake:2b3e7582-84c9-4fd1-969c-16ae1a4f61e6": {
+    "fingerprint": "39cee4fe0e0d62a0b2d9a9938da1a02eabdc791076abd70d3c31a70f2aaeafe7",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "BS/MS in Computer Science or related majors, or equivalent experience.",
+      "qualifications": "4+ years of industry experience designing, building, and supporting large-scale distributed systems in production. Expert-level development skills in Python, Java, or similar languages. Deep understanding of database systems, cloud data platforms, or distribu…",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Python",
+        "Java",
+        "Cloud Data Platforms",
+        "Distributed Storage Architectures",
+        "Data Privacy",
+        "AI/ML",
+        "Database Systems"
+      ],
+      "experience_years": "Not clearly stated.",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Python",
+        "Java",
+        "Cloud Computing",
+        "Data Science",
+        "Machine Learning",
+        "Artificial Intelligence",
+        "Database Management",
+        "Data Storage",
+        "Security",
+        "Collaboration",
+        "Scalability",
+        "High-Performance Computing"
+      ],
+      "tip": "Partner closely with Product Management and cross-functional teams to drive complex projects from ideation and system design through to production deployment.",
+      "salary": "$160K – $230K",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:32:46.065197+00:00"
+  },
+  "ashby:synthesia:6730e2e5-0d32-4919-a438-625f1673b70c": {
+    "fingerprint": "f272d8fef1a6d630625617b3e69cc12aa7980fd24b8f8ced76bc1c6a6c2f1e9b",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated",
+      "qualifications": "Not clearly stated",
+      "eligibility": "Not clearly stated",
+      "key_tech_skills": [
+        "Cloud infrastructure",
+        "Linux",
+        "Kubernetes",
+        "Python"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Cloud infrastructure",
+        "Linux",
+        "Kubernetes",
+        "Python",
+        "ML",
+        "AI",
+        "Machine learning",
+        "Data science",
+        "Backend systems",
+        "Tooling",
+        "Automation",
+        "Reliability",
+        "Scalability"
+      ],
+      "tip": "Design and improve the platform systems that support model training, evaluation, and production serving.",
+      "salary": "Not listed",
+      "team": "Research and Development",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:32:59.516941+00:00"
+  },
+  "ashby:tako:4f558b5e-133a-4d80-9934-15026e3da5b9": {
+    "fingerprint": "0f35daca923dcc10c218a83668789da3839ed36b004205dd9ceebf5c57d67d08",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Typescript",
+        "AWS",
+        "Microsserviços",
+        "APIs escaláveis",
+        "Arquitetura serverless"
+      ],
+      "experience_years": "0-2 years",
+      "minimum_years": 0,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Typescript",
+        "AWS",
+        "Cloud computing",
+        "Microservices",
+        "API design",
+        "Serverless architecture",
+        "CI/CD",
+        "DevOps",
+        "Data structures",
+        "Algorithms",
+        "Software development"
+      ],
+      "tip": "Contribute to the development of our products and grow with a talented team.",
+      "salary": "Not listed",
+      "team": "Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:33:12.352373+00:00"
+  },
+  "ashby:techtorch:1d06cf4e-a913-4e54-9d9e-a0c9c5f2db27": {
+    "fingerprint": "9dd635305475c02a29de2472151bc77891ddef9a458160bd1a3380686fbc0222",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "CPQ",
+        "Pricing Strategy",
+        "Revenue Operations",
+        "Deal Lifecycle Management",
+        "AI Solutions",
+        "Product Configuration Models",
+        "Pricing Structures",
+        "Approval Frameworks"
+      ],
+      "experience_years": "1-3 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "CPQ",
+        "Pricing Strategy",
+        "Revenue Operations",
+        "Deal Lifecycle Management",
+        "AI Solutions",
+        "Product Configuration Models",
+        "Pricing Structures",
+        "Approval Frameworks"
+      ],
+      "tip": "Support functional workstreams within broader Lead-to-Cash client initiatives.",
+      "salary": "$85,000–$110,000",
+      "team": "Delivery US",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:33:26.573199+00:00"
+  },
+  "ashby:telus-digital:4b00ed15-cbb1-4069-ae45-68dda5b1a8e4": {
+    "fingerprint": "cca442961c5f2bd94ddbaa84d6a2126b26fa65845ec6990245c7d489539cdaeb",
+    "analysis": {
+      "us_location_eligible": "NO",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Business Intelligence",
+        "Data Analysis",
+        "Financial Planning"
+      ],
+      "experience_years": "2-3 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Business Analyst",
+        "Financial Planning",
+        "Data Analysis",
+        "CXAI",
+        "EL SALVADOR"
+      ],
+      "tip": "Support financial tracking and reporting across CXAI programs.",
+      "salary": "Not listed",
+      "team": "DS CXAI",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:33:37.313247+00:00"
+  },
+  "ashby:mobilefirst:4610f87f-4a22-492b-9b63-f126a4969c51": {
+    "fingerprint": "7034de29ba3c07165281ea664e76b836cfefa117ea4203406af2779d2753ba18",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Allo",
+        "AI",
+        "CRM",
+        "Sales Development Representative"
+      ],
+      "experience_years": "1-2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Sales Development Representative",
+        "CRM",
+        "AI",
+        "Phone Sales",
+        "Outbound Sales",
+        "Lead Generation",
+        "Prospecting",
+        "Account Management",
+        "Customer Relationship Management",
+        "Mobile Sales",
+        "Cloud-based CRM"
+      ],
+      "tip": "Use Allo as your power dialer.",
+      "salary": "Not listed",
+      "team": "Go To Market",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:33:52.817112+00:00"
+  },
+  "ashby:truelogic:9a58996d-c2c4-4a15-9f02-6f22a0b39d0c": {
+    "fingerprint": "2411f4e3bdd6d0fcb0628e3a2470711016970dcf1174b83ceebe3983ec12dab5",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Cloudflare",
+        "Terraform",
+        "Infrastructure as Code",
+        "Networking",
+        "Web Infrastructure",
+        "Cybersecurity",
+        "Zero Trust/SASE"
+      ],
+      "experience_years": "At least 10 years of experience",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Cloudflare",
+        "Terraform",
+        "Infrastructure as Code",
+        "Networking",
+        "Web Infrastructure",
+        "Cybersecurity",
+        "Zero Trust/SASE",
+        "AI",
+        "Cloud-native technologies"
+      ],
+      "tip": "Lead the architecture, implementation, and migration of Cloudflare-based solutions for enterprise customers.",
+      "salary": "Not listed",
+      "team": "Delivery",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:34:07.299066+00:00"
+  },
+  "ashby:truelogic:18ff0b8a-0704-4c22-8855-1129c14816d3": {
+    "fingerprint": "78ea559df4f6221d1580a5a8275266c8a9307636fb2bbc8d0bca25fc36d946eb",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Cloudflare",
+        "Terraform",
+        "Infrastructure as Code",
+        "Networking",
+        "Web Infrastructure",
+        "Cybersecurity",
+        "Zero Trust/SASE"
+      ],
+      "experience_years": "At least 10 years of experience",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Cloudflare",
+        "Terraform",
+        "Infrastructure as Code",
+        "Networking",
+        "Web Infrastructure",
+        "Cybersecurity",
+        "Zero Trust/SASE",
+        "AI",
+        "Cloud-native technologies"
+      ],
+      "tip": "Lead the architecture, implementation, and migration of Cloudflare-based solutions for enterprise customers.",
+      "salary": "Not listed",
+      "team": "Delivery",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:34:20.349808+00:00"
+  },
+  "ashby:whoop:e9c9fa1f-4711-4fa0-876a-eb9787ab77cf": {
+    "fingerprint": "afd87a06bb20d23c4cfa7ae751ad102aa74d1e0395e90c7fc0aa428f02cfcb14",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Statistics, Economics, Business, Data Science, Marketing, or a related quantitative field.",
+      "qualifications": "1–2 years of experience as a Business Analyst or in a similar analytical role; relevant internships or project experience will also be considered.",
+      "eligibility": "Not clearly stated",
+      "key_tech_skills": [
+        "SQL",
+        "Looker",
+        "Tableau"
+      ],
+      "experience_years": "1-2",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "SQL",
+        "Data Visualization",
+        "Digital Marketing",
+        "Paid Media",
+        "Performance Marketing",
+        "Analytics",
+        "Business Intelligence",
+        "Economics",
+        "Statistics",
+        "Marketing",
+        "Data Science"
+      ],
+      "tip": "Partner closely with the Growth Marketing team to analyze media performance and provide data-driven recommendations.",
+      "salary": "$85,000 - $110,000",
+      "team": "Business Intelligence & Analytics",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:35:35.569327+00:00"
+  },
+  "ashby:whoop:76965004-8d7e-4139-bd37-8191ed56880e": {
+    "fingerprint": "1b366fa85ed5ae143be4d4ab64f79063871c33d376857bbb36def11cf791c611",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "SQL",
+        "Snowflake",
+        "Data Visualization",
+        "AI tools"
+      ],
+      "experience_years": "2+",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Quality Processes",
+        "Data Analytics",
+        "Business Intelligence",
+        "Manufacturing",
+        "Operations",
+        "Data Visualization",
+        "SQL",
+        "Snowflake",
+        "ELT",
+        "dbt",
+        "Hex",
+        "Sigma",
+        "AI tools"
+      ],
+      "tip": "Partner with Field Quality, Manufacturing, and Reliability Engineering teams to define and monitor product quality KPIs across the supply chain.",
+      "salary": "$100,000 - $125,000",
+      "team": "Business Intelligence & Analytics",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:35:48.052091+00:00"
+  },
+  "greenhouse:affinipay1:4651871006": {
+    "fingerprint": "83182d7425ae962e4bb3510909812eab376176a0ff45328c1a169a0d2c514f5d",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor\\u2019s degree in any field.",
+      "qualifications": "2+ years of consultative, B2B sales w/ closing experience (SaaS experience preferred).",
+      "eligibility": "Eligible for F-1 OPT.",
+      "key_tech_skills": [
+        "Salesforce",
+        "CRM",
+        "SaaS",
+        "Consultative Sales",
+        "Business Development"
+      ],
+      "experience_years": "2+ years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Salesforce",
+        "CRM",
+        "SaaS",
+        "Consultative Sales",
+        "Business Development",
+        "Account Management",
+        "Prospecting",
+        "Product Demos",
+        "Closing Deals",
+        "Lead Generation",
+        "Customer Relationship Management"
+      ],
+      "tip": "Own the full sales cycle from outbound prospecting and product demos to deal negotiation and close.",
+      "salary": "Not listed",
+      "team": "Sales",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:36:01.294810+00:00"
+  },
+  "greenhouse:a16z:7787448003": {
+    "fingerprint": "dabca7702c2ab6a0247bca88cd30169bcab52083cee657a07622029710cf7b79",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "7-10 years of experience in marketing, content, or growth ideally within venture, tech, or a high-growth startup.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "HubSpot",
+        "Substack",
+        "Paid social",
+        "Analytics platforms"
+      ],
+      "experience_years": "7-10",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Marketing",
+        "Content",
+        "Growth",
+        "Venture",
+        "Tech",
+        "Startup",
+        "Founder",
+        "Ecosystem",
+        "Acquisition",
+        "Campaigns",
+        "Multi-channel",
+        "Measurable outcomes",
+        "HubSpot",
+        "Substack"
+      ],
+      "tip": "Run Founder Application Campaigns",
+      "salary": "Not listed",
+      "team": "Speedrun",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:36:16.618444+00:00"
+  },
+  "greenhouse:abarca:7819813003": {
+    "fingerprint": "785cb61ac8e94773ccaeb99a9a64821b028e48ede789966aadf6fc3576b7e423",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor’s Degree or Master’s Degree in Computer Science, Computer Engineering, Information Technology or related area (In lieu of a degree, equivalent relevant experience may be considered.)",
+      "qualifications": "3+ years of related experience with Software Test Automation, including object-oriented development, working with relational databases, and writing SQL queries and procedures.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "C#",
+        "Java",
+        "JavaScript",
+        "HTML",
+        "Microsoft Visual Studio",
+        "Microsoft SQL Server",
+        "Selenium IDE",
+        "Web Driver"
+      ],
+      "experience_years": "3+ years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Software Test Automation",
+        "Agile Software Development",
+        "Object-Oriented Programming",
+        "Relational Databases",
+        "SQL Queries",
+        "Test Automation Practices",
+        "Cloud Systems",
+        "Database Management",
+        "Quality Assurance"
+      ],
+      "tip": "Collaborate with Agile Team members (Business System Analysts, Software Engineers, Software Quality Engineers, Product Analysts and more of your Software Automation peers).",
+      "salary": "Not listed",
+      "team": "Tech Enablement",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:36:37.245607+00:00"
+  },
+  "greenhouse:abinbev:8630971002": {
+    "fingerprint": "41ea0f681babd42879981f52ff4298e21bbdd55645648b8febfd8bd0f6f8906f",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Data Science, Computer Science, Statistics, Mathematics, Engineering, Information Systems, Business Analytics, Economics, or related fields.",
+      "qualifications": "Advanced English, with the ability to communicate effectively with global stakeholders.",
+      "eligibility": "Previous experience in data analysis and business intelligence.",
+      "key_tech_skills": [
+        "SQL",
+        "Python",
+        "Power BI"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Data Analysis",
+        "Business Intelligence",
+        "Data Science",
+        "Machine Learning",
+        "Data Visualization",
+        "SQL",
+        "Python",
+        "Power BI"
+      ],
+      "tip": "Turn data into actionable insights that support strategic business decisions for our Retail Media team.",
+      "salary": "Not listed",
+      "team": "BEES CX & Frontline",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:36:54.603937+00:00"
+  },
+  "greenhouse:abinbev:8615641002": {
+    "fingerprint": "0cfca416be399ae3700f5d37bdb0a69856c3cc41713bf2b0adcfe24f0c34d293",
+    "analysis": {
+      "us_location_eligible": "NO",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Business Administration, Economics, Engineering, Statistics, Data Science, Computer Science, Mathematics, Marketing, or related fields.",
+      "qualifications": "Advanced English.",
+      "eligibility": "Strong analytical skills and experience working with data, AI-powered solutions, and business strategy.",
+      "key_tech_skills": [
+        "Data",
+        "AI",
+        "Business Strategy",
+        "Analytics"
+      ],
+      "experience_years": "2-3 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Data Analysis",
+        "Business Intelligence",
+        "Machine Learning",
+        "Strategic Planning",
+        "Market Research",
+        "Customer Insights",
+        "Digital Transformation",
+        "Growth Strategy",
+        "Commercial Operations",
+        "Sales Enablement",
+        "Marketing Analytics"
+      ],
+      "tip": "Partner with Data teams to enrich customer data using internal and external sources.",
+      "salary": "Not listed",
+      "team": "BEES CX & Frontline",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:37:09.495703+00:00"
+  },
+  "greenhouse:accesssystemsserviceops:5197424007": {
+    "fingerprint": "5c45990523d0c2d2c82558af2001a90ac2d314660227314246f0a5c9a42f550d",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Office technology equipment maintenance",
+        "Mechanics",
+        "Technology"
+      ],
+      "experience_years": "0-1 years",
+      "minimum_years": 0,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Office Technology Equipment Maintenance",
+        "Field Service Technician",
+        "Mechanical Skills",
+        "Technical Support",
+        "Customer Service",
+        "Troubleshooting",
+        "Equipment Repair",
+        "Maintenance",
+        "Installation",
+        "Upgrade",
+        "Support"
+      ],
+      "tip": "Learn and grow with our on-the-job training program.",
+      "salary": "$20-22/hour",
+      "team": "Field Service",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:37:22.839827+00:00"
+  },
+  "greenhouse:accesssystemsserviceops:5195692007": {
+    "fingerprint": "9f26dd529c3e6efeb963141f08c3de9dae435b3c861aee3c49cb5f0a09d731c3",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Office technology equipment maintenance",
+        "Mechanics",
+        "Technology"
+      ],
+      "experience_years": "0-1 years",
+      "minimum_years": 0,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Office Technology Equipment Maintenance",
+        "Field Service Technician",
+        "Mechanical Skills",
+        "Technical Support",
+        "Customer Service",
+        "Troubleshooting",
+        "Equipment Repair",
+        "Maintenance",
+        "Installation",
+        "Upgrade",
+        "Support"
+      ],
+      "tip": "Learn and grow with our on-the-job training program.",
+      "salary": "$20-22/hour",
+      "team": "Field Service",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:37:36.551076+00:00"
+  },
+  "greenhouse:accesssystemsserviceops:5197434007": {
+    "fingerprint": "f28df9325f0fd28f3c10a217088676e54ced569db661f0cc15139aef7fcf3db7",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Office technology equipment maintenance",
+        "Mechanics",
+        "Technology"
+      ],
+      "experience_years": "0-1 years",
+      "minimum_years": 0,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Office Technology Equipment Maintenance",
+        "Field Service Technician",
+        "Mechanical Skills",
+        "Technical Support",
+        "Customer Service",
+        "Troubleshooting",
+        "Equipment Repair",
+        "Maintenance",
+        "Installation",
+        "Upgrade",
+        "Support"
+      ],
+      "tip": "Learn and grow with our on-the-job training program.",
+      "salary": "$18-20/hour",
+      "team": "Field Service",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:37:50.772412+00:00"
+  },
+  "greenhouse:addepar1:8643120002": {
+    "fingerprint": "b160bb73363f466f32d8d3a5d05b2fa4cf9446e49e62f357965e461cbcb95722",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Must be legally authorized to work in the United States for any employer without requiring current or future visa sponsorship.",
+      "key_tech_skills": [
+        "Microsoft Excel",
+        "VBA",
+        "SQL",
+        "Python",
+        "Salesforce",
+        "Bloomberg",
+        "Thomson Reuters"
+      ],
+      "experience_years": "2+",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "data operations",
+        "portfolio data",
+        "capital markets",
+        "trade processing",
+        "middle/back-office operations systems"
+      ],
+      "tip": "Perform daily internal verification checks to ensure portfolio account data is accurate and available within SLAs.",
+      "salary": "$86,000 - $134,000 (base salary) + bonus + equity + benefits.",
+      "team": "Data Operations",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:38:05.430430+00:00"
+  },
+  "greenhouse:affirmedrxpbc:5372829008": {
+    "fingerprint": "6e646f85bb2321261dc5206771b22a60a7252c4f81a557ab14dce37a1130c40f",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Quantitative or technical field (Computer Science, Information Systems, Data Engineering) or equivalent experience.",
+      "qualifications": "1-3 years of experience working with SQL and cloud data warehouse platforms, preferably Snowflake.",
+      "eligibility": "F-1 OPT eligible",
+      "key_tech_skills": [
+        "SQL",
+        "Snowflake",
+        "Cloud data warehouse",
+        "Python",
+        "dbt"
+      ],
+      "experience_years": "1-3",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "SQL",
+        "Snowflake",
+        "Cloud data warehouse",
+        "Data engineering",
+        "Data analysis",
+        "Data modeling",
+        "Data quality",
+        "Data validation",
+        "Data security",
+        "Data integrity",
+        "Data transformation",
+        "Data migration"
+      ],
+      "tip": "Monitor daily Snowflake loads, file ingestion, and scheduled jobs.",
+      "salary": "Not listed",
+      "team": "Information Technology",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:38:19.914987+00:00"
+  },
+  "greenhouse:airbnb:8093038": {
+    "fingerprint": "1c073b51f6cf4eaee6f21678301fa10189cf13c7bc6929b43c652d2c102d06ae",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's and/or Master/PhD's degree, preferably in CS, or equivalent experience",
+      "qualifications": "4+ years of experience in test driven software development.",
+      "eligibility": "Not clearly stated",
+      "key_tech_skills": [
+        "Go",
+        "Python",
+        "Java",
+        "AWS",
+        "Azure",
+        "GCP",
+        "Kubernetes"
+      ],
+      "experience_years": "4+",
+      "minimum_years": 4,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "Go",
+        "Python",
+        "Java",
+        "AWS",
+        "Azure",
+        "GCP",
+        "Kubernetes",
+        "Cloud platforms",
+        "Infrastructure as code deployments",
+        "Test driven software development",
+        "Zero trust back end suite"
+      ],
+      "tip": "Work with open source products to build the next generation client platform for all Airbnb corporate endpoints.",
+      "salary": "$162,000 - $186,000 USD",
+      "team": "Software Engineering",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:38:55.817904+00:00"
+  },
+  "greenhouse:alertmedia:8654274002": {
+    "fingerprint": "e3b48fb7fd9c8096c19f19e35e77992b08087e6e3a3c52057f833fe50caea47f",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor\\'s degree in Computer Science or related field.",
+      "qualifications": "1-2 years of experience in IT security, security operations, systems administration, or a related technical role.",
+      "eligibility": "Eligible for F-1 OPT",
+      "key_tech_skills": [
+        "Microsoft Defender",
+        "Microsoft Sentinel",
+        "SIEM",
+        "EDR",
+        "PowerShell"
+      ],
+      "experience_years": "1-2 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "security operations",
+        "IT security",
+        "Microsoft Defender",
+        "Microsoft Sentinel",
+        "SIEM",
+        "EDR",
+        "PowerShell"
+      ],
+      "tip": "Monitor Microsoft Defender and Microsoft Sentinel for security alerts.",
+      "salary": "Not listed",
+      "team": "Information Technology",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:39:14.704631+00:00"
+  },
+  "greenhouse:accenturefederalservices:4699567006": {
+    "fingerprint": "1abd25ef430b2daa66ab62ab0e395b55ae13aefb88f89c725a0500866b6eb324",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science or related field.",
+      "qualifications": "Strong programming skills in Python; familiarity with Java/C++ is a plus.",
+      "eligibility": "Eligible for F-1 OPT.",
+      "key_tech_skills": [
+        "LLMs",
+        "RAG",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace"
+      ],
+      "experience_years": "2 years of experience in Large Language Models (LLMs) and Retrieval-Augmented Generation (RAG)",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Large Language Models",
+        "Retrieval-Augmented Generation",
+        "PyTorch",
+        "TensorFlow",
+        "HuggingFace"
+      ],
+      "tip": "Design, develop, and maintain RAG pipelines.",
+      "salary": "$108,400 - $185,100 USD",
+      "team": "57759672 - AFS Advanced AI",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:39:32.075896+00:00"
+  },
+  "greenhouse:accenturefederalservices:4695377006": {
+    "fingerprint": "50087ceec4efb2bd28ef59286f6e30b4d9e1dbc0a7c3107b4ad4072387e024c0",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science or related field.",
+      "qualifications": "5+ years of professional software development experience with AI/ML expertise.",
+      "eligibility": "Must have a TS/SCI level government clearance with a willingness to sit for a polygraph.",
+      "key_tech_skills": [
+        "LLMs",
+        "agentic frameworks",
+        "vector databases",
+        "semantic search",
+        "RAG pipelines",
+        "React",
+        "Next.js",
+        "Angular",
+        "Python",
+        "Node.js",
+        "Java",
+        "Go",
+        "PostgreSQL",
+        "MySQL",
+        "MongoDB"
+      ],
+      "experience_years": "5 years",
+      "minimum_years": 5,
+      "experience_fit": "NO",
+      "stop_after_experience": true,
+      "ats_keywords": [
+        "AI/ML Full Stack Engineer",
+        "Agentic AI",
+        "LLMs",
+        "React",
+        "Next.js",
+        "Angular",
+        "Python",
+        "Node.js",
+        "Java",
+        "Go",
+        "PostgreSQL",
+        "MySQL",
+        "MongoDB"
+      ],
+      "tip": "Design and build end-to-end AI-powered solutions.",
+      "salary": "$100,200 - $203,400 USD",
+      "team": "57759672 - AFS Advanced AI",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:39:50.074004+00:00"
+  },
+  "greenhouse:accenturefederalservices:4699806006": {
+    "fingerprint": "e235febbdb68c2cdfe2d6bf812bf97222ce9f92591eba4b8509ade04d25e7a07",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science or a related field",
+      "qualifications": "4+ years of IT Administration, Engineering, or Automation experience (including 3+ years of Cloud experience)",
+      "eligibility": "Satisfaction of 8570 IAT II requirements (typically CompTIA Security+)",
+      "key_tech_skills": [
+        "Azure",
+        "Cloud technologies",
+        "Container Orchestration",
+        "Security",
+        "Threat Hunt Analytics",
+        "Malicious Detections"
+      ],
+      "experience_years": "4",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Azure",
+        "Cloud",
+        "Security",
+        "CI/CD",
+        "Container Orchestration",
+        "Threat Hunt Analytics",
+        "Malicious Detections"
+      ],
+      "tip": "Develop and assist with Azure resource deployments using IaC and CaC",
+      "salary": "$100,200 - $203,400 USD",
+      "team": "60024445 - AFS Cyber Mission",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:40:09.313666+00:00"
+  },
+  "greenhouse:accenturefederalservices:4699112006": {
+    "fingerprint": "e44d8280c5bee0647a6c1279b6ec9a4c8a82744b7e9d0ce426b6a76768aab0ee",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science or related field.",
+      "qualifications": "Oracle Cloud ERP configuration and prompt engineering experience.",
+      "eligibility": "Must be a U.S. citizen.",
+      "key_tech_skills": [
+        "Oracle Cloud ERP",
+        "Prompt Engineering",
+        "AI/LLM",
+        "Workflows",
+        "Rules Engines"
+      ],
+      "experience_years": "2 years of relevant experience.",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Oracle Cloud ERP",
+        "Prompt Engineering",
+        "AI",
+        "Machine Learning",
+        "Workflow Automation",
+        "Rules Engine Development",
+        "Data Analysis",
+        "Business Process Improvement",
+        "Configuration Management",
+        "Testing and Validation"
+      ],
+      "tip": "Design, configure, and optimize Oracle Cloud ERP experiences using AI-driven logic.",
+      "salary": "$100,200 - $203,400 USD",
+      "team": "53969667 - AFS Oracle Financials",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:40:30.732658+00:00"
+  },
+  "greenhouse:accenturefederalservices:4699174006": {
+    "fingerprint": "042d51dabe885915339155b49072015fcd8a747571ef74463c24ba64523291c0",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "NO",
+      "opt_blocking_line": "U.S. Citizenship required",
+      "degree": "Not listed.",
+      "qualifications": "Not listed.",
+      "eligibility": "Not listed.",
+      "key_tech_skills": [
+        "Power BI",
+        "Dataverse",
+        "Power Automate",
+        "Python",
+        "Azure Data Factory",
+        "JavaScript/TypeScript",
+        "React",
+        "AI Builder",
+        "Azure OpenAI",
+        "Azure AI Search"
+      ],
+      "experience_years": "2-3 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Power BI",
+        "Dataverse",
+        "Power Automate",
+        "Python",
+        "Azure Data Factory",
+        "JavaScript/TypeScript",
+        "React",
+        "AI Builder",
+        "Azure OpenAI",
+        "Azure AI Search"
+      ],
+      "tip": "Support the development and maintenance of database solutions",
+      "salary": "$100,200 - $203,400 USD",
+      "team": "54557606 - AFS MS Biz- Apps- Power Platforms",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:40:51.212504+00:00"
+  },
+  "greenhouse:accenturefederalservices:4689886006": {
+    "fingerprint": "6cafa141bec9f56085b2571fc7df893463c737284b5940a531b0b782068cd55f",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor’s degree in Computer Science, Engineering or 4 years of relevant experience.",
+      "qualifications": "Proficiency in C and/or C++ development (academic or professional).",
+      "eligibility": "Bachelor’s degree in Computer Science, Engineering or 4 years of relevant experience.",
+      "key_tech_skills": [
+        "C/C++",
+        "Linux",
+        "React with TypeScript"
+      ],
+      "experience_years": "4",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "C/C++",
+        "Linux",
+        "React with TypeScript",
+        "Git",
+        "Data Structures",
+        "Algorithms",
+        "Debugging Practices"
+      ],
+      "tip": "Develop and maintain applications in C/C++ running on Linux environments.",
+      "salary": "$109,300 - $131,700 USD",
+      "team": "53969655 - AFS Custom Delivery",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:41:14.780070+00:00"
+  },
+  "greenhouse:anellophotonics:4373829006": {
+    "fingerprint": "e0365e628c3da3aa84359c70f2fce2be76cdcf8adb2ea2fdc51be40735d17204",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Degree in Engineering or a related field with strong technical background.",
+      "qualifications": "2+ years hands-on experience working with autonomous vehicles, drones, robotics, navigation, and/or other similar systems.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "IMU",
+        "gyroscopes",
+        "inertial measurement unit",
+        "photonic integrated circuit technology"
+      ],
+      "experience_years": "2+",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "autonomous vehicles",
+        "drones",
+        "robotics",
+        "navigation",
+        "gyroscopes",
+        "IMU",
+        "photonic integrated circuit technology"
+      ],
+      "tip": "Collaborate with ANELLO engineering and product teams to analyze data and ensure customer requirements are met.",
+      "salary": "Not listed",
+      "team": "R&D",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:41:29.950521+00:00"
+  },
+  "greenhouse:arcoeducacao:5790868004": {
+    "fingerprint": "c336ae538888d662f724cc1fe9bc825d0366d4311e0172ce60263161cbcb09b0",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Python",
+        "Git",
+        "LLMs",
+        "Vector Databases",
+        "Single agents",
+        "Multi agents"
+      ],
+      "experience_years": "2 years of experience in Machine Learning or related fields",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Machine Learning",
+        "Python",
+        "Data Analysis",
+        "Software Development",
+        "Cloud Computing",
+        "Artificial Intelligence",
+        "Natural Language Processing",
+        "Data Visualization",
+        "DevOps",
+        "Cybersecurity"
+      ],
+      "tip": "Analyze data to understand business needs.",
+      "salary": "Not listed",
+      "team": "Arco",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:41:45.230501+00:00"
+  },
+  "greenhouse:arcoeducacao:6008939004": {
+    "fingerprint": "67d55f787e1e2d72336e93230db0d2641551bacec31743bf293059df8778b59b",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "dbt",
+        "Airflow",
+        "Dataform",
+        "Snowflake",
+        "BigQuery",
+        "Redshift",
+        "Databricks",
+        "Looker",
+        "Metabase",
+        "Power BI"
+      ],
+      "experience_years": "2-3 anos",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "data engineering",
+        "analytics",
+        "data warehousing",
+        "big data",
+        "data science",
+        "machine learning",
+        "data visualization",
+        "database management",
+        "cloud computing",
+        "devops",
+        "agile development"
+      ],
+      "tip": "Desenvolver e aplicar modelos de dados dimensionais seguindo boas práticas de engenharia de dados.",
+      "salary": "Not listed",
+      "team": "Arco",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:42:03.757777+00:00"
+  },
+  "greenhouse:arcoeducacao:5396258004": {
+    "fingerprint": "134ffc99cc7b94d0a8b3bd4782a5c39ef992b34e59803f6fbae9a8e8f6676c3d",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Nodejs/Javascript/Typescript",
+        "AWS (SNS, SQS, Lambda, ApiGateway, RDS, S3, Cloudwatch)",
+        "Microsserviços, API's REST, Testes Unitários e de Integração, CI/CD, SQL, Docke…"
+      ],
+      "experience_years": "null",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Nodejs/Javascript/Typescript",
+        "AWS",
+        "Microsserviços, API's REST",
+        "Testes Unitários e de Integração",
+        "CI/CD",
+        "SQL",
+        "Docker",
+        "design patterns",
+        "SOLID",
+        "Clean Code and Architecture"
+      ],
+      "tip": "Auxiliar o time de produtos da squad (UX designer e PM), na criação e no comportamento do produto.",
+      "salary": "Not listed",
+      "team": "Produto & Design",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:42:20.564916+00:00"
+  },
+  "greenhouse:arcoeducacao:5393225004": {
+    "fingerprint": "739bc1913c2ed6485754b97bc171e386649bee875c8d3c67bf2f6cd0e107800a",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Scala",
+        "Java",
+        "Python",
+        "SQL",
+        "Algoritmos",
+        "Estruturas de dados",
+        "Escalabilidade",
+        "Frameworks de processamento distribuído",
+        "Conteinerização",
+        "Continuous integration",
+        "Continuous development",
+        "Continuous testing",
+        "Orquestração de workflows",
+        "Soluções Cloud"
+      ],
+      "experience_years": "At least 5 anos",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Scala",
+        "Java",
+        "Python",
+        "SQL",
+        "Algoritmos",
+        "Estruturas de dados",
+        "Escalabilidade",
+        "Frameworks de processamento distribuído",
+        "Conteinerização",
+        "Continuous integration",
+        "Continuous development",
+        "Continuous testing",
+        "Orquestração de workflows",
+        "Soluções Cloud"
+      ],
+      "tip": "Contribuir com o desenvolvimento da nossa plataforma de dados.",
+      "salary": "Not listed",
+      "team": "Tecnologia & Engenharia de Software",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:42:40.806784+00:00"
+  },
+  "greenhouse:arcoeducacao:5480861004": {
+    "fingerprint": "7b4a42dc5edd2da89e1a838ccb1386a60e5eafb52f1dc55fe60b3a939a5b765f",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Data analysis",
+        "Project management",
+        "Communication"
+      ],
+      "experience_years": "2-3 anos",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Data analysis",
+        "Project management",
+        "Communication",
+        "Business analysis",
+        "Operational planning",
+        "Leadership",
+        "Stakeholder management",
+        "Problem-solving",
+        "Collaboration",
+        "Time management",
+        "Budgeting",
+        "Reporting"
+      ],
+      "tip": "Analyze results of carteira to identify opportunities for optimization.",
+      "salary": "Not listed",
+      "team": "Compras & Supply Chain",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:42:54.282633+00:00"
+  },
+  "greenhouse:arcoeducacao:5751824004": {
+    "fingerprint": "586365d55ec869c31e0b5c6ca64c057379b472e109eaef7206c2d784e7fa75e8",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "SQL",
+        "Data Science",
+        "Data Engineering",
+        "Python"
+      ],
+      "experience_years": "2-3 anos",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Data Analysis",
+        "Business Intelligence",
+        "Credit Risk",
+        "Financial Modeling",
+        "Data Visualization",
+        "Business Strategy",
+        "Market Research",
+        "Competitive Analysis",
+        "Performance Metrics",
+        "Operational Excellence",
+        "Process Improvement",
+        "Change Management",
+        "Communication Skills",
+        "Collaboration",
+        "Problem-Solving"
+      ],
+      "tip": "Identify complex problems and propose data-driven solutions.",
+      "salary": "Not listed",
+      "team": "Estratégia, Performance & Dados",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:43:16.916416+00:00"
+  },
+  "greenhouse:arcoeducacao:6003545004": {
+    "fingerprint": "628ca24b46b81a659e9cfaa1a816cb84a038ce1557bb10aba26456608e543848",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Python",
+        "SQL",
+        "Airflow",
+        "dbt",
+        "Dataform",
+        "Cloud",
+        "APIs",
+        "webhooks"
+      ],
+      "experience_years": "2",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Python",
+        "SQL",
+        "Airflow",
+        "dbt",
+        "Dataform",
+        "Cloud",
+        "APIs",
+        "webhooks",
+        "LLMs",
+        "agentes",
+        "MCPs",
+        "LangFuse"
+      ],
+      "tip": "Contribuir na construção de produtos AI-driven para o ecossistema de dados — agentes, chatbots, sistemas de reescrita automática de queries, geração automatizada de modelos e documentação.",
+      "salary": "Not listed",
+      "team": "Arco",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:43:34.326977+00:00"
+  },
+  "greenhouse:arcoeducacao:6003541004": {
+    "fingerprint": "9f0ffce0f1dd3ae685120d588091076fecfa81c1ae371327996d6404d547cc9b",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Python",
+        "Scala",
+        "Java",
+        "Go",
+        "SQL",
+        "Algoritmos",
+        "Estruturas de dados",
+        "Escalabilidade de aplicações",
+        "Frameworks de processamento distribuído",
+        "Conteinerização",
+        "Deploy com Docker e Kubernetes",
+        "CI/CD",
+        "Monitoramento e observabilidade de plataforma",
+        "Orquestração de pipelines"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Python",
+        "Scala",
+        "Java",
+        "Go",
+        "SQL",
+        "Algoritmos",
+        "Estruturas de dados",
+        "Escalabilidade de aplicações",
+        "Frameworks de processamento distribuído",
+        "Conteinerização",
+        "Deploy com Docker e Kubernetes",
+        "CI/CD",
+        "Monitoramento e observabilidade de plataforma"
+      ],
+      "tip": "Conduzir code reviews com profundidade técnica, apontando trade-offs de performance, custo e manutenibilidade.",
+      "salary": "Not listed",
+      "team": "Arco",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:43:52.850133+00:00"
+  },
+  "greenhouse:arcoeducacao:5222026004": {
+    "fingerprint": "d939179c5059c710ed80e00d946882e77d7fc95afc2b753742ca8d11237b0cab",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "React",
+        "React Native"
+      ],
+      "experience_years": "3",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "React",
+        "JavaScript",
+        "Software Development",
+        "Cloud Computing",
+        "Data Analysis",
+        "DevOps",
+        "Agile Methodologies",
+        "Project Management",
+        "Team Leadership",
+        "Communication Skills",
+        "Problem Solving",
+        "Critical Thinking",
+        "Collaboration",
+        "Innovation",
+        "Adaptability"
+      ],
+      "tip": "Deliver soluções técnicas com velocidade e qualidade.",
+      "salary": "Not listed",
+      "team": "Tecnologia & Engenharia de Software",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:44:05.392302+00:00"
+  },
+  "greenhouse:asteralabs:4586713005": {
+    "fingerprint": "e9b62cc2046dc5521f9d2a7298b470ca34ccdab3242ccbb1e8cc8958f80b7c5d",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "CXL",
+        "Ethernet",
+        "NVLink",
+        "PCIe",
+        "UALink",
+        "Firmware & Embedded Systems",
+        "Software & Validation"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "CXL",
+        "PCIe",
+        "Firmware",
+        "Embedded Systems",
+        "Software",
+        "Validation",
+        "Hardware Engineering",
+        "ASIC",
+        "Mixed-Signal",
+        "PCB",
+        "Ethernet",
+        "NVLink",
+        "UALink"
+      ],
+      "tip": "Show your passion: Tell us how you can contribute to enterprise-scale AI connectivity.",
+      "salary": "Not listed",
+      "team": "Open Application",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:44:48.606355+00:00"
+  },
+  "greenhouse:aurorainnovation:8642293002": {
+    "fingerprint": "db46caf462251717c074952b729237be79553276e3d13ac77c81b1c86fa9a0c6",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science, Engineering, or a related field and a minimum of 3 years of prior relevant experience.",
+      "qualifications": "Proficiency in Python and/or JavaScript/TypeScript for building production automation and workflow tooling (not just scripting), Experience with Bash/shell scripting for systems-level automation tasks, Experience working with event-driven architectures such a…",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Python",
+        "JavaScript/TypeScript",
+        "Bash/shell scripting",
+        "Event-driven architectures",
+        "LLM-driven automations",
+        "REST APIs",
+        "GraphQL APIs",
+        "OAuth2.0/OIDC",
+        "API authentication"
+      ],
+      "experience_years": "3 years",
+      "minimum_years": 3,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Python",
+        "JavaScript/TypeScript",
+        "Bash/shell scripting",
+        "Event-driven architectures",
+        "LLM-driven automations",
+        "REST APIs",
+        "GraphQL APIs",
+        "OAuth2.0/OIDC",
+        "API authentication"
+      ],
+      "tip": "Build automation for employee and contractor onboarding and offboarding workflows.",
+      "salary": "$94,000 - $136,500 per year",
+      "team": "Corporate IT",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:45:11.821722+00:00"
+  },
+  "greenhouse:aurorainnovation:8641734002": {
+    "fingerprint": "00397940569cbd7c97742d40f1ad3b8672dc1b0b3498c099c2f9a426d53b9e49",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science, Engineering, or a related field and a minimum of 3 years of prior relevant experience.",
+      "qualifications": "Proficiency in Python and/or JavaScript/TypeScript for building production automation and workflow tooling (not just scripting), Experience with Bash/shell scripting for systems-level automation tasks, Experience working with event-driven architectures such a…",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Python",
+        "JavaScript/TypeScript",
+        "Bash/shell scripting",
+        "Event-driven architectures",
+        "LLM-driven automations",
+        "REST APIs",
+        "GraphQL APIs",
+        "OAuth2.0/OIDC",
+        "API authentication"
+      ],
+      "experience_years": "3 years",
+      "minimum_years": 3,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Python",
+        "JavaScript/TypeScript",
+        "Bash/shell scripting",
+        "Event-driven architectures",
+        "LLM-driven automations",
+        "REST APIs",
+        "GraphQL APIs",
+        "OAuth2.0/OIDC",
+        "API authentication"
+      ],
+      "tip": "Build automation for employee and contractor onboarding and offboarding workflows.",
+      "salary": "$104,000 - $151,000 per year",
+      "team": "Corporate IT",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:45:37.840994+00:00"
+  },
+  "greenhouse:avride:4013017009": {
+    "fingerprint": "4c65d60afce45decd415ac317f349902c16596963a551bdd252f071de374e155",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science or related field.",
+      "qualifications": "Exceptional proficiency in modern C++ and a deep understanding of object-oriented design principles.",
+      "eligibility": "Eligible for F-1 OPT.",
+      "key_tech_skills": [
+        "C++",
+        "Machine Learning",
+        "Algorithms",
+        "Data Structures",
+        "GPU Programming"
+      ],
+      "experience_years": "2+ years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "C++",
+        "Motion Planning",
+        "Autonomous Vehicles",
+        "Real-time Systems",
+        "Robotics",
+        "Computer Vision",
+        "Perception",
+        "Prediction",
+        "Control Systems"
+      ],
+      "tip": "Design cutting-edge motion planning algorithms.",
+      "salary": "Not listed",
+      "team": "Motion Planning",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:45:48.443600+00:00"
+  },
+  "greenhouse:avride:4320571009": {
+    "fingerprint": "bc7f25f85fe7fdf653edb97608fd069cd36ca9512c8e1a0857b6318b68f2dc81",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's or Master's degree in Computer Science, Robotics, Electrical Engineering, Math, Physics or related STEM fields or equivalent years of experience.",
+      "qualifications": "Minimum of 5 years of experience in production software development.",
+      "eligibility": "Authorized to work in the U.S.",
+      "key_tech_skills": [
+        "C++",
+        "Python",
+        "ROS",
+        "Linux networking"
+      ],
+      "experience_years": "5",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "C++",
+        "Python",
+        "ROS",
+        "Linux",
+        "Automotive Cameras",
+        "LiDAR",
+        "Radar",
+        "IMU",
+        "GNSS"
+      ],
+      "tip": "Design, develop, optimize and maintain low-latency, robust device drivers and software pipelines for Camera, LiDAR, Radar, IMU, GNSS, Microphones, and other autonomous vehicle sensors and actuators.",
+      "salary": "Not listed",
+      "team": "Sensors and System Software team",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:46:01.270691+00:00"
+  },
+  "greenhouse:avride:4205615009": {
+    "fingerprint": "a4d048c77c9d7379d9daac2dae676c4284e1195b2e8e0e53e887532a6bc31799",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science or related field.",
+      "qualifications": "Strong proficiency in Python or Go; C++ is a plus.",
+      "eligibility": "Must be authorized to work in the U.S. and have a valid OPT status.",
+      "key_tech_skills": [
+        "Python",
+        "Go",
+        "C++",
+        "Kubernetes",
+        "Argo Workflows",
+        "Ray"
+      ],
+      "experience_years": "2-4 years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Python",
+        "Kubernetes",
+        "Cloud Platform",
+        "ML Platform",
+        "Distributed Execution",
+        "Scalable Orchestration",
+        "Performance Optimization",
+        "Resource Governance",
+        "Multi-Tenant Resource Management",
+        "GPU Scheduling",
+        "CPU Performance",
+        "Memory Optimization"
+      ],
+      "tip": "Build and scale our ML compute platform on Kubernetes.",
+      "salary": "Not listed",
+      "team": "Cloud",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:46:13.976778+00:00"
+  },
+  "greenhouse:avride:4013074009": {
+    "fingerprint": "c9bbc460f3abda9956815e9b76f35c47d842091fe1aac9580bf42f2fcf88422c",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Python",
+        "Java",
+        "Go",
+        "AWS",
+        "S3",
+        "EKS",
+        "Redis",
+        "Kafka",
+        "Postgres",
+        "Terraform"
+      ],
+      "experience_years": "3+",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Python",
+        "Java",
+        "Go",
+        "AWS",
+        "S3",
+        "EKS",
+        "Redis",
+        "Kafka",
+        "Postgres",
+        "Terraform",
+        "Cloud-native architecture",
+        "Distributed systems",
+        "Containerization",
+        "Orchestration"
+      ],
+      "tip": "Designing backend services for managing and orchestrating simulation jobs at scale.",
+      "salary": "Not listed",
+      "team": "Analytics",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:46:29.233684+00:00"
+  },
+  "greenhouse:axle:4840335007": {
+    "fingerprint": "bf5da70f992ac640e73420267977ecc93d23536a5c0ff0446902d6a2b124cb64",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "PhD in computer science, engineering, applied mathematics, or a related field",
+      "qualifications": "Candidates must possess a PhD in computer science, engineering, applied mathematics, or a related field with demonstrated experience in AI/ML model development",
+      "eligibility": "Not clearly stated",
+      "key_tech_skills": [
+        "Python",
+        "R",
+        "TensorFlow",
+        "PyTorch",
+        "scikit-learn"
+      ],
+      "experience_years": "2",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Python",
+        "Machine Learning",
+        "Artificial Intelligence",
+        "Deep Learning",
+        "Computer Vision",
+        "Natural Language Processing",
+        "Data Science",
+        "Biological Data Analysis",
+        "Organoid Systems",
+        "Tissue Engineering",
+        "Systems Biology Modeling"
+      ],
+      "tip": "Design and implement machine learning models that predict organoid development outcomes",
+      "salary": "$100,000 - $",
+      "team": "Biomedical",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:46:46.969892+00:00"
+  },
+  "greenhouse:bankrate:8052806": {
+    "fingerprint": "7822f6160c325fd751a3bdeb00090fde18dbc60297c29c8e60a2f7b0fdf47ba0",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Proficient in one or more programming languages and experienced in database technologies and cloud infrastructure.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "TypeScript",
+        "API services",
+        "Full-stack web frameworks",
+        "Cloud infrastructure",
+        "Infrastructure-as-code",
+        "CI/CD pipelines",
+        "Agile development methodologies",
+        "Database technologies",
+        "Observability tooling"
+      ],
+      "experience_years": "5",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "TypeScript",
+        "API services",
+        "Full-stack web frameworks",
+        "Cloud infrastructure",
+        "CI/CD pipelines",
+        "Agile development methodologies",
+        "Database technologies",
+        "Observability tooling"
+      ],
+      "tip": "Design, build, and maintain scalable and reliable systems or product features.",
+      "salary": "$80,000 – $140,000 per year",
+      "team": "Bankrate",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:47:05.131144+00:00"
+  },
+  "greenhouse:bankrate:8051207": {
+    "fingerprint": "ef0a5a4ee6c4d8b88cb9fd0df61e36d42b8809029c5c2a03204fa40f5ff41e1c",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Bachelor's degree in Computer Science or related field.",
+      "qualifications": "4+ years of experience in software engineering with a strong understanding of software architecture, data modeling, and design patterns.",
+      "eligibility": "Eligible for F-1 OPT sponsorship.",
+      "key_tech_skills": [
+        "TypeScript",
+        "Cloud infrastructure",
+        "CI/CD pipelines",
+        "Agile development methodologies",
+        "Database technologies"
+      ],
+      "experience_years": "4+ years",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "TypeScript",
+        "Cloud computing",
+        "Software engineering",
+        "Agile development",
+        "Database management"
+      ],
+      "tip": "Design and build scalable software systems.",
+      "salary": "$80,000 - $140,000 per year",
+      "team": "Bankrate",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:47:17.934969+00:00"
+  },
+  "greenhouse:axon:7576971003": {
+    "fingerprint": "ef3461acaa88f28339e187c334d58478c25bfad0a8a6c4fcf4a664da388cdb62",
+    "analysis": {
+      "us_location_eligible": "YES",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Unity",
+        "C#",
+        "Real-time 3D development"
+      ],
+      "experience_years": "3+",
+      "minimum_years": null,
+      "experience_fit": "UNKNOWN",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Unity",
+        "C#",
+        "Real-time 3D development",
+        "Software Engineering",
+        "VR Development"
+      ],
+      "tip": "Build interactive VR training experiences using Unity and C#.",
+      "salary": "$106,500 - $170,400 USD",
+      "team": "2018 R&D - Virtual Reality",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:47:48.160600+00:00"
+  },
+  "greenhouse:baringa:4930645101": {
+    "fingerprint": "616b1136c3db7a8cc649f1b3260e776afb5a747230dc124bbcad2f075fd90ec4",
+    "analysis": {
+      "us_location_eligible": "NO",
+      "opt_eligible": "YES",
+      "opt_blocking_line": "",
+      "degree": "Not clearly stated.",
+      "qualifications": "Not clearly stated.",
+      "eligibility": "Not clearly stated.",
+      "key_tech_skills": [
+        "Microsoft Office",
+        "SharePoint",
+        "Data analysis"
+      ],
+      "experience_years": "2-3 years",
+      "minimum_years": 2,
+      "experience_fit": "YES",
+      "stop_after_experience": false,
+      "ats_keywords": [
+        "Account Growth",
+        "Alliances",
+        "Marketing",
+        "Operations",
+        "Consulting"
+      ],
+      "tip": "Support the day-to-day running of Baringa’s international Account Growth and Alliances activity.",
+      "salary": "Not listed",
+      "team": "Marketing",
+      "analysis_failed": false
+    },
+    "analyzed_at": "2026-07-29T03:48:08.770173+00:00"
   }
 }
