@@ -1,17 +1,27 @@
-# Nested repo with its own history/remote - managed independently
-with flask/web/
+# Secrets
+.env
+.env.local
+.env.local.web
+web/.env.local
 
-.venv/
-venv/
+# Python
 __pycache__/
 *.py[cod]
-.DS_Store
+.pytest_cache/
+.venv/
+venv/
 
-.env
-jobs_store.json
-viewed_jobs.json
-analysis_cache.json
-brandfetch_logo_cache.json
-relevance_cache.json
-scan_status.json
-seen_ids.json
+# Node / Next
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+
+# Volatile scan state, rewritten on every run.
+# The catalogs, the analysis cache and the packaged snapshot stay tracked —
+# the cache in particular is expensive inference we do not want to re-pay.
+data/jobs_store.json
+data/scan_status.json
+
+# OS
+.DS_Store

@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+/*
+  One dark-first surface scale plus a single electric accent.
+  Everything else is spacing and type.
+*/
+
+@theme {
+  --color-bg: oklch(0.145 0.012 265);
+  --color-surface: oklch(0.185 0.014 265);
+  --color-surface-2: oklch(0.225 0.016 265);
+  --color-line: oklch(0.30 0.018 265);
+  --color-line-soft: oklch(0.26 0.016 265);
+
+  --color-text: oklch(0.97 0.004 265);
+  --color-muted: oklch(0.72 0.014 265);
+  --color-faint: oklch(0.56 0.016 265);
+
+  --color-accent: oklch(0.78 0.19 155);
+  --color-accent-ink: oklch(0.18 0.05 155);
+  --color-accent-dim: oklch(0.45 0.11 155);
+
+  --color-warn: oklch(0.80 0.16 78);
+  --color-danger: oklch(0.68 0.19 22);
+  --color-info: oklch(0.75 0.14 240);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --radius-card: 1rem;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+/* A slow aurora wash behind the hero. Purely decorative. */
+.aurora {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.aurora::before,
+.aurora::after {
+  content: "";
+  position: absolute;
+  width: 46rem;
+  height: 46rem;
+  border-radius: 9999px;
+  filter: blur(120px);
+  opacity: 0.16;
+}
+
+.aurora::before {
+  background: var(--color-accent);
+  top: -22rem;
+  left: -12rem;
+  animation: drift 22s ease-in-out infinite alternate;
+}
+
+.aurora::after {
+  background: var(--color-info);
+  top: -26rem;
+  right: -14rem;
+  animation: drift 28s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes drift {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(3rem, 2rem, 0) scale(1.12);
+  }
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.shimmer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in oklch, var(--color-accent) 22%, transparent),
+    transparent
+  );
+  animation: shimmer 1.8s infinite;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.4s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora::before,
+  .aurora::after,
+  .shimmer::after,
+  .rise {
+    animation: none;
+  }
+}
+
+::selection {
+  background: color-mix(in oklch, var(--color-accent) 30%, transparent);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-line);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-faint);
+}
