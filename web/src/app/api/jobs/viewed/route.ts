@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
 
 import { fetchScanner, scannerAvailable } from "@/server/scanner-client"
+import { requireSession } from "@/server/guard"
 
 export async function POST(request: Request) {
+  const denied = await requireSession()
+
+  if (denied) return denied
+
   const body = await request.json().catch(() => ({}))
 
   if (!body?.uid) {

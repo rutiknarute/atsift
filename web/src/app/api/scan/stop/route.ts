@@ -1,8 +1,13 @@
 import { NextResponse } from "next/server"
 
 import { fetchScanner, scannerAvailable } from "@/server/scanner-client"
+import { requireSession } from "@/server/guard"
 
 export async function POST() {
+  const denied = await requireSession()
+
+  if (denied) return denied
+
   if (!(await scannerAvailable())) {
     return NextResponse.json({ stopping: false }, { status: 503 })
   }

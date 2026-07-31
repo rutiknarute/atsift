@@ -46,6 +46,9 @@ export interface Job {
   location_verdict?: "US" | "NON_US" | "AMBIGUOUS"
   analysis?: JobAnalysis
   viewed?: boolean
+  logo_url?: string | null
+  logo_fallback_url?: string | null
+  ats_logo_url?: string | null
 }
 
 export interface ScanStatus {

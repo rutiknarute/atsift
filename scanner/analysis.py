@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from datetime import datetime, timezone
 
 import requests
@@ -21,7 +22,138 @@ from scanner.config import (
     OLLAMA_URL,
     USE_OLLAMA_ANALYSIS,
 )
-from scanner.text import compact_list, compact_text
+from scanner.experience import resolve_experience
+from scanner.text import compact_list, compact_text, strip_html
+
+_SKILL_TERMS = (
+    ("Python", r"\bpython\b"),
+    ("Java", r"\bjava\b"),
+    ("JavaScript", r"\bjavascript\b"),
+    ("TypeScript", r"\btypescript\b"),
+    ("React", r"\breact(?:\.js)?\b"),
+    ("Next.js", r"\bnext\.?js\b"),
+    ("Node.js", r"\bnode\.?js\b"),
+    ("Go", r"\bgolang\b|\bgo programming\b"),
+    ("C++", r"(?<!\w)c\+\+(?!\w)"),
+    ("C#", r"(?<!\w)c#(?!\w)"),
+    ("SQL", r"\bsql\b"),
+    ("PostgreSQL", r"\bpostgres(?:ql)?\b"),
+    ("MySQL", r"\bmysql\b"),
+    ("MongoDB", r"\bmongodb\b"),
+    ("Redis", r"\bredis\b"),
+    ("AWS", r"\baws\b|amazon web services"),
+    ("Azure", r"\bazure\b"),
+    ("Google Cloud", r"\bgcp\b|google cloud"),
+    ("Docker", r"\bdocker\b"),
+    ("Kubernetes", r"\bkubernetes\b|\bk8s\b"),
+    ("Terraform", r"\bterraform\b"),
+    ("Linux", r"\blinux\b"),
+    ("Git", r"\bgit\b"),
+    ("REST APIs", r"\brest(?:ful)?\s+apis?\b"),
+    ("GraphQL", r"\bgraphql\b"),
+    ("Kafka", r"\bkafka\b"),
+    ("Spark", r"\bapache spark\b|\bspark\b"),
+    ("Snowflake", r"\bsnowflake\b"),
+    ("Databricks", r"\bdatabricks\b"),
+    ("Tableau", r"\btableau\b"),
+    ("Power BI", r"\bpower\s*bi\b"),
+    ("Excel", r"\bexcel\b"),
+    ("Salesforce", r"\bsalesforce\b"),
+    ("Machine Learning", r"\bmachine learning\b"),
+    ("Deep Learning", r"\bdeep learning\b"),
+    ("LLMs", r"\bllms?\b|large language models?"),
+    ("Generative AI", r"\bgenerative ai\b|\bgenai\b"),
+    ("NLP", r"\bnlp\b|natural language processing"),
+    ("Computer Vision", r"\bcomputer vision\b"),
+    ("Data Analysis", r"\bdata analysis\b|\bdata analytics\b"),
+    ("Data Engineering", r"\bdata engineering\b"),
+    ("ETL", r"\betl\b|\belt\b"),
+    ("CI/CD", r"\bci/?cd\b|continuous integration"),
+    ("Agile", r"\bagile\b"),
+    ("Product Management", r"\bproduct management\b"),
+)
+
+
+def _description_sentences(value: str | None) -> list[str]:
+    text = strip_html(str(value or ""))
+
+    return [
+        compact_text(part, default="", maximum=260)
+        for part in re.split(r"\n+|(?<=[.!?;])\s+", text)
+        if part.strip()
+    ]
+
+
+def _first_sentence(sentences: list[str], pattern: str) -> str:
+    matcher = re.compile(pattern, re.IGNORECASE)
+
+    return next(
+        (sentence for sentence in sentences if matcher.search(sentence)),
+        "",
+    )
+
+
+def _deterministic_skills(description: str) -> list[str]:
+    return [
+        label
+        for label, pattern in _SKILL_TERMS
+        if re.search(pattern, description, re.IGNORECASE)
+    ][:15]
+
+
+def _deterministic_salary(
+    salary_context: str,
+    sentences: list[str],
+) -> str:
+    if salary_context.strip():
+        return compact_text(salary_context, maximum=180)
+
+    salary = _first_sentence(
+        sentences,
+        r"(?:\$|usd\b|salary|compensation).{0,120}"
+        r"(?:\d[\d,.]*\s*(?:k|per year|annually)?)",
+    )
+
+    return salary or "Not listed."
+
+
+def analysis_description(value: str | None) -> str:
+    """
+    Keep requirements visible even when a long JD exceeds the model budget.
+
+    ATS descriptions often put employer boilerplate first and qualifications
+    near the end. A plain prefix truncation is therefore biased against the
+    exact experience evidence this analysis needs.
+    """
+
+    description = strip_html(str(value or "")).strip()
+
+    if len(description) <= MAX_DESCRIPTION_CHARS:
+        return description
+
+    excerpts = [
+        part.strip()
+        for part in re.split(r"\n+|(?<=[.!?;])\s+", description)
+        if re.search(
+            r"\b(?:experience|years?|months?|qualifications?|requirements?)\b",
+            part,
+            re.IGNORECASE,
+        )
+    ]
+    evidence = "\n".join(excerpts)
+    evidence_budget = min(2_500, MAX_DESCRIPTION_CHARS // 3)
+    evidence = evidence[:evidence_budget]
+    remaining = MAX_DESCRIPTION_CHARS - len(evidence) - 48
+    head_size = max(0, int(remaining * 0.65))
+    tail_size = max(0, remaining - head_size)
+
+    return (
+        f"{description[:head_size]}\n\n"
+        "REQUIREMENT EXCERPTS\n"
+        f"{evidence}\n\n"
+        f"{description[-tail_size:] if tail_size else ''}"
+    )[:MAX_DESCRIPTION_CHARS]
+
 
 def analysis_fingerprint(job: dict) -> str:
     source_text = "|".join(
@@ -32,9 +164,7 @@ def analysis_fingerprint(job: dict) -> str:
             str(job.get("location") or ""),
             str(job.get("team") or ""),
             str(job.get("salary_context") or ""),
-            str(job.get("description") or "")[
-                :MAX_DESCRIPTION_CHARS
-            ],
+            str(job.get("description") or ""),
         ]
     )
 
@@ -43,44 +173,104 @@ def analysis_fingerprint(job: dict) -> str:
     ).hexdigest()
 
 
-def fallback_analysis() -> dict:
+def fallback_analysis(job: dict | None = None) -> dict:
+    source_job = job or {}
+    description = strip_html(
+        str(source_job.get("description") or "")
+    )
+    sentences = _description_sentences(description)
+    experience = resolve_experience(
+        experience_text=None,
+        model_minimum=None,
+        description=description,
+    )
+    degree = _first_sentence(
+        sentences,
+        r"\b("
+        r"bachelor'?s?|master'?s?|ph\.?d|doctorate|"
+        r"associate'?s?|college degree|university degree|degree in"
+        r")\b",
+    )
+    blocker = _first_sentence(
+        sentences,
+        r"\b("
+        r"no (?:current or future )?sponsorship|"
+        r"without (?:the need for )?sponsorship|"
+        r"unable to sponsor|not (?:eligible|available) for sponsorship|"
+        r"u\.?s\.? citizens? only|required u\.?s\.? citizenship|"
+        r"permanent residents? only|security clearance"
+        r")\b",
+    )
+    skills = _deterministic_skills(description)
+    qualifications = (
+        experience.text
+        if experience.minimum_years is not None
+        else (
+            _first_sentence(
+                sentences,
+                r"\b(required qualifications?|minimum qualifications?|"
+                r"what you(?:'|’)ll bring|what you bring|you have|must have)\b",
+            )
+            or "Review the qualifications in the full posting."
+        )
+    )
+    stop_after_experience = (
+        experience.minimum_years is not None
+        and experience.minimum_years >= 4
+    )
+
     return {
         "us_location_eligible": "UNKNOWN",
-        "opt_eligible": "UNKNOWN",
-        "opt_blocking_line": (
-            "Ollama analysis was unavailable. "
-            "Review the job description manually."
+        "opt_eligible": "NO" if blocker else "UNKNOWN",
+        "opt_blocking_line": blocker,
+        "degree": degree or "Not stated in JD.",
+        "qualifications": qualifications,
+        "eligibility": (
+            blocker
+            or "No explicit work-authorization restriction was found "
+            "by the rule-based review."
         ),
-        "degree": "Analysis unavailable.",
-        "qualifications": "Analysis unavailable.",
-        "eligibility": "Analysis unavailable.",
-        "key_tech_skills": [],
-        "experience_years": "Analysis unavailable.",
-        "minimum_years": None,
-        "experience_fit": "UNKNOWN",
-        "stop_after_experience": False,
-        "ats_keywords": [],
-        "tip": "Review the complete job description manually.",
-        "salary": "Not listed.",
-        "team": "Not listed.",
+        "key_tech_skills": skills,
+        "experience_years": experience.text,
+        "minimum_years": experience.minimum_years,
+        "experience_fit": (
+            "NO"
+            if stop_after_experience
+            else (
+                "YES"
+                if experience.minimum_years is not None
+                else "UNKNOWN"
+            )
+        ),
+        "stop_after_experience": stop_after_experience,
+        "ats_keywords": skills,
+        "tip": (
+            "Verify the extracted requirements against the full posting "
+            "before applying."
+        ),
+        "salary": _deterministic_salary(
+            str(source_job.get("salary_context") or ""),
+            sentences,
+        ),
+        "team": compact_text(
+            source_job.get("team"),
+            default="Not listed.",
+            maximum=160,
+        ),
         "analysis_failed": True,
     }
 
 
-def normalize_analysis(result: dict) -> dict:
-    minimum_years = result.get("minimum_years")
-
-    if isinstance(minimum_years, bool):
-        minimum_years = None
-
-    if isinstance(minimum_years, str):
-        try:
-            minimum_years = float(minimum_years)
-        except ValueError:
-            minimum_years = None
-
-    if not isinstance(minimum_years, (int, float)):
-        minimum_years = None
+def normalize_analysis(result: dict, job: dict | None = None) -> dict:
+    source_job = job or {}
+    experience = resolve_experience(
+        experience_text=result.get("experience_years"),
+        model_minimum=result.get("minimum_years"),
+        qualifications=result.get("qualifications"),
+        degree=result.get("degree"),
+        description=source_job.get("description"),
+    )
+    minimum_years = experience.minimum_years
 
     stop_after_experience = (
         minimum_years is not None
@@ -147,10 +337,7 @@ def normalize_analysis(result: dict) -> dict:
             result.get("key_tech_skills"),
             maximum_items=15,
         ),
-        "experience_years": compact_text(
-            result.get("experience_years"),
-            maximum=180,
-        ),
+        "experience_years": experience.text,
         "minimum_years": minimum_years,
         "experience_fit": experience_fit,
         "stop_after_experience": stop_after_experience,
@@ -173,9 +360,7 @@ def normalize_analysis(result: dict) -> dict:
 
 
 def analyze_job_with_ollama(job: dict) -> dict:
-    description = str(
-        job.get("description") or ""
-    )[:MAX_DESCRIPTION_CHARS]
+    description = analysis_description(job.get("description"))
 
     source_team = str(
         job.get("team") or ""
@@ -267,11 +452,17 @@ SKILLS:
 - No explanations.
 
 EXPERIENCE:
-- Extract the minimum required professional experience.
+- Extract every mandatory professional-experience clause.
 - Ignore preferred experience unless it is also required.
 - minimum_years must be a number or null.
 - experience_years must quote or closely preserve the JD's concise
-  experience requirement, including the number and unit when stated.
+  mandatory experience requirement, including every required number and unit.
+- When requirements are joined by AND or WITH, minimum_years is the highest
+  lower bound because the candidate must satisfy all of them.
+- When genuinely alternative paths are joined by OR, minimum_years is the
+  lowest lower bound because either path satisfies the posting.
+- Do not count years attached only to education, age, a certification,
+  product history, or a preferred/nice-to-have qualification.
 - Never infer a number that the JD does not state.
 - The application will automatically stop after this question when
   minimum_years is 4 or more.
@@ -339,7 +530,7 @@ Return only JSON matching the supplied schema.
                 "Ollama response was not a JSON object"
             )
 
-        return normalize_analysis(parsed)
+        return normalize_analysis(parsed, job)
 
     except (
         requests.RequestException,
@@ -351,7 +542,7 @@ Return only JSON matching the supplied schema.
             f"'{job.get('title')}': {error}"
         )
 
-        return fallback_analysis()
+        return fallback_analysis(job)
 
 
 def get_job_analysis(
@@ -359,7 +550,7 @@ def get_job_analysis(
     cache: dict,
 ) -> dict:
     if not USE_OLLAMA_ANALYSIS:
-        return fallback_analysis()
+        return fallback_analysis(job)
 
     uid = job["uid"]
     fingerprint = analysis_fingerprint(job)
@@ -371,7 +562,12 @@ def get_job_analysis(
         and cached.get("fingerprint") == fingerprint
         and isinstance(cached.get("analysis"), dict)
     ):
-        return cached["analysis"]
+        normalized = normalize_analysis(cached["analysis"], job)
+
+        if normalized != cached["analysis"]:
+            cached["analysis"] = normalized
+
+        return normalized
 
     analysis = analyze_job_with_ollama(job)
 
@@ -384,3 +580,23 @@ def get_job_analysis(
     }
 
     return analysis
+
+
+def normalize_job_analysis(job: dict) -> dict:
+    """Repair a stored analysis against its retained JD text."""
+
+    analysis = job.get("analysis")
+
+    if not isinstance(analysis, dict):
+        job["analysis"] = fallback_analysis(job)
+
+        return job
+
+    if analysis.get("analysis_failed"):
+        job["analysis"] = fallback_analysis(job)
+
+        return job
+
+    job["analysis"] = normalize_analysis(analysis, job)
+
+    return job

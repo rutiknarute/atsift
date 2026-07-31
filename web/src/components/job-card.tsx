@@ -1,243 +1,273 @@
 "use client"
 
-import { useState } from "react"
+import { useId, useState } from "react"
 import {
   ArrowUpRight,
   Building2,
   CheckCircle2,
   ChevronDown,
-  CircleHelp,
+  CircleAlert,
   MapPin,
-  TriangleAlert,
 } from "lucide-react"
 
-import { cleanExperience, cn, formatAge, formatStamp } from "@/lib/utils"
+import { AtsBadge, LogoTile } from "@/components/brand"
+import { detectBlocker } from "@/lib/eligibility"
+import { experienceLabel } from "@/lib/experience"
+import { cn, formatAge, formatStamp } from "@/lib/utils"
 import type { Job } from "@/lib/types"
-
-const ATS_LABELS: Record<string, string> = {
-  greenhouse: "Greenhouse",
-  ashby: "Ashby",
-  lever: "Lever",
-  smartrecruiters: "SmartRecruiters",
-  workable: "Workable",
-  workday: "Workday",
-}
 
 type Panel = "qa" | "summary" | null
 
 interface JobCardProps {
   job: Job
   lastSeen: string | null
-  onView: (uid: string) => void
+  onApply: (uid: string) => void
 }
 
-export function JobCard({ job, lastSeen, onView }: JobCardProps) {
+export function JobCard({ job, lastSeen, onApply }: JobCardProps) {
   const [panel, setPanel] = useState<Panel>(null)
+  const panelId = useId()
 
   const analysis = job.analysis
+  // `viewed` is what the scanner persists; opening the posting from the apply
+  // button is the only thing that sets it, so it reads as "applied" here.
+  const applied = Boolean(job.viewed)
+  const detailsAvailable = Boolean(analysis)
   const blocked = analysis?.opt_eligible === "NO"
-  const stale = job.age_hours !== null && job.age_hours > 120
+  // Read from the posting's own wording, not from the model's verdict.
+  const blocker = detectBlocker(job)
 
   function toggle(next: Exclude<Panel, null>) {
     setPanel((current) => (current === next ? null : next))
   }
 
   return (
-    <article
-      className={cn(
-        "rounded-[var(--radius-card)] border bg-surface/60 backdrop-blur-sm transition-colors",
-        job.viewed ? "border-line-soft/60" : "border-line-soft",
-        "hover:border-faint",
-      )}
-    >
-      <div className="p-5">
-        {/* Title block */}
-        <div className="flex items-start gap-3">
-          <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-line-soft bg-surface-2 text-faint">
-            <Building2 className="size-4" />
-          </span>
+    <article className="flex min-w-0 flex-col rounded-[var(--radius-card)] border border-line bg-surface p-4 shadow-[0_1px_2px_rgba(8,12,20,0.05)] transition-shadow hover:shadow-[0_2px_10px_rgba(8,12,20,0.09)] sm:p-5">
+      <div className="flex items-start gap-3">
+        <LogoTile
+          key={`${job.logo_url ?? ""}|${job.logo_fallback_url ?? ""}`}
+          sources={[job.logo_url, job.logo_fallback_url]}
+          label={job.company}
+          className="size-12"
+          placeholder={
+            <Building2 aria-hidden="true" className="size-4 text-faint" />
+          }
+        />
 
-          <div className="min-w-0 flex-1">
-            <h3 className="text-balance text-base font-semibold leading-snug">
-              <a
-                href={job.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => onView(job.uid)}
-                className="transition-colors hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-              >
-                {job.title}
-                <ArrowUpRight className="ml-1 inline size-3.5 opacity-50" />
-              </a>
-            </h3>
-
-            <p className="mt-0.5 text-sm font-medium text-muted">
-              {job.company}
-            </p>
-
-            <p className="mt-1 flex items-center gap-1.5 text-xs text-faint">
-              <MapPin className="size-3" />
-              {job.location || "Not listed"}
-              <span className="text-line">·</span>
-              {ATS_LABELS[job.ats] ?? job.ats}
-            </p>
-          </div>
-
-          {job.viewed && (
-            <span className="shrink-0 rounded-full border border-line-soft px-2 py-0.5 text-[10px] uppercase tracking-wide text-faint">
-              Viewed
-            </span>
-          )}
+        <div className="min-w-0 flex-1">
+          <h3 className="text-balance font-display text-lg font-bold leading-tight tracking-tight">
+            <a
+              href={job.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-sm decoration-1 underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2"
+            >
+              {job.title}
+              <ArrowUpRight
+                aria-hidden="true"
+                className="ml-1 inline size-3.5 text-faint"
+              />
+            </a>
+          </h3>
+          <p className="mt-0.5 break-words text-sm font-semibold text-brand">
+            {job.company}
+          </p>
+          <p className="mt-1 flex items-start gap-1.5 text-sm leading-snug text-faint">
+            <MapPin aria-hidden="true" className="mt-0.5 size-3.5 shrink-0" />
+            <span className="break-words">{job.location || "Not listed"}</span>
+          </p>
         </div>
 
-        {/* Stat tiles */}
-        <dl className="mt-4 grid gap-2 sm:grid-cols-3">
-          <Tile label="Experience">
-            <div className="flex items-center justify-between gap-2">
-              <span
-                className={cn(
-                  "text-sm font-semibold",
-                  analysis?.minimum_years && analysis.minimum_years >= 4
-                    ? "text-danger"
-                    : "text-text",
-                )}
-              >
-                {analysis?.minimum_years != null
-                  ? `${analysis.minimum_years}+ years`
-                  : cleanExperience(analysis?.experience_years)}
-              </span>
-
-              {analysis && <FitBadge analysis={analysis} />}
-            </div>
-          </Tile>
-
-          <Tile label="First published">
-            <span className="text-sm font-semibold">
-              {formatAge(job.age_hours)}
-            </span>
-            <span className="mt-0.5 block text-[11px] text-faint">
-              {formatStamp(job.posted_at)}
-            </span>
-          </Tile>
-
-          <Tile label="Last seen">
-            <span
-              className={cn(
-                "text-sm font-semibold",
-                stale ? "text-warn" : "text-text",
-              )}
-            >
-              {lastSeen ? formatStamp(lastSeen) : "This scan"}
-            </span>
-            {stale && (
-              <span className="mt-0.5 block text-[11px] text-warn">
-                may no longer be open
-              </span>
-            )}
-          </Tile>
-        </dl>
-
-        {/* OPT verdict */}
-        {analysis && (
-          <div className="mt-3">
-            {blocked ? (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-danger/30 bg-danger/10 px-3 py-1 text-xs font-medium text-danger">
-                <TriangleAlert className="size-3.5" />
-                OPT: NO
-              </span>
-            ) : analysis.opt_eligible === "YES" ? (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-accent/30 bg-accent/10 px-3 py-1 text-xs font-medium text-accent">
-                <CheckCircle2 className="size-3.5" />
-                OPT: YES
-              </span>
-            ) : (
-              <span className="inline-flex items-center gap-1.5 rounded-full border border-line-soft px-3 py-1 text-xs text-faint">
-                <CircleHelp className="size-3.5" />
-                OPT: not screened
-              </span>
-            )}
-          </div>
-        )}
-
-        {/* Panel toggles */}
-        {analysis && (
-          <div className="mt-4 flex flex-wrap gap-2">
-            <PanelToggle
-              active={panel === "qa"}
-              onClick={() => toggle("qa")}
-              label="Q&A"
-            />
-            <PanelToggle
-              active={panel === "summary"}
-              onClick={() => toggle("summary")}
-              label="Summary"
-            />
-          </div>
-        )}
+        <AtsBadge ats={job.ats} logoUrl={job.ats_logo_url} />
       </div>
 
-      {analysis && panel === "qa" && (
-        <div className="rise border-t border-line-soft bg-surface-2/30 p-5">
-          {blocked && analysis.opt_blocking_line && (
-            <p className="mb-4 rounded-lg border border-danger/25 bg-danger/10 px-3 py-2 text-xs leading-relaxed text-danger">
-              <span className="font-medium">Blocking line: </span>
-              {analysis.opt_blocking_line}
-            </p>
-          )}
+      <dl className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+        <Tile>
+          <dt className="label">Experience</dt>
+          <dd className="mt-2 break-words font-display text-base font-bold">
+            {experienceLabel(analysis)}
+          </dd>
+        </Tile>
 
-          <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:gap-8">
+        <Tile>
+          <dt className="label">First published</dt>
+          <dd className="mt-2 font-display text-base font-bold">
+            {formatAge(job.age_hours)}
+          </dd>
+          <dd className="mt-0.5 break-words font-mono text-[11px] leading-snug text-faint">
+            {formatStamp(job.posted_at)}
+          </dd>
+        </Tile>
+
+        <Tile className="col-span-2 sm:col-span-1">
+          <dt className="label">Last checked</dt>
+          <dd className="mt-2 font-display text-base font-bold">
+            {lastSeen ? formatAge(hoursSince(lastSeen)) : "This sample"}
+          </dd>
+          <dd className="mt-0.5 break-words font-mono text-[11px] leading-snug text-faint">
+            {lastSeen ? formatStamp(lastSeen) : "Packaged snapshot"}
+          </dd>
+        </Tile>
+      </dl>
+
+      {/*
+        One verdict, or nothing. A blocker the posting states outright beats
+        the model's own guess, so it also suppresses an "OPT: YES" the model
+        would otherwise have shown.
+      */}
+      {blocker ? (
+        <p className="mt-3.5 flex items-start gap-2 break-words rounded-lg border border-danger-line bg-danger-bg px-3 py-2 text-sm font-medium leading-snug text-danger">
+          <CircleAlert
+            aria-hidden="true"
+            className="mt-0.5 size-4 shrink-0"
+          />
+          {blocker.message}
+        </p>
+      ) : (
+        detailsAvailable &&
+        analysis && (
+          <div className="mt-3.5 flex flex-wrap gap-2">
+            {blocked ? (
+              <Pill
+                tone="danger"
+                icon={<CircleAlert aria-hidden="true" className="size-3.5" />}
+              >
+                OPT: NO
+              </Pill>
+            ) : analysis.opt_eligible === "YES" ? (
+              <Pill
+                tone="brand"
+                icon={<CheckCircle2 aria-hidden="true" className="size-3.5" />}
+              >
+                OPT: YES
+              </Pill>
+            ) : null}
+          </div>
+        )
+      )}
+
+      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 pt-1">
+        {detailsAvailable && (
+          <div className="flex gap-2">
+            <Toggle
+              active={panel === "qa"}
+              controls={`${panelId}-qa`}
+              onClick={() => toggle("qa")}
+            >
+              Q&amp;A
+            </Toggle>
+            <Toggle
+              active={panel === "summary"}
+              controls={`${panelId}-summary`}
+              onClick={() => toggle("summary")}
+            >
+              Summary
+            </Toggle>
+          </div>
+        )}
+
+        <a
+          href={job.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => onApply(job.uid)}
+          className={cn(
+            "inline-flex min-h-11 items-center gap-1.5 rounded-xl px-5 text-sm font-semibold transition-colors",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2",
+            applied
+              ? "border border-brand-line bg-brand-soft text-brand-deep hover:bg-brand-soft/70"
+              : "bg-brand text-brand-ink hover:bg-brand-strong",
+          )}
+        >
+          {applied ? (
+            <>
+              <CheckCircle2 aria-hidden="true" className="size-4" />
+              Already Applied
+            </>
+          ) : (
+            <>
+              Apply now
+              <ArrowUpRight aria-hidden="true" className="size-3.5" />
+            </>
+          )}
+        </a>
+      </div>
+
+      {detailsAvailable && analysis && panel === "qa" && (
+        <div
+          id={`${panelId}-qa`}
+          className="rise mt-4 border-t border-line-soft pt-4"
+        >
+          <div className="grid gap-5 sm:grid-cols-[1fr_10rem]">
             <dl className="space-y-2.5">
               <Row label="Degree" value={analysis.degree} />
               <Row label="Qualifications" value={analysis.qualifications} />
               <Row label="Eligibility" value={analysis.eligibility} />
               <Row
                 label="Experience"
-                value={cleanExperience(analysis.experience_years)}
+                value={experienceLabel(analysis)}
               />
             </dl>
 
-            <dl className="sm:w-44">
-              <dt className="text-[11px] uppercase tracking-wide text-faint">
-                Salary
-              </dt>
-              <dd className="mt-0.5 text-sm text-muted">{analysis.salary}</dd>
-
-              <dt className="mt-3 text-[11px] uppercase tracking-wide text-faint">
-                Team
-              </dt>
-              <dd className="mt-0.5 text-sm text-muted">{analysis.team}</dd>
+            <dl>
+              <dt className="label">Salary</dt>
+              <dd className="mt-1 break-words text-sm text-muted">
+                {analysis.salary || "Not listed."}
+              </dd>
+              <dt className="label mt-3">Team</dt>
+              <dd className="mt-1 break-words text-sm text-muted">
+                {analysis.team || "Not listed."}
+              </dd>
             </dl>
           </div>
 
-          {analysis.key_tech_skills.length > 0 && (
-            <ChipRow label="Key tech and skills" items={analysis.key_tech_skills} />
+          {(analysis.key_tech_skills ?? []).length > 0 && (
+            <ChipRow
+              label="Key tech and skills"
+              items={analysis.key_tech_skills}
+            />
           )}
 
-          {analysis.ats_keywords.length > 0 && (
-            <ChipRow label="Top ATS keywords" items={analysis.ats_keywords} muted />
+          {(analysis.ats_keywords ?? []).length > 0 && (
+            <ChipRow
+              label="Top ATS keywords"
+              items={analysis.ats_keywords}
+              outline
+            />
+          )}
+
+          {analysis.tip && (
+            <p className="mt-4 break-words rounded-lg border border-line bg-surface-2 px-4 py-3 text-sm leading-relaxed text-muted">
+              <span className="font-semibold text-text">Tip: </span>
+              {analysis.tip}
+            </p>
           )}
         </div>
       )}
 
-      {analysis && panel === "summary" && (
-        <div className="rise border-t border-line-soft bg-surface-2/30 p-5">
-          <p className="text-sm leading-relaxed text-muted">
-            {analysis.qualifications}
-          </p>
+      {detailsAvailable && analysis && panel === "summary" && (
+        <div
+          id={`${panelId}-summary`}
+          className="rise mt-4 border-t border-line-soft pt-4"
+        >
+          <dl className="grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
+            <SummaryRow label="Job ID" value={job.job_id} />
+            <SummaryRow
+              label="Team"
+              value={job.team || analysis.team}
+            />
+            <SummaryRow label="Title" value={job.title} />
+            <SummaryRow label="Company" value={job.company} />
+            <SummaryRow label="Location" value={job.location} />
+            <SummaryRow label="Source" value={job.ats} />
+          </dl>
 
-          {analysis.tip && analysis.tip !== "Analysis unavailable." && (
-            <p className="mt-4 rounded-lg border border-info/25 bg-info/10 px-3 py-2 text-sm leading-relaxed">
-              <span className="font-medium text-info">Tip: </span>
-              {analysis.tip}
-            </p>
-          )}
-
-          {job.category_labels.length > 0 && (
-            <div className="mt-4 flex flex-wrap gap-1.5">
+          {(job.category_labels ?? []).length > 0 && (
+            <div className="mt-3.5 flex flex-wrap gap-1.5">
               {job.category_labels.map((label) => (
                 <span
                   key={label}
-                  className="rounded-md bg-surface-2 px-2 py-0.5 text-[11px] text-muted"
+                  className="rounded-md border border-line bg-surface-2 px-2 py-0.5 text-[11px] text-muted"
                 >
                   {label}
                 </span>
@@ -250,85 +280,111 @@ export function JobCard({ job, lastSeen, onView }: JobCardProps) {
   )
 }
 
+function hoursSince(stamp: string): number | null {
+  const time = new Date(stamp).getTime()
+
+  if (Number.isNaN(time)) return null
+
+  return Math.max(0, (Date.now() - time) / 3_600_000)
+}
+
 function Tile({
-  label,
   children,
+  className,
 }: {
-  label: string
   children: React.ReactNode
+  className?: string
 }) {
   return (
-    <div className="rounded-xl border border-line-soft bg-surface-2/40 px-3 py-2.5">
-      <dt className="text-[10px] uppercase tracking-wide text-faint">
-        {label}
-      </dt>
-      <dd className="mt-1">{children}</dd>
+    <div
+      className={cn(
+        "min-w-0 rounded-xl border border-line bg-surface px-3.5 py-3",
+        className,
+      )}
+    >
+      {children}
     </div>
   )
 }
 
-function FitBadge({ analysis }: { analysis: NonNullable<Job["analysis"]> }) {
-  const years = analysis.minimum_years
-
-  if (years == null) {
-    return (
-      <span className="rounded-full border border-line-soft px-2 py-0.5 text-[10px] uppercase tracking-wide text-faint">
-        Fit: review
-      </span>
-    )
-  }
-
-  const good = years <= 2
-
+function Pill({
+  tone,
+  icon,
+  children,
+}: {
+  tone: "brand" | "danger"
+  icon: React.ReactNode
+  children: React.ReactNode
+}) {
   return (
     <span
       className={cn(
-        "rounded-full px-2 py-0.5 text-[10px] uppercase tracking-wide",
-        good
-          ? "border border-accent/30 bg-accent/10 text-accent"
-          : "border border-warn/30 bg-warn/10 text-warn",
+        "inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold",
+        tone === "brand" && "border-brand-line bg-brand-soft text-brand-deep",
+        tone === "danger" && "border-danger-line bg-danger-bg text-danger",
       )}
     >
-      Fit: {good ? "good" : "review"}
+      {icon}
+      {children}
     </span>
   )
 }
 
-function PanelToggle({
+function Toggle({
   active,
+  controls,
   onClick,
-  label,
+  children,
 }: {
   active: boolean
+  controls: string
   onClick: () => void
-  label: string
+  children: React.ReactNode
 }) {
   return (
     <button
       type="button"
       onClick={onClick}
       aria-expanded={active}
+      aria-controls={controls}
       className={cn(
-        "inline-flex items-center gap-1.5 rounded-lg border px-3 py-1.5 text-xs font-medium transition-colors",
-        "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+        "inline-flex min-h-11 items-center gap-1.5 rounded-xl border px-4 text-sm font-medium transition-colors",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2",
         active
-          ? "border-accent bg-accent/10 text-accent"
-          : "border-line-soft bg-surface-2/50 text-muted hover:text-text",
+          ? "border-brand-line bg-brand-soft text-brand-deep"
+          : "border-line bg-surface text-text hover:border-faint",
       )}
     >
-      {label}
+      {children}
       <ChevronDown
-        className={cn("size-3 transition-transform", active && "rotate-180")}
+        aria-hidden="true"
+        className={cn(
+          "size-3.5 transition-transform duration-200",
+          active && "rotate-180",
+        )}
       />
     </button>
   )
 }
 
 function Row({ label, value }: { label: string; value: string }) {
+  const displayValue = value?.trim() || "Not listed."
+
   return (
-    <div className="flex flex-wrap gap-x-2 text-sm leading-relaxed">
-      <dt className="text-faint">{label}:</dt>
-      <dd className="flex-1 text-muted">{value}</dd>
+    <div className="break-words text-sm leading-relaxed">
+      <dt className="inline text-faint">{label}: </dt>
+      <dd className="inline text-text">{displayValue}</dd>
+    </div>
+  )
+}
+
+function SummaryRow({ label, value }: { label: string; value?: string }) {
+  return (
+    <div className="min-w-0 break-words text-sm leading-relaxed">
+      <dt className="inline text-faint">{label}: </dt>
+      <dd className="inline font-medium text-text">
+        {value?.trim() || "Not listed."}
+      </dd>
     </div>
   )
 }
@@ -336,26 +392,24 @@ function Row({ label, value }: { label: string; value: string }) {
 function ChipRow({
   label,
   items,
-  muted = false,
+  outline = false,
 }: {
   label: string
   items: string[]
-  muted?: boolean
+  outline?: boolean
 }) {
   return (
     <div className="mt-4">
-      <span className="text-[10px] uppercase tracking-wide text-faint">
-        {label}
-      </span>
-      <div className="mt-1.5 flex flex-wrap gap-1.5">
+      <span className="label">{label}</span>
+      <div className="mt-2 flex flex-wrap gap-1.5">
         {items.map((item) => (
           <span
             key={item}
             className={cn(
-              "rounded-md px-2 py-1 text-[11px]",
-              muted
-                ? "border border-line-soft text-faint"
-                : "border border-accent/25 bg-accent/10 text-accent",
+              "max-w-full break-words rounded-md px-2 py-1 text-[11px]",
+              outline
+                ? "border border-line text-muted"
+                : "bg-surface-2 text-muted",
             )}
           >
             {item}

@@ -1,10 +1,15 @@
 import { convertToModelMessages, type UIMessage } from "ai"
 
 import { createJobScout } from "@/lib/job-agent"
+import { requireSession } from "@/server/guard"
 
 export const maxDuration = 60
 
 export async function POST(request: Request) {
+  const denied = await requireSession()
+
+  if (denied) return denied
+
   const { messages }: { messages: UIMessage[] } = await request.json()
 
   try {

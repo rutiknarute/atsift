@@ -75,20 +75,20 @@ export async function scannerAvailable(): Promise<boolean> {
   }
 
   let ok = false
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), 2_500)
 
   try {
-    const controller = new AbortController()
-    const timer = setTimeout(() => controller.abort(), 2_500)
-
     const response = await fetch(`${base}/api/health`, {
       cache: "no-store",
       signal: controller.signal,
     })
 
-    clearTimeout(timer)
     ok = response.ok
   } catch {
     ok = false
+  } finally {
+    clearTimeout(timer)
   }
 
   healthCache = { ok, at: now }

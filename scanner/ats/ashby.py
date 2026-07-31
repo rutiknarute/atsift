@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import json
+
 from scanner.http import fetch_json
 from scanner.records import make_job
 from scanner.text import strip_html
@@ -17,7 +19,10 @@ def _compensation(job: dict) -> str:
 
     summary = compensation.get("compensationTierSummary")
 
-    return str(summary or "").strip()
+    if summary:
+        return str(summary).strip()
+
+    return json.dumps(compensation, ensure_ascii=False)
 
 
 def fetch(company: dict) -> list[dict]:
@@ -52,6 +57,15 @@ def fetch(company: dict) -> list[dict]:
             job.get("descriptionHtml")
         )
 
+        location = str(job.get("location") or "").strip()
+        is_remote = (
+            bool(job.get("isRemote"))
+            or str(job.get("workplaceType") or "").casefold() == "remote"
+        )
+
+        if is_remote and "remote" not in location.casefold():
+            location = f"{location} · Remote" if location else "Remote"
+
         records.append(
             make_job(
                 ats="ashby",
@@ -59,8 +73,8 @@ def fetch(company: dict) -> list[dict]:
                 company_slug=slug,
                 job_id=job_id,
                 title=str(job.get("title") or "").strip(),
-                url=str(job.get("jobUrl") or ""),
-                location=str(job.get("location") or "").strip(),
+                url=str(job.get("applyUrl") or job.get("jobUrl") or ""),
+                location=location,
                 team=str(job.get("team") or job.get("department") or "").strip(),
                 posted_at=job.get("publishedAt") or job.get("updatedAt"),
                 description=str(description or ""),

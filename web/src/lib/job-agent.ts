@@ -7,6 +7,7 @@ import {
 import { ToolLoopAgent, stepCountIs, tool } from "ai"
 import { z } from "zod"
 
+import { normalizeJobExperience } from "@/lib/experience"
 import type { Job } from "@/lib/types"
 import { snapshotJobs } from "@/server/public-data"
 import { fetchScanner, scannerAvailable } from "@/server/scanner-client"
@@ -88,14 +89,18 @@ function safeUrl(job: Job): string {
   }
 }
 
-function compact(job: Job, matched: string[]) {
+function compact(
+  job: Job,
+  matched: string[],
+  source: "scanner" | "snapshot",
+) {
   return {
     uid: job.uid,
     title: job.title,
     company: job.company,
     location: job.location,
     ats: job.ats,
-    ageHours: job.age_hours,
+    ageHours: source === "scanner" ? job.age_hours : null,
     minimumYears: job.analysis?.minimum_years ?? null,
     optEligible: job.analysis?.opt_eligible ?? "UNKNOWN",
     skills: [
@@ -109,20 +114,28 @@ function compact(job: Job, matched: string[]) {
   }
 }
 
-async function jobsInWindow(hours: number): Promise<Job[]> {
+async function jobsForSearch(hours: number): Promise<{
+  jobs: Job[]
+  source: "scanner" | "snapshot"
+}> {
   if (await scannerAvailable()) {
     try {
       const data = await fetchScanner<{ jobs?: Job[] }>(
-        `/api/jobs?lookback_hours=${hours}&dataset=main`,
+        `/api/jobs?lookback_hours=${hours}`,
       )
 
-      if (Array.isArray(data.jobs)) return data.jobs
+      if (Array.isArray(data.jobs)) {
+        return {
+          jobs: data.jobs.map(normalizeJobExperience),
+          source: "scanner",
+        }
+      }
     } catch {
       // Fall through to the packaged snapshot.
     }
   }
 
-  return snapshotJobs()
+  return { jobs: snapshotJobs(), source: "snapshot" }
 }
 
 const searchJobs = tool({
@@ -167,7 +180,7 @@ const searchJobs = tool({
     limit,
   }) => {
     const hours = Math.max(1, Math.min(MAX_SEARCH_HOURS, postedWithinHours))
-    const pool = await jobsInWindow(hours)
+    const { jobs: pool, source } = await jobsForSearch(hours)
     const keywordTerms = terms(keywords)
     const locationTerms = terms(location)
 
@@ -179,7 +192,9 @@ const searchJobs = tool({
         const matched = keywordTerms.filter((term) => haystack.includes(term))
         const locationHit =
           locationTerms.length === 0 ||
-          locationTerms.some((term) => job.location.toLowerCase().includes(term))
+          locationTerms.some((term) =>
+            (job.location ?? "").toLowerCase().includes(term),
+          )
 
         // Title hits are worth more than a mention buried in the description.
         const score =
@@ -192,12 +207,15 @@ const searchJobs = tool({
         if (!locationHit) return false
         if (keywordTerms.length > 0 && matched.length === 0) return false
 
-        if (optEligibleOnly && job.analysis?.opt_eligible === "NO") return false
+        if (optEligibleOnly && job.analysis?.opt_eligible !== "YES") return false
 
         if (maxExperienceYears !== null) {
           const minimum = job.analysis?.minimum_years
 
-          if (typeof minimum === "number" && minimum > maxExperienceYears) {
+          if (
+            typeof minimum !== "number" ||
+            minimum > maxExperienceYears
+          ) {
             return false
           }
         }
@@ -212,10 +230,13 @@ const searchJobs = tool({
       .slice(0, limit)
 
     return {
-      searchedWithinHours: hours,
+      source,
+      searchedWithinHours: source === "scanner" ? hours : null,
       totalInWindow: pool.length,
       matchCount: ranked.length,
-      jobs: ranked.map(({ job, matched }) => compact(job, matched)),
+      jobs: ranked.map(({ job, matched }) =>
+        compact(job, matched, source),
+      ),
     }
   },
 })
@@ -229,8 +250,10 @@ Rules:
 - Only mention jobs the tool returned. Never invent a company, title, or URL.
 - If the tool returns nothing, say so plainly and suggest widening the
   timeframe or loosening the keywords. Do not pad with guesses.
+- When the tool reports source "snapshot", clearly say the results are from a
+  packaged sample, not current listings. Do not describe their ages as current.
 - Lead with the best match. For each: title, company, location, how old the
-  posting is, and the apply link.
+  posting is when available, and the apply link.
 - Be brief. Short lines, no long paragraphs, no preamble.
 - If a role is marked optEligible "NO", say it blocks OPT candidates.
 `.trim()

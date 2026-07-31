@@ -219,3 +219,27 @@ def is_us_location(location: str | None) -> bool:
 
 def needs_llm_screening(location: str | None) -> bool:
     return screen_location(location) == "AMBIGUOUS"
+
+
+def job_has_confirmed_us_location(job: dict) -> bool:
+    """
+    Return True only when structured data or completed analysis confirms US.
+
+    An unresolved ambiguous location must not leak into a US-only result set
+    just because the full-analysis budget was exhausted.
+    """
+
+    verdict = str(job.get("location_verdict") or "").upper()
+
+    if not verdict:
+        verdict = screen_location(job.get("location"))
+
+    if verdict == "US":
+        return True
+
+    if verdict == "NON_US":
+        return False
+
+    analysis = job.get("analysis") or {}
+
+    return str(analysis.get("us_location_eligible") or "").upper() == "YES"

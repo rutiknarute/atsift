@@ -42,7 +42,12 @@ def fetch(company: dict) -> list[dict]:
                 url=str(job.get("absolute_url") or ""),
                 location=location_name(job.get("location")),
                 team=department_names(job.get("departments")),
-                posted_at=job.get("updated_at") or job.get("created_at"),
+                # `updated_at` changes for edits and would make an old role
+                # look newly published. Greenhouse exposes first_published on
+                # current board payloads; created_at is the safe fallback.
+                posted_at=job.get("first_published")
+                or job.get("created_at")
+                or job.get("updated_at"),
                 description=strip_html(job.get("content")),
             )
         )

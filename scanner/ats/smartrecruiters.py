@@ -10,11 +10,11 @@ from __future__ import annotations
 
 from scanner.http import BoardUnavailable, fetch_json
 from scanner.records import make_job
+from scanner.text import strip_html
 
 BASE = "https://api.smartrecruiters.com/v1/companies"
 
 PAGE_LIMIT = 100
-MAX_PAGES = 5
 
 
 def _location(job: dict) -> str:
@@ -42,7 +42,7 @@ def fetch(company: dict) -> list[dict]:
     records: list[dict] = []
     offset = 0
 
-    for _ in range(MAX_PAGES):
+    while True:
         payload = fetch_json(
             f"{BASE}/{slug}/postings",
             params={"limit": PAGE_LIMIT, "offset": offset},
@@ -90,6 +90,11 @@ def fetch(company: dict) -> list[dict]:
 
         offset += PAGE_LIMIT
 
+        total = payload.get("totalFound")
+
+        if isinstance(total, int) and offset >= total:
+            break
+
     return records
 
 
@@ -111,20 +116,22 @@ def fetch_detail(job: dict) -> str:
 
     parts = []
 
+    # Put requirements before company boilerplate. Analysis reads a bounded
+    # prefix, and a long employer introduction must not truncate the actual
+    # qualifications or experience requirement.
     for key in (
-        "companyDescription",
         "jobDescription",
         "qualifications",
         "additionalInformation",
+        "companyDescription",
     ):
         section = sections.get(key)
 
         if isinstance(section, dict):
-            text = str(section.get("text") or "").strip()
+            title = str(section.get("title") or "").strip()
+            text = strip_html(section.get("text"))
 
             if text:
-                parts.append(text)
-
-    from scanner.text import strip_html
+                parts.append(f"{title}\n{text}".strip())
 
     return strip_html("\n\n".join(parts))

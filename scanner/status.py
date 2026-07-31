@@ -62,8 +62,8 @@ def start(*, lookback_hours: float, dataset: str, companies_total: int) -> None:
         _status.update(
             {
                 "state": "running",
-                "phase": "fetching",
-                "message": "Sweeping job boards…",
+                "phase": "scanning",
+                "message": "Reading boards and screening roles as they come in…",
                 "companies_total": companies_total,
                 "lookback_hours": lookback_hours,
                 "dataset": dataset,

@@ -47,15 +47,14 @@ def fallback_analysis() -> dict:
     return {
         "us_location_eligible": "UNKNOWN",
         "opt_eligible": "UNKNOWN",
-        "opt_blocking_line": (
-            "Ollama analysis was unavailable. "
-            "Review the job description manually."
+        "opt_blocking_line": "",
+        "degree": "Not stated in JD.",
+        "qualifications": "Review the qualifications in the full posting.",
+        "eligibility": (
+            "No explicit work-authorization restriction was extracted."
         ),
-        "degree": "Analysis unavailable.",
-        "qualifications": "Analysis unavailable.",
-        "eligibility": "Analysis unavailable.",
         "key_tech_skills": [],
-        "experience_years": "Analysis unavailable.",
+        "experience_years": "Not listed.",
         "minimum_years": None,
         "experience_fit": "UNKNOWN",
         "stop_after_experience": False,

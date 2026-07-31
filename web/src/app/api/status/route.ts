@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 
 import { fetchScanner, scannerAvailable } from "@/server/scanner-client"
 import type { ScanStatus } from "@/lib/types"
+import { requireSession } from "@/server/guard"
 
 const IDLE: ScanStatus = {
   state: "idle",
@@ -21,6 +22,10 @@ const IDLE: ScanStatus = {
 }
 
 export async function GET() {
+  const denied = await requireSession()
+
+  if (denied) return denied
+
   if (!(await scannerAvailable())) {
     return NextResponse.json({ ...IDLE, scanner_available: false })
   }

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server"
 
 import { fetchScanner, scannerAvailable } from "@/server/scanner-client"
 import type { ScannerMeta } from "@/lib/types"
+import { requireSession } from "@/server/guard"
 
 // Mirrors scanner/boolean_search.py and scanner/config.py, so the controls
 // still render with no scanner reachable.
@@ -24,6 +25,10 @@ const FALLBACK: ScannerMeta = {
 }
 
 export async function GET() {
+  const denied = await requireSession()
+
+  if (denied) return denied
+
   if (!(await scannerAvailable())) {
     return NextResponse.json({ ...FALLBACK, scanner_available: false })
   }

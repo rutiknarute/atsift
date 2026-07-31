@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(BASE_DIR / ".env")
+load_dotenv(BASE_DIR / ".env.local", override=True)
 
 DATA_DIR = BASE_DIR / "data"
 
@@ -65,11 +66,12 @@ USE_OLLAMA_ANALYSIS = os.getenv("USE_OLLAMA_ANALYSIS", "1") != "0"
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/chat")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3.2:3b")
 MAX_DESCRIPTION_CHARS = 8_000
-ANALYSIS_PROMPT_VERSION = "job-analysis-v5-us-location"
+ANALYSIS_PROMPT_VERSION = "job-analysis-v6-required-experience"
 
-# How many postings get a full LLM pass in one scan. The local 3b model is the
-# slowest step by far, so this bounds worst-case scan time.
-MAX_ANALYSIS_PER_SCAN = int(os.getenv("MAX_ANALYSIS_PER_SCAN", "120"))
+# By default every matched posting gets the same complete LLM analysis as the
+# reference ATSift scanner. Set a positive value only when intentionally
+# running a bounded development scan; zero means no cap.
+MAX_ANALYSIS_PER_SCAN = int(os.getenv("MAX_ANALYSIS_PER_SCAN", "0"))
 
 # The response format the analysis prompt is bound to. Ollama enforces this
 # server-side, so the model cannot return a shape the parser does not expect.
@@ -117,8 +119,13 @@ JOB_ANALYSIS_SCHEMA = {
 
 # --- Server -----------------------------------------------------------------
 
-PORT = int(os.getenv("SCANNER_PORT", "5000"))
+# Not Flask's usual 5000: macOS AirPlay Receiver binds that port and answers
+# 403, which the dashboard's health probe cannot tell apart from a scanner
+# that is simply down.
+PORT = int(os.getenv("SCANNER_PORT", "5057"))
 SCANNER_API_TOKEN = os.getenv("SCANNER_API_TOKEN", "").strip()
 
 LOGO_DEV_PUBLISHABLE_KEY = os.getenv("LOGO_DEV_PUBLISHABLE_KEY", "").strip()
+LOGO_DEV_SECRET_KEY = os.getenv("LOGO_DEV_SECRET_KEY", "").strip()
+BRANDFETCH_CLIENT_ID = os.getenv("BRANDFETCH_CLIENT_ID", "").strip()
 BRANDFETCH_SECRET_API_KEY = os.getenv("BRANDFETCH_SECRET_API_KEY", "").strip()

@@ -1,91 +1,231 @@
 @import "tailwindcss";
 
 /*
-  One dark-first surface scale plus a single electric accent.
-  Everything else is spacing and type.
+  Three colours do all the work: the ATSift blue for anything actionable, near
+  black for what you read, white for what you read it on. Neutrals carry a
+  slight blue cast so they read as one family with the brand rather than as
+  grey borrowed from somewhere else.
+
+  Red is the one exception, reserved for the two places a wrong call costs the
+  user something real: a failed scan and an OPT blocker. Nothing decorative is
+  ever red, so red always means stop.
+
+  Every text pair below clears WCAG AA (4.5:1); focus rings clear 3:1. The
+  tightest are `brand` on `bg` at 5.05:1 and `faint` on `surface-2` at 5.03:1.
 */
 
 @theme {
-  --color-bg: oklch(0.145 0.012 265);
-  --color-surface: oklch(0.185 0.014 265);
-  --color-surface-2: oklch(0.225 0.016 265);
-  --color-line: oklch(0.30 0.018 265);
-  --color-line-soft: oklch(0.26 0.016 265);
+  --color-bg: #f5f7fc;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef2fb;
+  --color-line: #dae2f0;
+  --color-line-soft: #e8edf7;
 
-  --color-text: oklch(0.97 0.004 265);
-  --color-muted: oklch(0.72 0.014 265);
-  --color-faint: oklch(0.56 0.016 265);
+  /* Ink */
+  --color-text: #080c14;
+  --color-muted: #414b5e;
+  --color-faint: #5d6879;
 
-  --color-accent: oklch(0.78 0.19 155);
-  --color-accent-ink: oklch(0.18 0.05 155);
-  --color-accent-dim: oklch(0.45 0.11 155);
+  /* Brand — the logo blue, and the shades that stay legible around it */
+  --color-brand: #005afd;
+  --color-brand-strong: #0140cc;
+  --color-brand-deep: #0b39a6;
+  --color-brand-soft: #e9f0ff;
+  --color-brand-line: #bed3ff;
+  --color-brand-ink: #ffffff;
 
-  --color-warn: oklch(0.80 0.16 78);
-  --color-danger: oklch(0.68 0.19 22);
-  --color-info: oklch(0.75 0.14 240);
+  /* Alert */
+  --color-danger: #c32a1e;
+  --color-danger-bg: #fdeceb;
+  --color-danger-line: #f6ccc8;
 
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-inter-tight), var(--font-inter), sans-serif;
+  --font-mono: var(--font-mono-label), ui-monospace, monospace;
 
-  --radius-card: 1rem;
+  --radius-card: 0.875rem;
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 html {
   -webkit-font-smoothing: antialiased;
-  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--color-bg);
+  background-color: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-sans);
-  min-height: 100vh;
+  min-height: 100dvh;
+  overflow-x: hidden;
 }
 
-/* A slow aurora wash behind the hero. Purely decorative. */
-.aurora {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
+button,
+a,
+input,
+select {
+  -webkit-tap-highlight-color: rgba(0, 90, 253, 0.12);
+  touch-action: manipulation;
 }
 
-.aurora::before,
-.aurora::after {
-  content: "";
-  position: absolute;
-  width: 46rem;
-  height: 46rem;
+button:not(:disabled),
+a[href],
+select:not(:disabled) {
+  cursor: pointer;
+}
+
+/* Graph-paper grid. Decorative only. */
+.grid-paper {
+  background-image:
+    linear-gradient(to right, rgba(0, 90, 253, 0.06) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 90, 253, 0.06) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+/*
+  In `components` rather than unlayered, so a utility like `text-brand` on the
+  same element still wins — unlayered CSS outranks every Tailwind layer.
+*/
+@layer components {
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+}
+
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 1000;
+  transform: translateY(-200%);
+  border-radius: 0.75rem;
+  background: var(--color-brand);
+  color: var(--color-brand-ink);
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/*
+  "invisible" performs its own meaning: each letter blurs out and fades to
+  nothing, then returns, as a wave travelling left to right. The stagger is
+  short enough that the whole word is never gone at once, so the sentence stays
+  readable while still visibly disappearing.
+*/
+@keyframes vanish {
+  0%,
+  15%,
+  100% {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+  7.5% {
+    opacity: 0;
+    filter: blur(0.3em);
+    transform: translateY(-0.07em) scale(0.92);
+  }
+}
+
+.vanish > span {
+  display: inline-block;
+  white-space: pre;
+  /*
+    Each letter is out for 0.9s (15% of 6s) but starts 0.16s after the one
+    before it, so the dip is narrower than the stagger and the ripple has
+    always left the front of the word before it reaches the back. At least
+    four letters are solid at any instant — the word disappears without the
+    sentence ever breaking.
+  */
+  animation: vanish 6s cubic-bezier(0.45, 0, 0.25, 1) infinite;
+  animation-delay: calc(var(--letter) * 0.16s);
+  will-change: opacity, filter;
+}
+
+/* Three dots, breathing in sequence, while the Scout is working. */
+@keyframes typing {
+  0%,
+  60%,
+  100% {
+    opacity: 0.25;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+.typing {
+  display: inline-flex;
+  gap: 3px;
+  align-items: center;
+}
+
+.typing > span {
+  width: 5px;
+  height: 5px;
   border-radius: 9999px;
-  filter: blur(120px);
-  opacity: 0.16;
+  background: var(--color-brand);
+  animation: typing 1.2s ease-in-out infinite;
 }
 
-.aurora::before {
-  background: var(--color-accent);
-  top: -22rem;
-  left: -12rem;
-  animation: drift 22s ease-in-out infinite alternate;
+.typing > span:nth-child(2) {
+  animation-delay: 0.15s;
 }
 
-.aurora::after {
-  background: var(--color-info);
-  top: -26rem;
-  right: -14rem;
-  animation: drift 28s ease-in-out infinite alternate-reverse;
+.typing > span:nth-child(3) {
+  animation-delay: 0.3s;
 }
 
-@keyframes drift {
+@keyframes rise {
   from {
-    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0;
+    transform: translateY(6px);
   }
   to {
-    transform: translate3d(3rem, 2rem, 0) scale(1.12);
+    opacity: 1;
+    transform: none;
   }
+}
+
+.rise {
+  animation: rise 0.28s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+/*
+  The same motion, dealt out to a group in order, so a column of content
+  arrives as one gesture instead of six separate ones. Depth is capped at the
+  direct children — nesting it would compound the delays into a crawl.
+*/
+.stagger > * {
+  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+}
+
+.stagger > *:nth-child(2) {
+  animation-delay: 0.07s;
+}
+
+.stagger > *:nth-child(3) {
+  animation-delay: 0.14s;
+}
+
+.stagger > *:nth-child(4) {
+  animation-delay: 0.21s;
+}
+
+.stagger > *:nth-child(5) {
+  animation-delay: 0.28s;
 }
 
 @keyframes shimmer {
@@ -107,54 +247,32 @@ body {
   background: linear-gradient(
     90deg,
     transparent,
-    color-mix(in oklch, var(--color-accent) 22%, transparent),
+    rgba(0, 90, 253, 0.07),
     transparent
   );
-  animation: shimmer 1.8s infinite;
-}
-
-@keyframes rise {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.rise {
-  animation: rise 0.4s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation: shimmer 1.6s infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .aurora::before,
-  .aurora::after,
+  .rise,
+  .stagger > *,
   .shimmer::after,
-  .rise {
+  .vanish > span,
+  .typing > span {
     animation: none;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
 ::selection {
-  background: color-mix(in oklch, var(--color-accent) 30%, transparent);
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-line);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-faint);
+  background: var(--color-brand);
+  color: var(--color-brand-ink);
 }

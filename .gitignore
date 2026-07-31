@@ -18,10 +18,21 @@ out/
 *.tsbuildinfo
 
 # Volatile scan state, rewritten on every run.
-# The catalogs, the analysis cache and the packaged snapshot stay tracked —
-# the cache in particular is expensive inference we do not want to re-pay.
 data/jobs_store.json
 data/scan_status.json
+
+# Personal: which postings I have applied to. Nobody else's business, and it
+# is per-machine state anyway.
+data/viewed_jobs.json
+
+# Local caches. Both are rebuilt on demand and only ever slow a cold start —
+# they are megabytes of machine output that would otherwise land in every
+# clone and every diff.
+data/analysis_cache.json
+data/brandfetch_logo_cache.json
+
+# The catalogs and the packaged snapshot stay tracked: the app needs the
+# snapshot to render without a scanner behind it.
 
 # OS
 .DS_Store

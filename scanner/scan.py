@@ -1,10 +1,18 @@
 """
 The sweep.
 
-Order matters, and it is all about cost. Each stage is far more expensive than
-the one before it, so each one only ever sees what survived the last:
+Each posting is carried all the way through on its own:
 
-    fetch board  →  boolean search  →  time window  →  location  →  LLM
+    fetch board  →  boolean search  →  time window  →  location  →  JD  →  LLM
+
+and is listed the moment it clears. Nothing waits for the whole catalog. The
+order still matters for cost — each step only sees what survived the last — but
+it is a pipeline per posting, not a phase across all of them, so the first
+results land seconds into a scan instead of after every board has been read.
+
+Boards are read by a worker pool while a single screening thread drains the
+queue behind them: the local model can only look at one posting at a time, so
+fetching and screening overlap rather than queue up.
 
 The chosen timeframe is applied here, at the source — not as a filter over
 results afterwards. The window the user picked and the window the results were
@@ -14,10 +22,12 @@ drawn from are the same window, always.
 from __future__ import annotations
 
 import threading
+import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from queue import Queue
 
 from scanner import status
-from scanner.analysis import get_job_analysis
+from scanner.analysis import fallback_analysis, get_job_analysis
 from scanner.ats import fetch_company, needs_detail_fetch
 from scanner.ats import fetch_description
 from scanner.boolean_search import ALL_CATEGORIES, title_categories
@@ -31,8 +41,7 @@ from scanner.config import (
 )
 from scanner.dates import within_window
 from scanner.http import BoardUnavailable
-from scanner.locations import screen_location
-from scanner.records import dedupe_jobs
+from scanner.locations import job_has_confirmed_us_location, screen_location
 from scanner.store import (
     load_analysis_cache,
     save_analysis_cache,
@@ -41,6 +50,13 @@ from scanner.store import (
 
 _scan_lock = threading.Lock()
 _scan_thread: threading.Thread | None = None
+
+# Screening runs one posting at a time. Publishing on this cadence lets the
+# dashboard fill in as the model works, instead of rewriting the store for
+# every single posting.
+PUBLISH_EVERY_SECONDS = 3.0
+
+_DONE = object()
 
 
 def clamp_lookback(value) -> float:
@@ -83,6 +99,40 @@ def _scan_company(company: dict, lookback_hours: float, categories: list[str]):
     return kept
 
 
+def _prepare_company(
+    company: dict,
+    lookback_hours: float,
+    categories: list[str],
+) -> list[dict]:
+    """
+    One board, taken as far as it can go without the model.
+
+    Location screening and the JD fetch happen here, inside the worker pool,
+    so a posting reaches the screening queue ready to be read — and so the
+    slow part of a board's work overlaps with every other board's.
+    """
+
+    ready = []
+
+    for job in _scan_company(company, lookback_hours, categories):
+        verdict = screen_location(job.get("location"))
+
+        if verdict == "NON_US":
+            continue
+
+        job["location_verdict"] = verdict
+
+        if needs_detail_fetch(job.get("ats")) and not job.get("description"):
+            try:
+                job["description"] = fetch_description(job) or ""
+            except Exception:
+                job["description"] = ""
+
+        ready.append(job)
+
+    return ready
+
+
 def run_scan(
     *,
     lookback_hours: float = DEFAULT_LOOKBACK_HOURS,
@@ -104,137 +154,194 @@ def run_scan(
         companies_total=len(companies),
     )
 
-    matches: list[dict] = []
+    listed: list[dict] = []
+    queue: Queue = Queue()
+    listed_lock = threading.Lock()
+    cache = load_analysis_cache()
 
-    try:
-        # --- Stage 1: sweep every board concurrently --------------------
-        with ThreadPoolExecutor(max_workers=MAX_WORKERS) as pool:
-            futures = {
-                pool.submit(_scan_company, company, lookback_hours, wanted): company
-                for company in companies
-            }
+    def screen_queued() -> None:
+        """
+        Read, screen and list one posting at a time.
 
-            for future in as_completed(futures):
-                if status.cancelled():
-                    for pending in futures:
-                        pending.cancel()
-                    break
+        A single thread, because the local model is a single resource. It runs
+        for the whole scan, so screening a posting overlaps with fetching the
+        boards that come after it.
+        """
 
-                status.bump("companies_done")
+        analyzed = 0
+        published_at = 0.0
 
-                try:
-                    found = future.result()
-                except Exception:
-                    found = []
+        while True:
+            job = queue.get()
 
-                if found:
-                    matches.extend(found)
-                    status.update(jobs_found=len(matches))
+            if job is _DONE:
+                return
 
-        if status.cancelled():
-            status.finish(message="Scan cancelled.")
-            return _summary(matches, lookback_hours, dataset, cancelled=True)
-
-        matches = dedupe_jobs(matches)
-
-        # --- Stage 2: location screen (free, pattern-based) -------------
-        status.update(
-            phase="screening",
-            message="Screening locations…",
-            matches=len(matches),
-        )
-
-        screened = []
-
-        for job in matches:
-            verdict = screen_location(job.get("location"))
-
-            if verdict == "NON_US":
+            # On cancel, keep draining so the producer never blocks on a full
+            # queue, but stop spending the model on work nobody asked for.
+            if status.cancelled():
                 continue
 
-            job["location_verdict"] = verdict
-            screened.append(job)
+            if job.get("description"):
+                budget_left = (
+                    MAX_ANALYSIS_PER_SCAN <= 0
+                    or analyzed < MAX_ANALYSIS_PER_SCAN
+                )
 
-        matches = screened
-        status.update(matches=len(matches))
+                if USE_OLLAMA_ANALYSIS and budget_left:
+                    try:
+                        job["analysis"] = get_job_analysis(job, cache)
+                    except Exception:
+                        # A model failure still leaves a JD-backed record.
+                        job["analysis"] = fallback_analysis(job)
 
-        # --- Stage 3: descriptions, only for survivors ------------------
-        pending_detail = [
-            job
-            for job in matches
-            if needs_detail_fetch(job.get("ats")) and not job.get("description")
-        ]
+                    analyzed += 1
+                    status.bump("analyzed")
+                else:
+                    job["analysis"] = fallback_analysis(job)
 
-        if pending_detail and not status.cancelled():
-            status.update(
-                phase="descriptions",
-                message="Fetching job descriptions…",
-            )
+            # A US-only product cannot list an unresolved location.
+            if not job_has_confirmed_us_location(job):
+                continue
 
+            with listed_lock:
+                listed.append(job)
+                listed.sort(key=lambda item: item.get("age_hours") or 1e9)
+                snapshot = list(listed)
+
+            status.update(matches=len(snapshot))
+
+            now = time.monotonic()
+
+            if now - published_at >= PUBLISH_EVERY_SECONDS:
+                published_at = now
+                save_jobs(
+                    snapshot,
+                    lookback_hours=lookback_hours,
+                    dataset=dataset,
+                )
+
+    screener = threading.Thread(
+        target=screen_queued,
+        daemon=True,
+        name="job-screening",
+    )
+    screener.start()
+
+    try:
+        seen: set = set()
+
+        try:
             with ThreadPoolExecutor(max_workers=MAX_WORKERS) as pool:
-                futures = {
-                    pool.submit(fetch_description, job): job
-                    for job in pending_detail
-                }
+                futures = [
+                    pool.submit(
+                        _prepare_company,
+                        company,
+                        lookback_hours,
+                        wanted,
+                    )
+                    for company in companies
+                ]
 
                 for future in as_completed(futures):
                     if status.cancelled():
+                        for pending in futures:
+                            pending.cancel()
                         break
 
-                    job = futures[future]
+                    status.bump("companies_done")
 
                     try:
-                        job["description"] = future.result() or ""
+                        found = future.result() or []
                     except Exception:
-                        job["description"] = ""
+                        # One malformed board must never stop the sweep.
+                        found = []
 
-        # --- Stage 4: LLM analysis, the expensive one -------------------
-        analyzable = [job for job in matches if job.get("description")]
-        analyzable = analyzable[:MAX_ANALYSIS_PER_SCAN]
+                    for job in found:
+                        uid = job.get("uid")
 
-        if USE_OLLAMA_ANALYSIS and analyzable and not status.cancelled():
-            status.update(
-                phase="analyzing",
-                message="Screening postings with the local model…",
-                analyzed_total=len(analyzable),
-            )
+                        if uid in seen:
+                            continue
 
-            cache = load_analysis_cache()
+                        seen.add(uid)
+                        status.bump("jobs_found")
 
-            for job in analyzable:
-                if status.cancelled():
-                    break
+                        if job.get("description"):
+                            status.bump("analyzed_total")
 
-                job["analysis"] = get_job_analysis(job, cache)
-                status.bump("analyzed")
+                        queue.put(job)
+        finally:
+            # Always release the screening thread, even on cancel or failure,
+            # and let it finish the postings already queued.
+            queue.put(_DONE)
+            screener.join()
 
-            save_analysis_cache(cache)
+        save_analysis_cache(cache)
 
-        # Drop anything the model positively identified as non-US.
-        matches = [
-            job
-            for job in matches
-            if (job.get("analysis") or {}).get("us_location_eligible") != "NO"
-        ]
+        with listed_lock:
+            final = _confirmed(list(listed))
 
-        matches.sort(key=lambda job: job.get("age_hours") or 1e9)
+        save_jobs(final, lookback_hours=lookback_hours, dataset=dataset)
 
-        save_jobs(matches, lookback_hours=lookback_hours, dataset=dataset)
-
-        status.update(matches=len(matches))
+        status.update(matches=len(final))
+        cancelled = status.cancelled()
         status.finish(
             message=(
-                "Scan cancelled."
-                if status.cancelled()
-                else f"Found {len(matches)} matching roles."
+                f"Scan stopped. Kept {len(final)} confirmed roles."
+                if cancelled
+                else f"Found {len(final)} matching roles."
             )
         )
 
-        return _summary(matches, lookback_hours, dataset)
+        return _summary(
+            final,
+            lookback_hours,
+            dataset,
+            cancelled=cancelled,
+        )
 
     except Exception as error:
         status.finish(message="Scan failed.", error=str(error))
         raise
+
+
+def _confirmed(
+    matches: list[dict],
+    *,
+    pending: set | None = None,
+) -> list[dict]:
+    """
+    The publishable view of a scan: analysed, US-confirmed, freshest first.
+
+    ``pending`` holds the uids still queued for the model. Those are withheld
+    rather than given a fallback record, so a posting appears once its own JD
+    has actually been read — never as a placeholder that changes verdict a
+    moment later.
+    """
+
+    queued = pending or set()
+    ready = [
+        job for job in matches if job.get("uid") not in queued
+    ]
+
+    # A provider or model failure still gets a deterministic JD-backed
+    # manual-review record; successful LLM analyses remain untouched.
+    for job in ready:
+        if (
+            job.get("description")
+            and not isinstance(job.get("analysis"), dict)
+        ):
+            job["analysis"] = fallback_analysis(job)
+
+    # A US-only product cannot return unresolved ambiguous locations.
+    # Structured US locations survive without analysis; ambiguous ones
+    # require an explicit YES from the model.
+    confirmed = [
+        job for job in ready if job_has_confirmed_us_location(job)
+    ]
+    confirmed.sort(key=lambda job: job.get("age_hours") or 1e9)
+
+    return confirmed
 
 
 def _summary(jobs, lookback_hours, dataset, *, cancelled: bool = False) -> dict:

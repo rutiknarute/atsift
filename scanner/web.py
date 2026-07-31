@@ -11,6 +11,7 @@ from functools import wraps
 from flask import Flask, jsonify, request
 
 from scanner import status
+from scanner.analysis import normalize_job_analysis
 from scanner.boolean_search import ALL_CATEGORIES, ROLE_CATEGORY_LABELS
 from scanner.companies import dataset_summary
 from scanner.config import (
@@ -22,6 +23,9 @@ from scanner.config import (
     USE_OLLAMA_ANALYSIS,
 )
 from scanner.scan import clamp_lookback, start_scan_thread
+from scanner.dates import age_hours
+from scanner.locations import job_has_confirmed_us_location
+from scanner.logos import prepare_job_logos
 from scanner.store import load_jobs, load_viewed, mark_viewed
 
 
@@ -104,12 +108,29 @@ def create_app() -> Flask:
         viewed = load_viewed()
         records = stored.get("jobs") or []
 
-        # An explicit narrower window filters the stored results without
-        # forcing a re-scan.
-        requested = request.args.get("lookback_hours")
+        # Ages in the store reflect scan time. Recompute them at request time
+        # so a posting naturally ages out of the selected window. Old stored
+        # analyses are also repaired from their retained JD text, so a prompt
+        # upgrade fixes current results without waiting for another scan.
+        for job in records:
+            job["age_hours"] = age_hours(job.get("posted_at"))
+            normalize_job_analysis(job)
 
-        if requested is not None:
-            hours = clamp_lookback(requested)
+        records = [
+            job for job in records if job_has_confirmed_us_location(job)
+        ]
+
+        # An explicit narrower window filters the stored results without a
+        # re-scan. With no query, preserve the window that produced the store.
+        requested = request.args.get("lookback_hours")
+        effective_window = (
+            requested
+            if requested is not None
+            else stored.get("lookback_hours")
+        )
+
+        if effective_window is not None:
+            hours = clamp_lookback(effective_window)
             records = [
                 job
                 for job in records
@@ -126,6 +147,8 @@ def create_app() -> Flask:
 
         for job in records:
             job["viewed"] = job.get("uid") in viewed
+
+        prepare_job_logos(records)
 
         return jsonify(
             {

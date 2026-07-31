@@ -15,6 +15,7 @@ HOSTS = (
     "https://api.lever.co/v0/postings",
     "https://api.eu.lever.co/v0/postings",
 )
+PAGE_LIMIT = 100
 
 
 def _description(job: dict) -> str:
@@ -40,55 +41,96 @@ def _description(job: dict) -> str:
 
 def fetch(company: dict) -> list[dict]:
     slug = company["slug"]
-    payload = None
     last_error: Exception | None = None
 
     for host in HOSTS:
-        try:
-            payload = fetch_json(f"{host}/{slug}", params={"mode": "json"})
-            break
-        except BoardUnavailable as error:
-            last_error = error
+        records = []
+        skip = 0
 
-    if payload is None:
-        raise last_error or BoardUnavailable("lever unavailable")
+        while True:
+            try:
+                payload = fetch_json(
+                    f"{host}/{slug}",
+                    params={
+                        "mode": "json",
+                        "limit": PAGE_LIMIT,
+                        "skip": skip,
+                    },
+                )
+            except BoardUnavailable as error:
+                last_error = error
 
-    if not isinstance(payload, list):
-        return []
+                if skip == 0:
+                    break
 
-    records = []
+                raise
 
-    for job in payload:
-        if not isinstance(job, dict):
-            continue
+            if not isinstance(payload, list):
+                return []
 
-        job_id = job.get("id")
+            for job in payload:
+                if not isinstance(job, dict):
+                    continue
 
-        if job_id is None:
-            continue
+                job_id = job.get("id")
 
-        categories = job.get("categories")
-        categories = categories if isinstance(categories, dict) else {}
+                if job_id is None:
+                    continue
 
-        records.append(
-            make_job(
-                ats="lever",
-                company=company["name"],
-                company_slug=slug,
-                job_id=job_id,
-                title=str(job.get("text") or "").strip(),
-                url=str(job.get("hostedUrl") or job.get("applyUrl") or ""),
-                location=str(categories.get("location") or "").strip(),
-                team=str(
-                    categories.get("team")
-                    or categories.get("department")
-                    or ""
-                ).strip(),
-                # Lever returns epoch milliseconds.
-                posted_at=job.get("createdAt"),
-                description=_description(job),
-                salary_context=str(job.get("salaryRange") or ""),
-            )
-        )
+                categories = job.get("categories")
+                categories = categories if isinstance(categories, dict) else {}
+                all_locations = categories.get("allLocations")
+                location = (
+                    " · ".join(
+                        str(item).strip()
+                        for item in all_locations
+                        if str(item).strip()
+                    )
+                    if isinstance(all_locations, list)
+                    else ""
+                )
+                location = (
+                    location
+                    or str(categories.get("location") or "").strip()
+                    or (
+                        "Remote"
+                        if str(job.get("workplaceType") or "").casefold()
+                        == "remote"
+                        else ""
+                    )
+                )
 
-    return records
+                records.append(
+                    make_job(
+                        ats="lever",
+                        company=company["name"],
+                        company_slug=slug,
+                        job_id=job_id,
+                        title=str(job.get("text") or "").strip(),
+                        url=str(
+                            job.get("applyUrl")
+                            or job.get("hostedUrl")
+                            or ""
+                        ),
+                        location=location,
+                        team=str(
+                            categories.get("team")
+                            or categories.get("department")
+                            or ""
+                        ).strip(),
+                        # Lever returns epoch milliseconds.
+                        posted_at=job.get("createdAt"),
+                        description=_description(job),
+                        salary_context=str(job.get("salaryRange") or ""),
+                    )
+                )
+
+            if len(payload) < PAGE_LIMIT:
+                return records
+
+            skip += len(payload)
+
+    if last_error is not None:
+        raise last_error
+
+    raise BoardUnavailable("lever unavailable")

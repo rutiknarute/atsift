@@ -1,6 +1,8 @@
 import "server-only"
 
+import { normalizeJobExperience } from "@/lib/experience"
 import type { Job } from "@/lib/types"
+import { withLogos } from "@/server/job-logo"
 
 /*
   The packaged snapshot. It exists so the site is browsable with no scanner
@@ -15,6 +17,9 @@ interface SnapshotShape {
 }
 
 const data = snapshot as SnapshotShape
+const normalizedJobs = Array.isArray(data.jobs)
+  ? data.jobs.map(normalizeJobExperience).map(withLogos)
+  : []
 
 /*
   The snapshot is a frozen sample — every posting in it is older than any
@@ -24,7 +29,7 @@ const data = snapshot as SnapshotShape
   list than an empty one that looks like a broken scan.
 */
 export function snapshotJobs(): Job[] {
-  return Array.isArray(data.jobs) ? data.jobs : []
+  return normalizedJobs
 }
 
 export function snapshotScannedAt(): string | null {
