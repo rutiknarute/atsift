@@ -15,6 +15,7 @@ import {
 } from "lucide-react"
 
 import { RichText } from "@/components/ui/rich-text"
+import { ScoutJobs, readSearchResult } from "@/components/ui/scout-jobs"
 import { cn } from "@/lib/utils"
 
 const LIVE_PROMPTS = [
@@ -40,7 +41,16 @@ const SAMPLE_PROMPTS = [
 
 const transport = new DefaultChatTransport({ api: "/api/chat" })
 
-export function JobScout({ sampleMode = false }: { sampleMode?: boolean }) {
+export function JobScout({
+  sampleMode = false,
+  onApply,
+  applied,
+}: {
+  sampleMode?: boolean
+  /* Clicking Apply here marks the role the same way the results list does. */
+  onApply?: (uid: string) => void
+  applied?: (uid: string) => boolean
+}) {
   const [open, setOpen] = useState(false)
   const [input, setInput] = useState("")
   const panelId = useId()
@@ -258,9 +268,23 @@ export function JobScout({ sampleMode = false }: { sampleMode?: boolean }) {
                 }
 
                 /*
-                  No bubble on the answer. A reply is often several roles with
-                  links — it reads as a document, and boxing it in wastes the
-                  width the drawer exists to provide.
+                  Every finished search in this message, rendered from the
+                  tool's own output. The model is instructed not to list the
+                  roles back, so these cards are the only place a job appears —
+                  and a title or link cannot drift from what was actually
+                  found, because the model never retypes it.
+                */
+                const results = message.parts.flatMap((part) =>
+                  part.type === "tool-searchJobs" &&
+                  part.state === "output-available"
+                    ? (readSearchResult(part.output) ?? [])
+                    : [],
+                )
+
+                /*
+                  No bubble on the answer. A reply is a short line plus a stack
+                  of cards — it reads as a document, and boxing it in wastes
+                  the width the drawer exists to provide.
                 */
                 return (
                   <li key={message.id} className="rise flex gap-2.5">
@@ -270,9 +294,22 @@ export function JobScout({ sampleMode = false }: { sampleMode?: boolean }) {
                     >
                       <Sparkles className="size-3.5" />
                     </span>
-                    <RichText className="min-w-0 flex-1 text-sm text-muted">
-                      {text}
-                    </RichText>
+                    <div className="min-w-0 flex-1">
+                      {text && (
+                        <RichText className="text-sm text-muted">
+                          {text}
+                        </RichText>
+                      )}
+
+                      {results.map((result, index) => (
+                        <ScoutJobs
+                          key={index}
+                          result={result}
+                          onApply={onApply}
+                          applied={applied}
+                        />
+                      ))}
+                    </div>
                   </li>
                 )
               })}

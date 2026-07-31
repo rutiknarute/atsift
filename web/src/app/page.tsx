@@ -469,7 +469,17 @@ export default function Page() {
 
       {/* Fixed to the viewport, so these live outside the page flow. */}
       <ScrollTop />
-      {jobs.length > 0 && <JobScout sampleMode={source === "snapshot"} />}
+      {jobs.length > 0 && (
+        <JobScout
+          sampleMode={source === "snapshot"}
+          onApply={markApplied}
+          // Reads the same job list the results grid does, so a role applied
+          // to in either place shows as applied in both.
+          applied={(uid) =>
+            Boolean(jobs.find((job) => job.uid === uid)?.viewed)
+          }
+        />
+      )}
     </>
   )
 }

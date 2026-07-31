@@ -83,3 +83,32 @@ export interface ScannerMeta {
   default_lookback_hours: number
   max_lookback_hours: number
 }
+
+/*
+  What the Job Scout's search tool returns per role.
+
+  Lives here rather than in `job-agent.ts` because that module is server-only
+  and the chat UI renders these as cards on the client. The tool builds the
+  shape; both sides agree on it through this type.
+*/
+export interface ScoutJob {
+  uid: string
+  title: string
+  company: string
+  location: string
+  ats: string
+  ageHours: number | null
+  minimumYears: number | null
+  optEligible: "YES" | "NO" | "UNKNOWN"
+  skills: string[]
+  matchedTerms: string[]
+  applyUrl: string
+}
+
+export interface ScoutSearchResult {
+  source: "scanner" | "snapshot"
+  searchedWithinHours: number | null
+  totalInWindow: number
+  matchCount: number
+  jobs: ScoutJob[]
+}

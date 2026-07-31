@@ -8,7 +8,7 @@ import { ToolLoopAgent, stepCountIs, tool } from "ai"
 import { z } from "zod"
 
 import { normalizeJobExperience } from "@/lib/experience"
-import type { Job } from "@/lib/types"
+import type { Job, ScoutJob } from "@/lib/types"
 import { snapshotJobs } from "@/server/public-data"
 import { fetchScanner, scannerAvailable } from "@/server/scanner-client"
 
@@ -93,7 +93,7 @@ function compact(
   job: Job,
   matched: string[],
   source: "scanner" | "snapshot",
-) {
+): ScoutJob {
   return {
     uid: job.uid,
     title: job.title,
@@ -252,10 +252,18 @@ Rules:
   timeframe or loosening the keywords. Do not pad with guesses.
 - When the tool reports source "snapshot", clearly say the results are from a
   packaged sample, not current listings. Do not describe their ages as current.
-- Lead with the best match. For each: title, company, location, how old the
-  posting is when available, and the apply link.
-- Be brief. Short lines, no long paragraphs, no preamble.
-- If a role is marked optEligible "NO", say it blocks OPT candidates.
+
+The interface renders every job the tool returned as its own card, with the
+title, company, location, age, experience, OPT status and an Apply button. So:
+
+- Do NOT list the jobs back. No titles, no companies, no links, no bullets per
+  role — the cards already show all of it, and repeating it reads as an echo.
+- Instead write one or two short lines around them: what you searched for, why
+  the top one leads, or a caveat worth knowing (a role that blocks OPT, or
+  results that came from the packaged sample).
+- If nothing matched, say so plainly and suggest widening the timeframe or
+  loosening the keywords. Do not pad with guesses.
+- Be brief. No preamble, no sign-off.
 `.trim()
 
 export function createJobScout() {
