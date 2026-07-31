@@ -8,6 +8,7 @@ import { RunConsole, RunConsoleSkeleton } from "@/components/run-console"
 import { ScanProgress } from "@/components/scan-progress"
 import { Results } from "@/components/results"
 import { JobScout } from "@/components/job-scout"
+import { ScrollTop } from "@/components/scroll-top"
 import { BrandLogo } from "@/components/brand"
 import { VanishingWord } from "@/components/vanishing-word"
 import { cn } from "@/lib/utils"
@@ -466,7 +467,8 @@ export default function Page() {
         </div>
       </footer>
 
-      {/* Fixed to the viewport, so it lives outside the page flow. */}
+      {/* Fixed to the viewport, so these live outside the page flow. */}
+      <ScrollTop />
       {jobs.length > 0 && <JobScout sampleMode={source === "snapshot"} />}
     </>
   )
