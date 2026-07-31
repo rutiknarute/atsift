@@ -1,7 +1,6 @@
 "use client"
 
 import { Suspense, useEffect, useRef, useState } from "react"
-import Image from "next/image"
 import { useRouter, useSearchParams } from "next/navigation"
 import {
   ArrowLeft,
@@ -19,7 +18,6 @@ import {
   UserRound,
 } from "lucide-react"
 
-import atsiftMark from "@/assets/atsift-mark.png"
 import { BrandLogo } from "@/components/brand"
 import { cn } from "@/lib/utils"
 
@@ -157,8 +155,18 @@ function LoginFlow() {
         <>
           <header>
             <p className="text-lg text-muted">Welcome to</p>
-            <h1 className="mt-0.5 font-display text-[2.75rem] font-extrabold leading-none tracking-[-0.03em] text-text">
-              ATSift
+            {/*
+              The artwork is the wordmark, so it *is* the heading — its alt
+              text gives the h1 its accessible name. No second copy anywhere
+              on the page.
+            */}
+            <h1 className="mt-3">
+              {/*
+                Both breakpoints, deliberately: BrandLogo carries its own
+                `sm:h-8`, and a bare `h-12` loses to it above 640px — the
+                logo would silently render at header size here.
+              */}
+              <BrandLogo className="h-10 w-auto sm:h-12" />
             </h1>
           </header>
 
@@ -329,45 +337,21 @@ function LoginFlow() {
 }
 
 /*
-  Two panels: the form on white, the argument on blue.
+  Two panels: the form on white, the argument on blue, meeting on a straight
+  vertical. The colour change is the divider — a drawn line on top of it would
+  only be a second edge in the same place.
 
-  The blue is a single element sitting under the layout and clipped by a
-  bezier, so its left edge sweeps into the white column instead of meeting it
-  at a straight seam. The curve is defined in objectBoundingBox units, which
-  makes it scale with the panel rather than needing pixel coordinates.
-
-  Below `lg` there is no room for two columns, so the panel stops being a
-  backdrop and becomes an ordinary block underneath the form — a stranger can
+  Below `lg` there is no room for two columns, so the blue stops being a
+  column and becomes an ordinary block underneath the form — a stranger can
   still read it, and the owner still gets the form first.
 */
 function Shell({ children }: { children?: React.ReactNode }) {
   return (
     <div className="relative min-h-dvh bg-surface">
-      <svg aria-hidden="true" className="absolute size-0">
-        <defs>
-          <clipPath id="panel-sweep" clipPathUnits="objectBoundingBox">
-            <path d="M0.17,0 C0.03,0.22 0.05,0.55 0.22,0.78 C0.30,0.89 0.36,0.96 0.38,1 L1,1 L1,0 Z" />
-          </clipPath>
-        </defs>
-      </svg>
-
-      <aside
-        aria-hidden="true"
-        style={{ clipPath: "url(#panel-sweep)" }}
-        className="pointer-events-none absolute inset-y-0 right-0 hidden w-[64%] bg-brand lg:block"
-      />
-
-      <div className="relative mx-auto grid min-h-dvh w-full max-w-[96rem] lg:grid-cols-[minmax(0,44%)_minmax(0,56%)]">
+      <div className="relative grid min-h-dvh w-full lg:grid-cols-[minmax(0,44%)_minmax(0,56%)]">
         <div className="flex flex-col px-6 py-10 sm:px-12 lg:py-14 lg:pl-16 lg:pr-12">
-          {/*
-            `self-start` matters: this is a flex column, so the default stretch
-            would blow the logo to the column's full width while `h-8` held the
-            height, squashing the artwork flat.
-          */}
-          <BrandLogo className="h-8 w-auto self-start" />
-
           <div className="flex flex-1 flex-col justify-center py-12 lg:py-8">
-            <div className="w-full max-w-[26rem]">
+            <div className="w-full max-w-[26rem] lg:mx-auto">
               {children ?? (
                 <div className="grid h-80 place-items-center">
                   <Loader2
@@ -385,10 +369,10 @@ function Shell({ children }: { children?: React.ReactNode }) {
           </p>
         </div>
 
-        {/* Desktop: sits over the clipped blue. Mobile: its own blue block. */}
+        {/* The blue column on `lg`; a block under the form below it. */}
         <div
           data-on-brand=""
-          className="relative bg-brand px-6 py-12 text-brand-ink sm:px-12 lg:bg-transparent lg:py-14 lg:pl-20 lg:pr-16"
+          className="relative bg-brand px-6 py-12 text-brand-ink sm:px-12 lg:py-14 lg:pl-16 lg:pr-14"
         >
           <Panel />
         </div>
@@ -400,20 +384,7 @@ function Shell({ children }: { children?: React.ReactNode }) {
 function Panel() {
   return (
     <div className="relative flex h-full flex-col justify-center">
-      {/*
-        Stands in for the reference's illustration: the brand mark, scaled up
-        and dropped almost to nothing, so it reads as texture rather than a
-        second logo competing with the one in the header.
-      */}
-      <Image
-        src={atsiftMark}
-        alt=""
-        aria-hidden="true"
-        sizes="520px"
-        className="pointer-events-none absolute -bottom-16 -right-10 hidden w-[26rem] max-w-none opacity-[0.07] lg:block"
-      />
-
-      <div className="relative max-w-[34rem]">
+      <div className="relative max-w-[34rem] lg:mx-auto">
         <h2 className="font-display text-[1.6rem] font-bold tracking-tight">
           About ATSift
         </h2>
