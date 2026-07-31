@@ -9,7 +9,11 @@ roles posted inside the window you chose, and tells you before you click
 whether the job is actually US-based and whether it will take an F-1/OPT
 candidate.
 
-🔗 **Live:** _(added below once deployed)_
+### 🔗 [**atsift.vercel.app**](https://atsift.vercel.app)
+
+<sub>The live link runs in snapshot mode — a packaged sample of 491 real
+postings, so you can use the whole interface without a scanner behind it.
+[Why](#about-the-deployment).</sub>
 
 </div>
 
