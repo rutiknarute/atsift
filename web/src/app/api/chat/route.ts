@@ -1,14 +1,40 @@
 import { convertToModelMessages, type UIMessage } from "ai"
 
 import { createJobScout } from "@/lib/job-agent"
-import { requireSession } from "@/server/guard"
+import { allowAttempt } from "@/server/auth"
+import { sessionRole } from "@/server/guard"
 
 export const maxDuration = 60
 
-export async function POST(request: Request) {
-  const denied = await requireSession()
+/*
+  The demo account keeps the Scout — it is the most interesting thing here and
+  a demo without it shows nothing. But every message is a paid call on the
+  owner's OpenRouter key, and anyone can mint a demo session, so demo traffic
+  is capped where the owner's is not.
+*/
+const DEMO_MESSAGES_PER_HOUR = 12
 
-  if (denied) return denied
+export async function POST(request: Request) {
+  const role = await sessionRole()
+
+  if (!role) {
+    return Response.json({ error: "Not signed in." }, { status: 401 })
+  }
+
+  if (role === "demo") {
+    const forwarded = request.headers.get("x-forwarded-for")
+    const key = forwarded?.split(",")[0]?.trim() || "local"
+
+    if (!allowAttempt(`chat:${key}`, DEMO_MESSAGES_PER_HOUR, 60 * 60_000)) {
+      return Response.json(
+        {
+          error:
+            "The demo has reached its message limit for now. Try again later.",
+        },
+        { status: 429 },
+      )
+    }
+  }
 
   const { messages }: { messages: UIMessage[] } = await request.json()
 

@@ -5,6 +5,7 @@ import {
   ChevronDown,
   Clock,
   Database,
+  Eye,
   Loader2,
   RefreshCw,
   Square,
@@ -23,6 +24,8 @@ interface RunConsoleProps {
   starting: boolean
   stopping: boolean
   scannerAvailable: boolean
+  /* Demo visitors can browse but not start work. */
+  demo?: boolean
   onRun: () => void
   onStop: () => void
 }
@@ -37,6 +40,7 @@ export function RunConsole({
   starting,
   stopping,
   scannerAvailable,
+  demo = false,
   onRun,
   onStop,
 }: RunConsoleProps) {
@@ -114,6 +118,11 @@ export function RunConsole({
             )}
             {starting ? "Starting…" : "Run fresh scan"}
           </button>
+        ) : demo ? (
+          <span className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-brand-line bg-brand-soft px-5 text-sm font-medium text-brand-deep">
+            <Eye aria-hidden="true" className="size-4" />
+            Browsing only
+          </span>
         ) : (
           <span className="inline-flex min-h-12 items-center justify-center gap-2 rounded-xl border border-line bg-surface-2 px-5 text-sm font-medium text-muted">
             <Archive aria-hidden="true" className="size-4" />
@@ -129,14 +138,16 @@ export function RunConsole({
         <span
           className={cn(
             "mt-[0.45rem] size-1.5 shrink-0 rounded-full",
-            running || scannerAvailable ? "bg-brand" : "bg-faint",
+            running || scannerAvailable || demo ? "bg-brand" : "bg-faint",
           )}
         />
         {running
           ? "Scanning now — roles appear below as each one is screened. You can stop at any time and keep what has landed."
-          : scannerAvailable
-            ? `Ready to sweep ${(meta.datasets.find((d) => d.id === dataset)?.count ?? 0).toLocaleString()} job boards.`
-            : "The live scanner is offline. You can still browse the packaged sample below."}
+          : demo
+            ? "You are on the demo account. Browse everything below; starting a scan needs the owner's sign-in."
+            : scannerAvailable
+              ? `Ready to sweep ${(meta.datasets.find((d) => d.id === dataset)?.count ?? 0).toLocaleString()} job boards.`
+              : "The live scanner is offline. You can still browse the packaged sample below."}
       </p>
     </fieldset>
   )

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server"
 
 import { fetchScanner, scannerAvailable } from "@/server/scanner-client"
 import type { ScannerMeta } from "@/lib/types"
-import { requireSession } from "@/server/guard"
+import { requireSession, sessionRole } from "@/server/guard"
 
 // Mirrors scanner/boolean_search.py and scanner/config.py, so the controls
 // still render with no scanner reachable.
@@ -29,15 +29,19 @@ export async function GET() {
 
   if (denied) return denied
 
+  // The dashboard needs the role to decide whether to offer a Run button at
+  // all. Showing one to a demo visitor would only produce a 403 on click.
+  const role = await sessionRole()
+
   if (!(await scannerAvailable())) {
-    return NextResponse.json({ ...FALLBACK, scanner_available: false })
+    return NextResponse.json({ ...FALLBACK, scanner_available: false, role })
   }
 
   try {
     const data = await fetchScanner<ScannerMeta>("/api/meta")
 
-    return NextResponse.json({ ...data, scanner_available: true })
+    return NextResponse.json({ ...data, scanner_available: true, role })
   } catch {
-    return NextResponse.json({ ...FALLBACK, scanner_available: false })
+    return NextResponse.json({ ...FALLBACK, scanner_available: false, role })
   }
 }

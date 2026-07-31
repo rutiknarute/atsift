@@ -46,7 +46,10 @@ const EMPTY_STATUS: ScanStatus = {
   error: null,
 }
 
-type MetaResponse = ScannerMeta & { scanner_available: boolean }
+type MetaResponse = ScannerMeta & {
+  scanner_available: boolean
+  role: "owner" | "demo" | null
+}
 type JobsWithSource = JobsResponse & { source: "scanner" | "snapshot" }
 type StatusResponse = ScanStatus & { scanner_available: boolean }
 
@@ -83,6 +86,7 @@ export default function Page() {
   const [scannedAt, setScannedAt] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [scannerAvailable, setScannerAvailable] = useState(false)
+  const [isDemo, setIsDemo] = useState(false)
   const [loadingMeta, setLoadingMeta] = useState(true)
   const [loadingJobs, setLoadingJobs] = useState(true)
   const [starting, setStarting] = useState(false)
@@ -148,6 +152,7 @@ export default function Page() {
 
         setMeta(data)
         setScannerAvailable(data.scanner_available)
+        setIsDemo(data.role === "demo")
 
         if (!defaultsSet.current) {
           setLookbackHours(data.default_lookback_hours)
@@ -342,6 +347,12 @@ export default function Page() {
                 : "Snapshot mode"}
           </span>
 
+          {isDemo && (
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-line bg-brand-soft px-3 py-1.5 text-xs font-semibold text-brand-deep">
+              Demo account
+            </span>
+          )}
+
           <button
             type="button"
             onClick={signOut}
@@ -384,7 +395,8 @@ export default function Page() {
                   running={running}
                   starting={starting}
                   stopping={stopping}
-                  scannerAvailable={scannerAvailable}
+                  scannerAvailable={scannerAvailable && !isDemo}
+                  demo={isDemo}
                   onRun={runScan}
                   onStop={stopScan}
                 />

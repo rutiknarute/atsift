@@ -18,6 +18,7 @@ import {
   Send,
   ShieldCheck,
   Timer,
+  UserRound,
 } from "lucide-react"
 
 import { BrandLogo } from "@/components/brand"
@@ -372,7 +373,8 @@ function Page({ children }: { children?: React.ReactNode }) {
             </div>
 
             <p className="mt-4 px-1 text-xs leading-relaxed text-faint">
-              Sessions last 30 days. Signing out ends them everywhere.
+              Signing in lasts 30 days and signing out ends it everywhere. The
+              demo account expires after 2 hours.
             </p>
           </div>
         </div>
@@ -402,21 +404,71 @@ function Page({ children }: { children?: React.ReactNode }) {
   and this one falls back to a packaged sample.
 */
 function DemoLink() {
+  const router = useRouter()
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  async function enterDemo() {
+    if (busy) return
+
+    setBusy(true)
+    setError(null)
+
+    const response = await fetch("/api/auth/demo", { method: "POST" })
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => ({}))
+
+      setBusy(false)
+      setError(data.error ?? "Could not start the demo.")
+
+      return
+    }
+
+    router.replace("/")
+    router.refresh()
+  }
+
   return (
     <div className="mt-6 border-t border-line-soft pt-5">
+      <button
+        type="button"
+        onClick={enterDemo}
+        disabled={busy}
+        className={cn(
+          "flex min-h-12 w-full items-center justify-center gap-2 rounded-xl px-4 text-sm font-semibold",
+          "bg-brand text-brand-ink transition-colors hover:bg-brand-strong",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2",
+          "disabled:cursor-wait disabled:opacity-70",
+        )}
+      >
+        {busy ? (
+          <Loader2 aria-hidden="true" className="size-4 animate-spin" />
+        ) : (
+          <UserRound aria-hidden="true" className="size-4" />
+        )}
+        {busy ? "Opening…" : "Demo account"}
+      </button>
+
+      <p className="mt-2 text-center text-xs leading-relaxed text-faint">
+        Browse everything here, no password. Read-only.
+      </p>
+
+      {error && <Problem>{error}</Problem>}
+
       <a
         href="https://beone-theta.vercel.app/"
         target="_blank"
         rel="noopener noreferrer"
         className={cn(
-          "group flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border px-4 text-sm font-semibold",
+          "group mt-4 flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border px-4 text-sm font-semibold",
           "border-brand-line bg-brand-soft text-brand-deep transition-colors",
           "hover:border-brand hover:bg-brand hover:text-brand-ink",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2",
         )}
       >
         <PlayCircle aria-hidden="true" className="size-4" />
-        Try the live demo
+        Try Software roles Live demo
         <ArrowUpRight
           aria-hidden="true"
           className="size-3.5 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"

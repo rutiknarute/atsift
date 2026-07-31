@@ -24,13 +24,24 @@ export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 30
   a token minted in the same second as a sign-out compared equal to the
   cut-off and survived it.
 */
+export type SessionRole = "owner" | "demo"
+
 interface SessionClaims {
   email: string
+  /*
+    Anyone can mint a demo session from the login page, so it is deliberately
+    not the same thing as being signed in. Read routes serve it; anything that
+    spends money or changes state checks for `owner`.
+  */
+  role: SessionRole
   /** Issued at, epoch milliseconds. */
   iat: number
   /** Expiry, epoch milliseconds. */
   exp: number
 }
+
+/* A demo session is short — it is for looking around, not for living in. */
+export const DEMO_MAX_AGE_SECONDS = 60 * 60 * 2
 
 /*
   Signing out has to actually end the session.
@@ -74,12 +85,18 @@ function signatureMatches(expected: string, received: string): boolean {
   return timingSafeEqual(a, b)
 }
 
-export function createSessionToken(email: string): string {
+export function createSessionToken(
+  email: string,
+  role: SessionRole = "owner",
+): string {
   const now = Date.now()
+  const maxAge =
+    role === "demo" ? DEMO_MAX_AGE_SECONDS : SESSION_MAX_AGE_SECONDS
   const claims: SessionClaims = {
     email,
+    role,
     iat: now,
-    exp: now + SESSION_MAX_AGE_SECONDS * 1000,
+    exp: now + maxAge * 1000,
   }
   const payload = Buffer.from(JSON.stringify(claims)).toString("base64url")
 
@@ -108,6 +125,13 @@ export function readSessionToken(token: string | undefined): SessionClaims | nul
     if (typeof claims?.email !== "string") return null
     if (typeof claims?.exp !== "number") return null
     if (typeof claims?.iat !== "number") return null
+
+    /*
+      A token minted before roles existed has no `role`. Treat only the exact
+      string "owner" as owner and anything else as demo, so an unknown or
+      missing value can never be the permissive case.
+    */
+    claims.role = claims.role === "owner" ? "owner" : "demo"
 
     if (claims.exp <= Date.now()) return null
 
