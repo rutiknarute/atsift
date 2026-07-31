@@ -6,7 +6,9 @@ Thin by design: parse the request, call into the scanner, shape the response.
 
 from __future__ import annotations
 
+import time
 from functools import wraps
+from pathlib import Path
 
 from flask import Flask, jsonify, request
 
@@ -23,6 +25,18 @@ from scanner.config import (
     USE_OLLAMA_ANALYSIS,
 )
 from scanner.scan import clamp_lookback, start_scan_thread
+
+_STARTED_AT = time.time()
+_SOURCE_DIR = Path(__file__).resolve().parent
+
+
+def _source_mtime() -> float:
+    """Newest modification time across the scanner package."""
+
+    try:
+        return max(p.stat().st_mtime for p in _SOURCE_DIR.rglob("*.py"))
+    except (OSError, ValueError):
+        return 0.0
 from scanner.dates import age_hours
 from scanner.locations import job_has_confirmed_us_location
 from scanner.logos import prepare_job_logos
@@ -77,6 +91,14 @@ def create_app() -> Flask:
                 "scanning": status.is_running(),
                 "analysis_enabled": USE_OLLAMA_ANALYSIS,
                 "model": OLLAMA_MODEL,
+                "started_at": _STARTED_AT,
+                "source_changed_at": _source_mtime(),
+                # True when the code on disk is newer than the process running
+                # it. Python imports once, so an edited adapter does nothing
+                # until a restart — and the only symptom is wrong output, which
+                # is indistinguishable from a bug in the new code. Twice now
+                # that has meant silently publishing broken apply links.
+                "stale": _source_mtime() > _STARTED_AT,
             }
         )
 

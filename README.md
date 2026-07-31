@@ -202,6 +202,16 @@ python3 app.py                 # http://127.0.0.1:5057
 > the dashboard's health probe. That one cost me an embarrassing amount of
 > debugging.
 
+**Restart the scanner after changing anything under `scanner/`.** Python
+imports a module once, so an edited adapter keeps running its old code until
+the process comes back — and the only symptom is wrong output, which looks
+identical to a bug in the new code. `GET /api/health` reports `stale: true`
+when the source on disk is newer than the running process:
+
+```bash
+curl -s localhost:5057/api/health | grep -o '"stale":[a-z]*'
+```
+
 ### 2. The dashboard
 
 ```bash
