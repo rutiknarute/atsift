@@ -8,12 +8,12 @@ import { cn, formatWindow } from "@/lib/utils"
 import type { CategoryId, Job } from "@/lib/types"
 
 type SortKey = "newest" | "company"
-type ExperienceKey = "all" | "max1" | "1to2" | "max2" | "max3" | "min3"
+type ExperienceKey = "all" | "max1" | "max2" | "max3" | "min3"
 
 /*
-  Filters on the years a posting actually requires. The bands overlap on
-  purpose — they are alternative ways to ask the same question, not a
-  partition — so "1–2 years" and "3 years or less" both include a 2-year role.
+  Filters on the years a posting actually requires. Every band but the last is
+  a ceiling, so they nest rather than partition — a 2-year role shows under
+  "2 years or less" and under "3 years or less" both.
 */
 const EXPERIENCE_FILTERS: {
   id: ExperienceKey
@@ -22,11 +22,6 @@ const EXPERIENCE_FILTERS: {
 }[] = [
   { id: "all", label: "Any experience", match: () => true },
   { id: "max1", label: "1 year or less", match: (years) => years <= 1 },
-  {
-    id: "1to2",
-    label: "1–2 years",
-    match: (years) => years >= 1 && years <= 2,
-  },
   { id: "max2", label: "2 years or less", match: (years) => years <= 2 },
   { id: "max3", label: "3 years or less", match: (years) => years <= 3 },
   { id: "min3", label: "3+ years", match: (years) => years >= 3 },
