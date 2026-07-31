@@ -247,6 +247,11 @@ real postings from an earlier scan, so you can see and use the whole interface
 — filters, cards, eligibility flags, the Scout — without a Python process
 behind it. Run a live scan by starting the scanner locally, as above.
 
+If you want to see a scan actually run, there's a
+**[second deployment](https://beone-theta.vercel.app/)** whose screening is
+wired to a hosted Llama model instead of a local one — no Ollama to keep
+resident, so it can scan on demand. It's linked from the login page too.
+
 The dashboard decides this with a health probe rather than by whether a URL is
 configured, because a URL that merely parses is not a reachable scanner.
 

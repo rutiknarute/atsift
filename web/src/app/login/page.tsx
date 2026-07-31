@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation"
 import {
   ArrowLeft,
   ArrowRight,
+  ArrowUpRight,
   CheckCircle2,
   CircleAlert,
   Eye,
@@ -13,6 +14,7 @@ import {
   Lock,
   Mail,
   MapPin,
+  PlayCircle,
   Send,
   ShieldCheck,
   Timer,
@@ -365,6 +367,8 @@ function Page({ children }: { children?: React.ReactNode }) {
                   />
                 </div>
               )}
+
+              <DemoLink />
             </div>
 
             <p className="mt-4 px-1 text-xs leading-relaxed text-faint">
@@ -382,6 +386,46 @@ function Page({ children }: { children?: React.ReactNode }) {
           </span>
         </div>
       </footer>
+    </div>
+  )
+}
+
+/*
+  The way in for everyone who is not the owner.
+
+  Sits under the form in the card itself, so it is visible in every state —
+  including right after someone submits an access request, which is exactly
+  the moment they have nothing else to do.
+
+  It points at a separate deployment whose screening runs on a hosted Llama
+  model rather than a local one, which is why that build can scan on demand
+  and this one falls back to a packaged sample.
+*/
+function DemoLink() {
+  return (
+    <div className="mt-6 border-t border-line-soft pt-5">
+      <a
+        href="https://beone-theta.vercel.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={cn(
+          "group flex min-h-12 w-full items-center justify-center gap-2 rounded-xl border px-4 text-sm font-semibold",
+          "border-brand-line bg-brand-soft text-brand-deep transition-colors",
+          "hover:border-brand hover:bg-brand hover:text-brand-ink",
+          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2",
+        )}
+      >
+        <PlayCircle aria-hidden="true" className="size-4" />
+        Try the live demo
+        <ArrowUpRight
+          aria-hidden="true"
+          className="size-3.5 transition-transform group-hover:-translate-y-px group-hover:translate-x-px"
+        />
+      </a>
+
+      <p className="mt-2.5 text-center text-xs leading-relaxed text-faint">
+        Runs a real scan on a hosted Llama model. No sign-in needed.
+      </p>
     </div>
   )
 }
