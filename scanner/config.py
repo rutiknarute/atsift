@@ -15,6 +15,14 @@ load_dotenv(BASE_DIR / ".env.local", override=True)
 DATA_DIR = BASE_DIR / "data"
 
 # --- Company catalogs -------------------------------------------------------
+#
+# A company lands in a catalog by which adapter can read its board: the five
+# token-slug boards share one, Workday gets its own because its slug is a full
+# tenant URL, and anything else — a board no adapter covers, one that turned
+# out not to answer, or a hand-picked extra not already in "main" — goes in
+# "plus". Most of "plus" won't produce results by design; it's a holding pen
+# for boards that can't be read, slugs that need a human look, and the small
+# set of extras verified live but not yet folded into "main".
 
 COMPANY_DATASETS = {
     "main": {
@@ -24,6 +32,10 @@ COMPANY_DATASETS = {
     "workday": {
         "filename": "companies_workday.csv",
         "label": "Workday",
+    },
+    "plus": {
+        "filename": "companies_plus.csv",
+        "label": "Plus",
     },
 }
 
@@ -47,8 +59,12 @@ BRANDFETCH_LOGO_CACHE_PATH = DATA_DIR / "brandfetch_logo_cache.json"
 # The window the user picks drives the scan AND the results. These are the
 # options the UI offers; MAX_LOOKBACK_HOURS is the hard ceiling because
 # freshness is the whole point of the product.
+#
+# The 1/2/4-hour windows exist for the "first 10 applicants" case: a sweep run
+# on a schedule wants to see only what landed since the last one, and a 6-hour
+# floor re-screens hours of postings that were already read.
 
-LOOKBACK_OPTIONS = [6, 12, 24, 48, 72]
+LOOKBACK_OPTIONS = [1, 2, 4, 6, 12, 24, 48, 72]
 DEFAULT_LOOKBACK_HOURS = 24
 MAX_LOOKBACK_HOURS = 72
 

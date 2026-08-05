@@ -7,6 +7,7 @@ import {
   Database,
   Eye,
   Loader2,
+  Lock,
   RefreshCw,
   Square,
 } from "lucide-react"
@@ -24,6 +25,13 @@ interface RunConsoleProps {
   starting: boolean
   stopping: boolean
   scannerAvailable: boolean
+  /*
+    The window the running scan actually locked in, straight from the scanner.
+    Local state is what the user picked; this is what is being swept. They
+    agree in practice, and when they don't, the scanner is the truth.
+  */
+  activeLookbackHours?: number | null
+  activeDataset?: string | null
   /* Demo visitors can browse but not start work. */
   demo?: boolean
   onRun: () => void
@@ -40,42 +48,76 @@ export function RunConsole({
   starting,
   stopping,
   scannerAvailable,
+  activeLookbackHours = null,
+  activeDataset = null,
   demo = false,
   onRun,
   onStop,
 }: RunConsoleProps) {
   const controlsDisabled = running || starting
 
+  /*
+    Once a sweep is in flight its window is settled: changing the control
+    would not change the scan, and a dropdown still listing seven other
+    windows invites you to read the wrong one as the one running. So the
+    pickers collapse to a single locked value for the duration — the other
+    options leave the DOM entirely rather than being greyed out.
+
+    `starting` is included because the scan is already committed by then; the
+    scanner just has not reported back yet, so we fall back to the local pick.
+  */
+  const frozenLookback = controlsDisabled
+    ? (activeLookbackHours ?? lookbackHours)
+    : null
+  const frozenDataset = controlsDisabled ? (activeDataset ?? dataset) : null
+  const frozenDatasetLabel = meta.datasets.find(
+    (option) => option.id === frozenDataset,
+  )?.label
+
   return (
     <fieldset className="flex flex-col items-center gap-3">
       <legend className="sr-only">Configure and run a job-board scan</legend>
 
       <div className="grid w-full max-w-4xl gap-3 text-left sm:grid-cols-[13rem_minmax(16rem,1fr)_auto] sm:items-center">
-        <Picker
-          label="Time window"
-          name="lookback"
-          icon={<Clock aria-hidden="true" className="size-4 text-faint" />}
-          value={String(lookbackHours)}
-          onChange={(value) => onLookbackChange(Number(value))}
-          disabled={controlsDisabled}
-          options={meta.lookback_options.map((hours) => ({
-            value: String(hours),
-            label: `Scan last ${formatWindow(hours)}`,
-          }))}
-        />
+        {frozenLookback !== null ? (
+          <LockedField
+            label="Time window"
+            icon={<Clock aria-hidden="true" className="size-4 text-brand" />}
+            value={`Scanning last ${formatWindow(frozenLookback)}`}
+          />
+        ) : (
+          <Picker
+            label="Time window"
+            name="lookback"
+            icon={<Clock aria-hidden="true" className="size-4 text-faint" />}
+            value={String(lookbackHours)}
+            onChange={(value) => onLookbackChange(Number(value))}
+            options={meta.lookback_options.map((hours) => ({
+              value: String(hours),
+              label: `Scan last ${formatWindow(hours)}`,
+            }))}
+          />
+        )}
 
-        <Picker
-          label="Board catalog"
-          name="dataset"
-          icon={<Database aria-hidden="true" className="size-4 text-faint" />}
-          value={dataset}
-          onChange={onDatasetChange}
-          disabled={controlsDisabled}
-          options={meta.datasets.map((option) => ({
-            value: option.id,
-            label: option.label,
-          }))}
-        />
+        {frozenDataset !== null ? (
+          <LockedField
+            label="Board catalog"
+            icon={<Database aria-hidden="true" className="size-4 text-brand" />}
+            value={frozenDatasetLabel ?? frozenDataset}
+          />
+        ) : (
+          <Picker
+            label="Board catalog"
+            name="dataset"
+            icon={<Database aria-hidden="true" className="size-4 text-faint" />}
+            value={dataset}
+            onChange={onDatasetChange}
+            options={meta.datasets.map((option) => ({
+              value: option.id,
+              label: option.label,
+            }))}
+          />
+        )}
 
         {running ? (
           <button
@@ -153,6 +195,47 @@ export function RunConsole({
   )
 }
 
+/*
+  The frozen twin of `Picker`: same shell, no options, no interaction. It is
+  not a disabled `select` on purpose — a disabled control still reads as one
+  you could open, and it keeps the losing options one keystroke away.
+*/
+function LockedField({
+  label,
+  icon,
+  value,
+}: {
+  label: string
+  icon: React.ReactNode
+  value: string
+}) {
+  return (
+    <div className="block min-w-0">
+      <span className="sr-only">{label} (locked while scanning)</span>
+      <span className="relative block">
+        <span className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2">
+          {icon}
+        </span>
+
+        <span
+          className={cn(
+            "flex min-h-12 w-full items-center truncate rounded-xl",
+            "border border-brand-line bg-brand-soft pl-11 pr-10",
+            "text-sm font-medium text-brand-deep",
+          )}
+        >
+          {value}
+        </span>
+
+        <Lock
+          aria-hidden="true"
+          className="pointer-events-none absolute right-4 top-1/2 size-3.5 -translate-y-1/2 text-brand"
+        />
+      </span>
+    </div>
+  )
+}
+
 function Picker({
   label,
   name,
@@ -160,7 +243,6 @@ function Picker({
   value,
   onChange,
   options,
-  disabled,
 }: {
   label: string
   name: string
@@ -168,7 +250,6 @@ function Picker({
   value: string
   onChange: (value: string) => void
   options: { value: string; label: string }[]
-  disabled?: boolean
 }) {
   return (
     <label className="block min-w-0">
@@ -187,13 +268,11 @@ function Picker({
           name={name}
           value={value}
           onChange={(event) => onChange(event.target.value)}
-          disabled={disabled}
           className={cn(
             "min-h-12 w-full appearance-none truncate rounded-xl border border-line bg-surface",
             "pl-11 pr-10 text-sm text-text transition-colors",
             "hover:border-faint",
             "focus-visible:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/25",
-            "disabled:cursor-not-allowed disabled:opacity-60",
           )}
         >
           {options.map((option) => (

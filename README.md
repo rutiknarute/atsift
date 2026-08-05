@@ -46,7 +46,7 @@ I tried. Here's where the big boards fall down for this specific problem:
 
 | | LinkedIn / Indeed | ATSift |
 |---|---|---|
-| **How fresh?** | "Past 24 hours" is a filter on a stale index. Reposts and ghost jobs sit at the top. | The window *is* the scan. It reads the boards live and only keeps what was posted inside 6–72 hours. |
+| **How fresh?** | "Past 24 hours" is a filter on a stale index. Reposts and ghost jobs sit at the top. | The window *is* the scan. It reads the boards live and only keeps what was posted inside 1–72 hours. |
 | **Where's the job really?** | Whatever the recruiter typed. "Remote" means nothing. | Every posting gets a location screen, and the ambiguous ones go to a model that reads the description. |
 | **Will it take OPT?** | Not a filter that exists. You find out at the end of the form. | Citizenship / clearance / green-card / no-sponsorship clauses are pulled out of the text and shown as one red line on the card. |
 | **Coverage** | Only what companies chose to syndicate — and plenty don't. | Goes straight to the source: 18,264 Greenhouse, Ashby, Lever, SmartRecruiters, Workable and Workday boards. |
@@ -71,7 +71,7 @@ enough to run before work, and cheap enough that I'd actually keep running it.
 **Action** —
 - Built a Python scanner with one adapter per ATS (six of them), reading the
   same public JSON endpoints the companies' own career pages use.
-- Assembled and cleaned a catalog of **18,264 boards** — deduplicated by
+- Assembled and cleaned a catalog of **18,283 boards** — deduplicated by
   ATS + slug and live-checked that each one resolves to a real US posting.
 - Wrote a boolean title filter (category keywords AND NOT seniority terms) so
   the expensive steps never see a role I couldn't take anyway.
@@ -183,7 +183,7 @@ signed HTTP-only cookie, gated by `proxy.ts` (Next 16's replacement for
 `middleware.ts`). Anyone else who lands on the login page can request access,
 which emails me through Resend.
 
-**Tests** — 51 backend tests covering the boolean search, the date window, each
+**Tests** — 60 backend tests covering the boolean search, the date window, each
 ATS adapter, location screening, experience extraction, and the incremental
 publishing behaviour.
 
@@ -288,7 +288,7 @@ configured, because a URL that merely parses is not a reachable scanner.
 │   ├── experience.py       Deterministic experience extraction
 │   └── web.py              Flask routes
 ├── data/                   Company catalogs and the packaged sample
-├── tests/                  51 backend tests
+├── tests/                  60 backend tests
 └── web/                    Next.js 16 dashboard
 ```
 
@@ -310,8 +310,9 @@ Leave it unset only on `127.0.0.1`.
 
 | File | |
 |---|---|
-| `data/companies.csv` | 17,167 companies — greenhouse 5,748 · workable 3,480 · ashby 3,299 · smartrecruiters 2,377 · lever 2,263 |
+| `data/companies.csv` | 17,189 companies — greenhouse 5,753 · workable 3,480 · ashby 3,312 · smartrecruiters 2,381 · lever 2,263 |
 | `data/companies_workday.csv` | 1,097 Workday tenants, kept separate because the slug is a full board URL |
+| `data/companies_plus.csv` | 271 companies — mostly boards no adapter reads or whose named slug didn't resolve, parked rather than dropped, plus a handful of hand-verified extras not yet folded into `companies.csv` |
 
 Every company was deduplicated by ATS + slug and live-checked for a resolvable
 US posting before being kept.

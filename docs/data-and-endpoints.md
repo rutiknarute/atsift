@@ -5,18 +5,31 @@ facts they encoded.
 
 ## Company catalogs
 
-Both files are `name,ats,slug` with a header row.
+All catalogs are `name,ats,slug` with a header row.
 
 | File | Rows | Contents |
 |---|---|---|
-| `data/companies.csv` | 17,167 | greenhouse 5,748 · workable 3,480 · ashby 3,299 · smartrecruiters 2,377 · lever 2,263 |
+| `data/companies.csv` | 17,189 | greenhouse 5,753 · workable 3,480 · ashby 3,312 · smartrecruiters 2,381 · lever 2,263 |
 | `data/companies_workday.csv` | 1,097 | workday 1,097 — kept separate, different API shape |
+| `data/companies_plus.csv` | 271 | mostly boards that don't resolve or have no adapter (greenhouse 136 · unknown 56 · ashby 55 · workday 10 · lever 9 · comeet 4 · rippling 1) — plus a handful of hand-verified, live-with-US-jobs extras not yet folded into `companies.csv` |
 | `data/all_companies.csv` | — | earlier unverified superset, pre-dedup |
 
-Every company in the two catalogs was deduplicated by `ats` + `slug` and
-live-checked against its own board for at least one resolvable US posting
-before being kept. Treat them as verified; don't re-derive from
-`all_companies.csv`.
+Every company in `companies.csv` and `companies_workday.csv` was deduplicated
+by `ats` + `slug` and live-checked against its own board for at least one
+resolvable US posting before being kept. Treat them as verified; don't
+re-derive from `all_companies.csv`. `companies_plus.csv` is not held to that
+bar — most rows in it are known-unscannable, so check a row's `ats` before
+trusting it.
+
+Which catalog a company lands in is decided by its board, not by hand —
+`scanner.companies.dataset_for_ats` is the single rule, and
+`scripts/import_companies.py` applies it when merging a new list in. Run that
+importer with `--verify` and a row whose named board does not answer is parked
+in `companies_plus.csv` too, keeping the ATS the source claimed: a company is
+filed where the list said it was or filed as unresolved, never quietly moved
+onto whichever board happens to reply. Scanning the unscannable rows in
+`plus` finds nothing by design — dispatch has no adapter to hand those rows
+to.
 
 `slug` meaning differs by ATS:
 

@@ -84,6 +84,58 @@ select:not(:disabled) {
   background-size: 56px 56px;
 }
 
+/* Login canvas: quiet depth around a high-contrast, single-focus form. */
+.auth-page {
+  background-color: var(--color-bg);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.7), rgba(245, 247, 252, 0.82)),
+    linear-gradient(to right, rgba(0, 90, 253, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 90, 253, 0.045) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}
+
+.auth-story {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 84% 8%, rgba(42, 111, 255, 0.35), transparent 34%),
+    linear-gradient(145deg, #07142f 0%, #0a2455 54%, #0b3b9e 116%);
+}
+
+.auth-story::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  content: "";
+  mask-image: linear-gradient(to bottom right, black, transparent 78%);
+}
+
+.auth-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.auth-orb-one {
+  top: -9rem;
+  right: -7rem;
+  width: 24rem;
+  height: 24rem;
+  background: rgba(0, 90, 253, 0.11);
+}
+
+.auth-orb-two {
+  bottom: -12rem;
+  left: -10rem;
+  width: 30rem;
+  height: 30rem;
+  background: rgba(30, 107, 255, 0.08);
+}
+
 /*
   In `components` rather than unlayered, so a utility like `text-brand` on the
   same element still wins — unlayered CSS outranks every Tailwind layer.

@@ -396,6 +396,8 @@ export default function Page() {
                   starting={starting}
                   stopping={stopping}
                   scannerAvailable={scannerAvailable && !isDemo}
+                  activeLookbackHours={status?.lookback_hours ?? null}
+                  activeDataset={status?.dataset ?? null}
                   demo={isDemo}
                   onRun={runScan}
                   onStop={stopScan}
