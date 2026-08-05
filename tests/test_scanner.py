@@ -26,6 +26,16 @@ from scanner.analysis import (
     normalize_analysis,
 )
 from scanner.ats import greenhouse, lever, smartrecruiters, workday
+from scanner.companies import (
+    dataset_for_ats,
+    load_companies,
+    resolve_dataset,
+)
+from scanner.config import (
+    DEFAULT_LOOKBACK_HOURS,
+    LOOKBACK_OPTIONS,
+    MAX_LOOKBACK_HOURS,
+)
 from scanner.experience import (
     extract_required_experience,
     minimum_years_from_text,
@@ -122,6 +132,26 @@ class TestWindow:
         assert clamp_lookback("nonsense") == 24
         assert clamp_lookback(48) == 48
 
+    def test_every_offered_window_survives_clamping(self):
+        # A window the UI offers must come back unchanged, or the scan would
+        # sweep a different period than the one the user picked and froze.
+        for hours in LOOKBACK_OPTIONS:
+            assert clamp_lookback(hours) == float(hours)
+
+    def test_short_windows_are_offered_and_ordered(self):
+        assert LOOKBACK_OPTIONS[:3] == [1, 2, 4]
+        assert LOOKBACK_OPTIONS == sorted(LOOKBACK_OPTIONS)
+        assert max(LOOKBACK_OPTIONS) == MAX_LOOKBACK_HOURS
+        assert DEFAULT_LOOKBACK_HOURS in LOOKBACK_OPTIONS
+
+    def test_one_hour_window_cuts_at_one_hour(self):
+        now = datetime.now(timezone.utc)
+
+        assert within_window((now - timedelta(minutes=30)).isoformat(), 1)
+        assert not within_window((now - timedelta(minutes=90)).isoformat(), 1)
+        assert within_window((now - timedelta(minutes=90)).isoformat(), 2)
+        assert not within_window((now - timedelta(hours=5)).isoformat(), 4)
+
 
 # --- Locations --------------------------------------------------------------
 
@@ -209,6 +239,59 @@ class TestRecords:
 
         assert len(result) == 2
         assert result[0]["title"] == "first"
+
+
+# --- Company catalogs -------------------------------------------------------
+
+
+class TestCompanyCatalogs:
+    def test_supported_boards_route_to_their_catalog(self):
+        for ats in (
+            "greenhouse",
+            "ashby",
+            "lever",
+            "smartrecruiters",
+            "workable",
+        ):
+            assert dataset_for_ats(ats) == "main"
+
+        assert dataset_for_ats("workday") == "workday"
+
+    def test_unadapted_boards_route_to_plus(self):
+        # The point of "plus": a board nothing can read is parked, not lost.
+        for ats in ("taleo", "icims", "", None):
+            assert dataset_for_ats(ats) == "plus"
+
+    def test_routing_ignores_case_and_padding(self):
+        assert dataset_for_ats("  Greenhouse ") == "main"
+        assert dataset_for_ats("WORKDAY") == "workday"
+
+    def test_unknown_dataset_falls_back_to_main(self):
+        assert resolve_dataset("nope") == "main"
+        assert resolve_dataset(None) == "main"
+        assert resolve_dataset("plus") == "plus"
+
+    def test_scannable_catalogs_hold_only_their_own_boards(self):
+        for dataset in ("main", "workday"):
+            for company in load_companies(dataset):
+                assert dataset_for_ats(company["ats"]) == dataset
+
+    def test_plus_never_shadows_a_scannable_row(self):
+        # "plus" holds unscannable rows — a board with no adapter, or one
+        # that named an adapter but did not answer — plus a handful of
+        # hand-verified extras not yet folded into "main". None of it may
+        # also sit in a scannable catalog, or one company would be scanned
+        # under a slug already known to be dead (or double-counted).
+        scannable = {
+            (company["ats"], company["slug"].casefold())
+            for dataset in ("main", "workday")
+            for company in load_companies(dataset)
+        }
+
+        for company in load_companies("plus"):
+            key = (company["ats"], company["slug"].casefold())
+
+            assert key not in scannable
 
 
 # --- Experience extraction -------------------------------------------------

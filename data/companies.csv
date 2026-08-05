@@ -414,6 +414,7 @@ Boam AI,ashby,boam
 Bobyard,ashby,bobyard
 Body & Soul Studios,ashby,bodysoul
 Bold.org,ashby,bold
+Bolna AI,ashby,bolna
 Bolt,ashby,bolt
 Bolt Farm Treehouse,ashby,bolt-farm
 Bookkeeper360,ashby,bookkeeper360
@@ -602,6 +603,7 @@ Cleric,ashby,cleric
 Clerk,ashby,clerk
 "Clerky, Inc.",ashby,clerky
 Clever,ashby,clever
+ClickHouse,ashby,clickhouse
 ClickUp,ashby,clickup
 Climate Finance Solutions,ashby,climate-finance-solutions
 Climatiq,ashby,climatiq
@@ -658,6 +660,7 @@ Company.ai,ashby,company-ai
 Compass Surgical Partners,ashby,compass-surgical-partners
 Complement,ashby,complement
 Complete,ashby,complete
+Complir,ashby,complir
 Composio,ashby,composio
 Composite,ashby,composite
 "Compound Planning, Inc.",ashby,compound
@@ -717,6 +720,7 @@ Coworker.ai,ashby,coworker
 CPOHQ + Knoetic AI,ashby,knoetic
 Cracken,ashby,crackenagi
 Cradle,ashby,cradlebio
+Cranston AI,ashby,cranston
 Craze,ashby,craze
 Creatify Lab Inc,ashby,creatify
 CreatorIQ,ashby,creatoriq
@@ -1057,6 +1061,7 @@ Flipper,ashby,flipper
 Flipturn,ashby,flipturn
 FloatMe,ashby,floatme
 Flock,ashby,flock
+Flock Safety,ashby,flock safety
 FLORA,ashby,flora
 "FloSports, Inc.",ashby,flosports
 Flow Engineering,ashby,flowengineering
@@ -1244,6 +1249,7 @@ Halo,ashby,halo-cures
 HaloBraid,ashby,halobraid
 Halter,ashby,halter
 Hamilton AI,ashby,hamilton-ai
+Hamming AI,ashby,hamming ai
 Hamster,ashby,hamster
 Handshake,ashby,handshake
 Handspring,ashby,handspring
@@ -1547,6 +1553,7 @@ KYP Holding B.V.,ashby,kyp
 Kyra,ashby,kyra
 LABHOUSE,ashby,labhouse
 Ladder,ashby,ladder
+Lago,ashby,lago
 Lambda,ashby,lambda
 Lanai,ashby,lanai
 Lance,ashby,lance
@@ -1662,7 +1669,9 @@ loveholidays,ashby,loveholidays
 Lovelace AI,ashby,lovelace
 "LPA, Inc.",ashby,lpadesignstudios
 LTV,ashby,ltv
+Lua Global Inc,ashby,lua
 LucidLink,ashby,lucidlink
+Luma Video AI,ashby,lumaai
 Lumana,ashby,lumana
 Lumbra,ashby,lumbra
 Lumen,ashby,lumen
@@ -2353,6 +2362,7 @@ Raiku,ashby,raiku
 Railway,ashby,railway
 Rain,ashby,rain
 Rain Technologies Inc.,ashby,rain-technologies
+Raindrop,ashby,raindrop
 Rainfall Health,ashby,rainfallhealth
 Rainforest,ashby,rainforest-pay
 Ramp,ashby,ramp
@@ -2674,6 +2684,7 @@ Smartleaf,ashby,smartleaf
 Smith Engineering,ashby,smith-engineering
 Snackpass,ashby,snackpass
 Snapdocs,ashby,snapdocs
+SnapMagic,ashby,snapmagic
 Snappy,ashby,snappy
 Snowball,ashby,snowball
 Snowflake,ashby,snowflake
@@ -3041,6 +3052,7 @@ Truelogic,ashby,truelogic
 Truemed,ashby,truemed
 TrueShort,ashby,trueshort
 Trulioo,ashby,trulioo
+Trunk,ashby,trunk
 Trust Wallet,ashby,trust-wallet
 Truth Systems,ashby,truthsystems
 Truvo,ashby,truvo
@@ -3133,6 +3145,7 @@ Vercel,ashby,vercel
 Verge Genomics,ashby,verge-genomics
 Verisoul,ashby,verisoul
 Verkada (Lever),ashby,verkada
+Verne Robotics,ashby,verne robotics
 Verse Medical,ashby,versemedical
 Vertical Aerospace,ashby,vertical-aerospace
 Vertical Semiconductor,ashby,verticalsemi
@@ -5154,6 +5167,7 @@ Fay,greenhouse,fay
 FCB,greenhouse,fcbworldwide
 FCB New York,greenhouse,fcbnewyork
 FE International,greenhouse,feinternational
+Feanix Biotechnologies,greenhouse,feanixbiotechnologies
 Feastables,greenhouse,feastables
 Federato,greenhouse,federato
 Feedzai,greenhouse,feedzai
@@ -5569,6 +5583,7 @@ Groupon,greenhouse,groupon
 Grove Collaborative,greenhouse,grovecollaborative
 Grover,greenhouse,grover
 GROWE,greenhouse,growe
+Groww,greenhouse,groww
 Gruve,greenhouse,gruve
 GRVTY,greenhouse,grvty
 Grön Confections,greenhouse,eatgron
@@ -7209,6 +7224,7 @@ pia,greenhouse,pia
 Piaggio Fast Forward,greenhouse,piaggiofastforward
 "Picarro, Inc",greenhouse,picarroinc
 Picnic Delivery,greenhouse,try-picnic
+PicnicAI,greenhouse,picnicai
 Pico,greenhouse,picoquantitativetrading
 Picsart Academy,greenhouse,academy
 Pie Insurance,greenhouse,pieinsurance
@@ -8014,6 +8030,7 @@ Southgate Surgery Center,greenhouse,cscmi
 Sovrn,greenhouse,sovrn
 space,greenhouse,space
 Space Kinetic,greenhouse,spacekinetic
+Spaceium Inc,greenhouse,spaceium
 spaceship,greenhouse,spaceship
 SpaceX,greenhouse,spacex
 Spade,greenhouse,spade
@@ -8966,6 +8983,7 @@ xdesign,greenhouse,xdesign
 Xealth,greenhouse,xealth
 xebiacee,greenhouse,xebiacee
 xem,greenhouse,xem
+Xendit,greenhouse,xendit
 XION,greenhouse,burnt
 XLA,greenhouse,xla
 XO Health Inc.,greenhouse,xohealthinc
@@ -11702,6 +11720,7 @@ Catchafire,smartrecruiters,catchafire
 CaterCow,smartrecruiters,catercow
 CD PROJEKT RED,smartrecruiters,cdprojektred
 CDAC,smartrecruiters,cdac
+Celonis,smartrecruiters,celonis
 Center for Applied Linguistics,smartrecruiters,CenterForAppliedLinguistics
 Centm Logistics LLC,smartrecruiters,centmlogisticsllc
 Centra,smartrecruiters,centra
@@ -12090,6 +12109,7 @@ ferrellgas,smartrecruiters,ferrellgas
 Field Nation,smartrecruiters,fieldnation
 Filmhub,smartrecruiters,filmhub
 Filmless,smartrecruiters,filmless
+Finku,smartrecruiters,Finku
 Firegang Dental Marketing,smartrecruiters,firegangdentalmarketing
 Firespring,smartrecruiters,firespring
 First Advantage,smartrecruiters,firstadvantage
@@ -12852,6 +12872,7 @@ optimum,smartrecruiters,optimum
 Opus,smartrecruiters,opus2
 Oracle,smartrecruiters,oracle
 ORAU,smartrecruiters,orau
+Orbio Earth,smartrecruiters,Orbio
 orbit,smartrecruiters,orbit
 Order,smartrecruiters,order
 OrderMyGear,smartrecruiters,ordermygear
@@ -13560,6 +13581,7 @@ VHB,smartrecruiters,vhb
 Video Lab,smartrecruiters,VideoLab
 Village Green,smartrecruiters,VillageGreen1
 Village Voice,smartrecruiters,VillageVoice
+Vinci Games,smartrecruiters,VinciGames
 VIPKID,smartrecruiters,vipkid
 Viral Nation,smartrecruiters,viralnation
 Virtusa Polaris,smartrecruiters,virtusapolaris

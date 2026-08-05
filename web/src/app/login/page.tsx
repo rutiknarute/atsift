@@ -29,7 +29,7 @@ import { cn } from "@/lib/utils"
 type View = "signin" | "request" | "requested"
 
 const STATS = [
-  { value: "18,264", label: "Company boards" },
+  { value: "18,286", label: "Company boards" },
   { value: "6", label: "Hiring systems" },
   { value: "6–72h", label: "Freshness window" },
 ]
