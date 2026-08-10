@@ -52,7 +52,11 @@ def parse_timestamp(value) -> datetime | None:
         for fmt in (
             "%Y-%m-%dT%H:%M:%S.%f%z",
             "%Y-%m-%dT%H:%M:%S%z",
+            "%Y-%m-%d %I:%M %p",
             "%Y-%m-%d %H:%M:%S",
+            "%a %b %d %H:%M:%S %Z %Y",
+            "%d-%b-%Y",
+            "%m/%d/%Y",
             "%Y-%m-%d",
         ):
             try:

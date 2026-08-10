@@ -4,7 +4,7 @@
 
 **Pick a timeframe. Hit run. Get the jobs that are still worth applying to.**
 
-A job-board scanner that sweeps 18,264 company career pages, keeps only the
+A job-board scanner that sweeps 26,156 public career boards, keeps only the
 roles posted inside the window you chose, and tells you before you click
 whether the job is actually US-based and whether it will take an F-1/OPT
 candidate.
@@ -49,7 +49,7 @@ I tried. Here's where the big boards fall down for this specific problem:
 | **How fresh?** | "Past 24 hours" is a filter on a stale index. Reposts and ghost jobs sit at the top. | The window *is* the scan. It reads the boards live and only keeps what was posted inside 1–72 hours. |
 | **Where's the job really?** | Whatever the recruiter typed. "Remote" means nothing. | Every posting gets a location screen, and the ambiguous ones go to a model that reads the description. |
 | **Will it take OPT?** | Not a filter that exists. You find out at the end of the form. | Citizenship / clearance / green-card / no-sponsorship clauses are pulled out of the text and shown as one red line on the card. |
-| **Coverage** | Only what companies chose to syndicate — and plenty don't. | Goes straight to the source: 18,264 Greenhouse, Ashby, Lever, SmartRecruiters, Workable and Workday boards. |
+| **Coverage** | Only what companies chose to syndicate — and plenty don't. | Goes straight to the source: 26,156 boards across 15 live ATS/API adapters. |
 | **Seniority noise** | "Entry level" returns roles asking for 8 years. | Senior / staff / principal / lead / manager / director titles are excluded before anything is even read, and the years-of-experience line is extracted so you can filter on it. |
 
 The honest summary: the big boards are a **search engine over an index**.
@@ -69,10 +69,11 @@ and will take me?" across thousands of companies instead of twenty — fast
 enough to run before work, and cheap enough that I'd actually keep running it.
 
 **Action** —
-- Built a Python scanner with one adapter per ATS (six of them), reading the
+- Built a Python scanner with one adapter per ATS/API family (15 of them), reading the
   same public JSON endpoints the companies' own career pages use.
-- Assembled and cleaned a catalog of **18,283 boards** — deduplicated by
-  ATS + slug and live-checked that each one resolves to a real US posting.
+- Assembled and cleaned a catalog of **26,156 boards** — deduplicated by
+  ATS + slug and live-checked against each public hiring source. U.S. location
+  is evaluated per posting rather than assumed from the company name.
 - Wrote a boolean title filter (category keywords AND NOT seniority terms) so
   the expensive steps never see a role I couldn't take anyway.
 - Ran per-job screening on a **local Llama 3.2 3B through Ollama**, because
@@ -84,14 +85,14 @@ enough to run before work, and cheap enough that I'd actually keep running it.
 - Added a conversational agent over the results, so I can ask "React roles
   under 2 years that don't block OPT" instead of driving filter dropdowns.
 
-**Result** — A scan of the full Workday catalog — **1,097 boards, 12-hour
+**Result** — A scan of the full Workday catalog — **1,098 boards, 12-hour
 window** — completed in **42 minutes**, surfacing **160 postings**, of which
 **124** cleared US-location and eligibility screening. The daily 45 minutes of
 manual clicking is gone; I read a list instead. And because screening runs
 locally, a scan of that size costs **$0 in inference**.
 
-> Workday is the slowest of the six — it's a paged POST API, one request per
-> 20 jobs. The other five are considerably quicker per board.
+> Workday is the slowest adapter — it's a paged POST API, one request per
+> 20 jobs. The token-based boards are considerably quicker per board.
 
 ## How a scan actually works
 
@@ -100,7 +101,7 @@ on its own**. Nothing waits for the catalog to finish.
 
 ```
 fetch board → title match → time window → location screen → fetch JD → LLM → listed
-   18,264      keywords,      6–72h        regex, free      only for   only for
+   26,156      keywords,      6–72h        regex, free      only for   only for
    boards      minus senior                                 survivors  survivors
 ```
 
@@ -183,7 +184,7 @@ signed HTTP-only cookie, gated by `proxy.ts` (Next 16's replacement for
 `middleware.ts`). Anyone else who lands on the login page can request access,
 which emails me through Resend.
 
-**Tests** — 60 backend tests covering the boolean search, the date window, each
+**Tests** — 81 backend tests covering the boolean search, the date window, each
 ATS adapter, location screening, experience extraction, and the incremental
 publishing behaviour.
 
@@ -270,8 +271,7 @@ configured, because a URL that merely parses is not a reachable scanner.
 - Push the scanner onto a small always-on box so scans can be scheduled instead
   of triggered, with a morning digest.
 - Replace the snapshot on the live demo with a read-only feed from that box.
-- Widen the catalog past the six ATS platforms — Taleo and iCIMS are the
-  obvious gaps.
+- Add general-purpose Taleo and Comeet adapters.
 - Let the Scout act, not just answer: "track this company" and have the next
   scan prioritise it.
 
@@ -288,7 +288,7 @@ configured, because a URL that merely parses is not a reachable scanner.
 │   ├── experience.py       Deterministic experience extraction
 │   └── web.py              Flask routes
 ├── data/                   Company catalogs and the packaged sample
-├── tests/                  60 backend tests
+├── tests/                  81 backend tests
 └── web/                    Next.js 16 dashboard
 ```
 
@@ -310,12 +310,22 @@ Leave it unset only on `127.0.0.1`.
 
 | File | |
 |---|---|
-| `data/companies.csv` | 17,189 companies — greenhouse 5,753 · workable 3,480 · ashby 3,312 · smartrecruiters 2,381 · lever 2,263 |
-| `data/companies_workday.csv` | 1,097 Workday tenants, kept separate because the slug is a full board URL |
-| `data/companies_plus.csv` | 271 companies — mostly boards no adapter reads or whose named slug didn't resolve, parked rather than dropped, plus a handful of hand-verified extras not yet folded into `companies.csv` |
+| `data/companies_core_ats.csv` | 19,360 live boards on the original six reusable ATS platforms — Greenhouse 5,753 · Workable 3,479 · Ashby 3,313 · SmartRecruiters 2,379 · Lever 2,263 · Rippling 2,173 |
+| `data/companies_enterprise_ats.csv` | 6,793 live boards on larger enterprise multi-tenant platforms — iCIMS 5,685 · Workday 1,101 · 7 specialized boards (Oracle, Jibe, Avature, SuccessFactors) |
+| `data/companies_direct.csv` | 3 company-owned career sites — Apple Careers, IBM Careers, and Atlassian's direct listings feed |
+| `data/companies_icims.csv` | 5,685 production iCIMS portal hosts, selected from 5,714 live-verified portals |
+| `data/icims_boards_reference.csv` | Rich metadata for all 5,714 live iCIMS portals, including customer/tenant IDs, job sample counts, U.S. evidence, and exclusions |
+| `data/icims_discovery_audit.csv` | All 11,739 iCIMS candidates and their accepted/rejected live-validation result |
+| `data/companies_priority.csv` | 154 supplied source URLs, preserved in order and deduplicated at runtime to 130 scan targets across 13 ATS types |
+| `data/job_boards_reference.csv` | All 77 rows and 10 source columns from the supplied `job_boards.csv`, including API URLs, methods, statuses, and notes |
+| `data/companies_reference.csv` | Scan-ready normalization of those 77 companies; wrapper sites, missing Oracle site numbers, and dead candidate tokens are mapped to verified canonical boards |
+| `data/companies_plus.csv` | 270 unresolved or unsupported boards, retained as a hidden review ledger rather than silently dropped |
 
-Every company was deduplicated by ATS + slug and live-checked for a resolvable
-US posting before being kept.
+The three active scan datasets contain 26,156 unique boards and are
+deduplicated by ATS + slug. The older `companies.csv`, `companies_rippling.csv`,
+`companies_workday.csv`, and `companies_icims.csv` partitions remain rebuild
+inputs and provenance; run
+`python3 scripts/consolidate_company_datasets.py` after changing one of them.
 
 ---
 

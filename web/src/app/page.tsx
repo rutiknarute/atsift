@@ -94,7 +94,7 @@ export default function Page() {
   const [retryNonce, setRetryNonce] = useState(0)
 
   const [lookbackHours, setLookbackHours] = useState(24)
-  const [dataset, setDataset] = useState("main")
+  const [dataset, setDataset] = useState("core")
 
   const wasRunning = useRef(false)
   const defaultsSet = useRef(false)
@@ -156,7 +156,7 @@ export default function Page() {
 
         if (!defaultsSet.current) {
           setLookbackHours(data.default_lookback_hours)
-          setDataset(data.datasets[0]?.id ?? "main")
+          setDataset(data.datasets[0]?.id ?? "core")
           defaultsSet.current = true
         }
       })
@@ -467,7 +467,7 @@ export default function Page() {
           <span translate="no">ATSift</span>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:justify-end">
             <span>
-              Greenhouse · Ashby · Lever · SmartRecruiters · Workable · Workday
+              26,156 boards · 15 live ATS/API adapters
             </span>
             <a
               href="https://logo.dev"

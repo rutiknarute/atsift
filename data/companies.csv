@@ -1,4 +1,5 @@
 name,ats,slug
+Apple,apple,apple
 0g Labs,ashby,0g
 0x,ashby,0x
 115 Ventures LLC,ashby,115ventures
@@ -1810,6 +1811,7 @@ Mirage,ashby,mirage
 Mirelo AI,ashby,mirelo
 Mirendil,ashby,mirendil
 Miro,ashby,miro
+Mistral AI,ashby,mistral.ai
 Miter,ashby,miter
 Mithrl,ashby,mithrl
 Moab,ashby,moab
@@ -3224,6 +3226,7 @@ WellTheory,ashby,welltheory
 Wemolo,ashby,wemolo
 WeScale,ashby,wescale
 WeTravel,ashby,wetravel
+Whatnot,ashby,whatnot
 Wheel,ashby,wheel
 Whetstone Research,ashby,whetstoneresearch
 Whippy,ashby,whippy
@@ -3245,7 +3248,6 @@ Wispr Flow,ashby,wispr-flow
 Wistia,ashby,wistia
 withco,ashby,withco
 Witness AI,ashby,witnessai
-Wiz,ashby,wiz
 WJB,ashby,wjb
 Woflow,ashby,woflow
 Wolfjaw Studios,ashby,wolfjaw-careers
@@ -3311,6 +3313,7 @@ ZnanyLekarz,ashby,znanylekarz
 Zoomlogi,ashby,zoomlogi
 ZURU,ashby,zuru
 Zyphra,ashby,zyphra
+Lenovo,avature,https://jobs.lenovo.com/en_US/careers
 -ASG-,greenhouse,asgjobs
 1-800 Contacts,greenhouse,1800contacts
 1-800-GOT-JUNK?,greenhouse,1800gotjunk
@@ -9064,6 +9067,10 @@ Zynga Early Careers,greenhouse,zyngaearlycareers
 ília,greenhouse,ilia
 Ōura,greenhouse,oura
 ‎ConnectWise,greenhouse,connectwise
+IBM,ibm,ibm
+Atlassian,atlassian,https://www.atlassian.com/endpoint/careers/listings
+AMD,jibe,https://careers.amd.com
+GitHub,jibe,https://githubinc.jibeapply.com
 #paid,lever,hashtagpaid
 100MS,lever,100ms
 15Five,lever,15five
@@ -11327,6 +11334,9 @@ ZURU,lever,zuru
 Zus Health,lever,zushealth
 Zūm,lever,ridezum
 Çiçeksepeti,lever,ciceksepeti
+Dell,oracle,https://enterpriseplatform.dell.com/hcmUI/CandidateExperience/en/sites/careers
+HDFC Bank,oracle,https://hdpc.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/LateralHiring
+JPMorgan Chase,oracle,https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001
 #WalkAway Campaign,smartrecruiters,WalkAwayCampaign
 10Pearls,smartrecruiters,10pearls
 10x Value Partners GmbH,smartrecruiters,10xValuePartnersGmbH
@@ -13055,7 +13065,6 @@ Red Carpet Logistics LLC,smartrecruiters,redcarpetlogisticsllc
 Red Clay Consulting,smartrecruiters,redclayconsulting
 Red Knight Solutions,smartrecruiters,redknightsolutions
 Red Nucleus,smartrecruiters,rednucleus
-Red Ventures,smartrecruiters,redventures
 Red Wing Shoe Company,smartrecruiters,RedWingShoeCompany
 REDICA Systems,smartrecruiters,redicasystems
 Reedsy,smartrecruiters,reedsy
@@ -13141,7 +13150,6 @@ Sandisk,smartrecruiters,sandisk
 Sandy Hook Promise,smartrecruiters,sandyhookpromise
 Sanford Health,smartrecruiters,sanfordhealth
 Sans,smartrecruiters,sans2
-SAP,smartrecruiters,sap
 Sawyer Studios,smartrecruiters,sawyerstudios
 Saxon Global,smartrecruiters,SaxonGlobal
 Say Operations LLC,smartrecruiters,sayoperationsllc
@@ -13708,6 +13716,7 @@ Zuum,smartrecruiters,zuum
 Zycron,smartrecruiters,zycron
 ZYCUS,smartrecruiters,zycus1
 Évolution,smartrecruiters,volution
+SAP,successfactors,https://jobs.sap.com
 &FRIENDS,workable,and-friends
 0x,workable,0x
 1-StopAsia,workable,1-stopasia
@@ -13967,7 +13976,6 @@ Apothékary,workable,apothekary
 Appear Here,workable,appearhere
 "AppGate Cybersecurity, Inc.",workable,appgate
 Appier,workable,appier
-Apple,workable,apple
 Apple Restoration and Waterproofing,workable,apple-restoration-and-waterproofing
 Apple Roofing,workable,apple-roofing
 Appleseed,workable,appleseed

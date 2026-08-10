@@ -16,30 +16,46 @@ DATA_DIR = BASE_DIR / "data"
 
 # --- Company catalogs -------------------------------------------------------
 #
-# A company lands in a catalog by which adapter can read its board: the five
-# token-slug boards share one, Workday gets its own because its slug is a full
-# tenant URL, and anything else — a board no adapter covers, one that turned
-# out not to answer, or a hand-picked extra not already in "main" — goes in
-# "plus". Most of "plus" won't produce results by design; it's a holding pen
-# for boards that can't be read, slugs that need a human look, and the small
-# set of extras verified live but not yet folded into "main".
+# There are three active scan catalogs, split by board type: the original six
+# reusable platforms, the larger enterprise multi-tenant platforms, and
+# dedicated company-specific board APIs. Curated submissions, imported
+# references, and unresolved rows remain available as hidden provenance
+# ledgers, but do not clutter the scan selector.
 
 COMPANY_DATASETS = {
-    "main": {
-        "filename": "companies.csv",
-        "label": "Greenhouse · Ashby · Lever · SmartRecruiters · Workable",
+    "core": {
+        "filename": "companies_core_ats.csv",
+        "label": "Core ATS boards · Ashby, Greenhouse, Lever, SmartRecruiters, Workable & Rippling",
+        "selectable": True,
     },
-    "workday": {
-        "filename": "companies_workday.csv",
-        "label": "Workday",
+    "enterprise": {
+        "filename": "companies_enterprise_ats.csv",
+        "label": "Enterprise ATS boards · Workday, iCIMS, Oracle & more",
+        "selectable": True,
+    },
+    "direct": {
+        "filename": "companies_direct.csv",
+        "label": "Company-owned career sites",
+        "selectable": True,
+    },
+    "priority": {
+        "filename": "companies_priority.csv",
+        "label": "Curated submitted URLs · 13 live ATS types",
+        "selectable": False,
+    },
+    "reference": {
+        "filename": "companies_reference.csv",
+        "label": "Imported job_boards.csv · 77 boards",
+        "selectable": False,
     },
     "plus": {
         "filename": "companies_plus.csv",
-        "label": "Plus",
+        "label": "Unresolved holding catalog",
+        "selectable": False,
     },
 }
 
-DEFAULT_DATASET = "main"
+DEFAULT_DATASET = "core"
 
 COMPANY_DATASET_PATHS = {
     dataset_id: DATA_DIR / str(config["filename"])

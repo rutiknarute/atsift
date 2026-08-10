@@ -28,8 +28,13 @@ from queue import Queue
 
 from scanner import status
 from scanner.analysis import fallback_analysis, get_job_analysis
-from scanner.ats import fetch_company, needs_detail_fetch
-from scanner.ats import fetch_description
+from scanner.ats import (
+    fetch_company,
+    fetch_description,
+    hydrate_job,
+    needs_detail_fetch,
+    needs_hydration,
+)
 from scanner.boolean_search import ALL_CATEGORIES, title_categories
 from scanner.companies import load_companies, resolve_dataset
 from scanner.config import (
@@ -90,6 +95,17 @@ def _scan_company(company: dict, lookback_hours: float, categories: list[str]):
         if not matched:
             continue
 
+        if needs_hydration(job.get("ats")):
+            try:
+                job = hydrate_job(job)
+            except Exception:
+                # A posting removed between the list and detail requests must
+                # not discard the rest of its company board.
+                continue
+
+            if not isinstance(job, dict):
+                continue
+
         if not within_window(job.get("posted_at"), lookback_hours):
             continue
 
@@ -136,7 +152,7 @@ def _prepare_company(
 def run_scan(
     *,
     lookback_hours: float = DEFAULT_LOOKBACK_HOURS,
-    dataset: str = "main",
+    dataset: str = "core",
     categories: list[str] | None = None,
 ) -> dict:
     """Run one full sweep. Returns the result summary."""

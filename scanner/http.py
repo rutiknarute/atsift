@@ -111,3 +111,33 @@ def fetch_json(
         return response.json()
     except ValueError as error:
         raise BoardUnavailable("response was not JSON") from error
+
+
+def fetch_text(
+    url: str,
+    *,
+    params: dict | None = None,
+    headers: dict | None = None,
+    timeout: int = REQUEST_TIMEOUT,
+) -> str:
+    """Fetch a public HTML page with the same retry/error policy as JSON."""
+
+    session = get_session()
+
+    try:
+        response = session.get(
+            url,
+            params=params,
+            headers=headers,
+            timeout=timeout,
+        )
+    except requests.RequestException as error:
+        raise BoardUnavailable(f"request failed: {error}") from error
+
+    if response.status_code == 404:
+        raise BoardUnavailable("board not found (404)")
+
+    if response.status_code >= 400:
+        raise BoardUnavailable(f"http {response.status_code}")
+
+    return response.text

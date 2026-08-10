@@ -16,9 +16,21 @@ const FALLBACK: ScannerMeta = {
     { id: "gtm", label: "GTM" },
   ],
   datasets: [
-    { id: "main", label: "Greenhouse · Ashby · Lever · SmartRecruiters · Workable", count: 17189 },
-    { id: "workday", label: "Workday", count: 1097 },
-    { id: "plus", label: "Plus", count: 271 },
+    {
+      id: "core",
+      label: "Core ATS boards · Ashby, Greenhouse, Lever, SmartRecruiters, Workable & Rippling",
+      count: 19360,
+    },
+    {
+      id: "enterprise",
+      label: "Enterprise ATS boards · Workday, iCIMS, Oracle & more",
+      count: 6793,
+    },
+    {
+      id: "direct",
+      label: "Company-owned career sites",
+      count: 3,
+    },
   ],
   lookback_options: [1, 2, 4, 6, 12, 24, 48, 72],
   default_lookback_hours: 24,

@@ -1,30 +1,33 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { CheckCircle2, ChevronDown, Search, SearchX } from "lucide-react"
 
 import { JobCard } from "@/components/job-card"
+import { ATS_LABELS } from "@/components/brand"
 import { cn, formatWindow } from "@/lib/utils"
 import type { CategoryId, Job } from "@/lib/types"
 
 type SortKey = "newest" | "company"
-type ExperienceKey = "all" | "max1" | "max2" | "max3" | "min3"
+type ExperienceKey = "max1" | "max2" | "max3" | "min3" | "not_listed"
 
 /*
-  Filters on the years a posting actually requires. Every band but the last is
-  a ceiling, so they nest rather than partition — a 2-year role shows under
-  "2 years or less" and under "3 years or less" both.
+  Filters on the years a posting actually requires. The three ceilings nest
+  rather than partition — a 2-year role matches "2 years or less" and "3
+  years or less" both. "Not listed" is its own band for postings whose
+  requirement couldn't be read at all, rather than folding them into one of
+  the others. Checking several bands is an OR: any match includes the job.
 */
 const EXPERIENCE_FILTERS: {
   id: ExperienceKey
   label: string
-  match: (years: number) => boolean
+  match: (years: number | null) => boolean
 }[] = [
-  { id: "all", label: "Any experience", match: () => true },
-  { id: "max1", label: "1 year or less", match: (years) => years <= 1 },
-  { id: "max2", label: "2 years or less", match: (years) => years <= 2 },
-  { id: "max3", label: "3 years or less", match: (years) => years <= 3 },
-  { id: "min3", label: "3+ years", match: (years) => years >= 3 },
+  { id: "max1", label: "1 year or less", match: (years) => years !== null && years <= 1 },
+  { id: "max2", label: "2 years or less", match: (years) => years !== null && years <= 2 },
+  { id: "max3", label: "3 years or less", match: (years) => years !== null && years <= 3 },
+  { id: "min3", label: "3+ years", match: (years) => years !== null && years >= 3 },
+  { id: "not_listed", label: "Not listed", match: (years) => years === null },
 ]
 
 const ROLE_FILTERS: { id: CategoryId | "all"; label: string }[] = [
@@ -57,8 +60,11 @@ export function Results({
   const [query, setQuery] = useState("")
   const [role, setRole] = useState<CategoryId | "all">("all")
   const [sort, setSort] = useState<SortKey>("newest")
-  const [experience, setExperience] = useState<ExperienceKey>("all")
+  // Empty set reads as "no filter" rather than "match nothing" for both of
+  // these — see `experience.size > 0` and `atsFilter.size > 0` below.
+  const [experience, setExperience] = useState<Set<ExperienceKey>>(new Set())
   const [optOnly, setOptOnly] = useState(false)
+  const [atsFilter, setAtsFilter] = useState<Set<string>>(new Set())
 
   const counts = useMemo(() => {
     const map = new Map<string, number>()
@@ -70,6 +76,35 @@ export function Results({
     }
 
     return map
+  }, [jobs])
+
+  const experienceOptions = useMemo(
+    () =>
+      EXPERIENCE_FILTERS.map((band) => ({
+        ...band,
+        count: jobs.filter((job) =>
+          band.match(job.analysis?.minimum_years ?? null),
+        ).length,
+      })),
+    [jobs],
+  )
+
+  // Options are built from whatever ATS values are actually present, so the
+  // list never offers a platform with zero results to pick from.
+  const atsOptions = useMemo(() => {
+    const map = new Map<string, number>()
+
+    for (const job of jobs) {
+      map.set(job.ats, (map.get(job.ats) ?? 0) + 1)
+    }
+
+    return [...map.entries()]
+      .map(([id, count]) => ({
+        id,
+        count,
+        label: ATS_LABELS[id] ?? (id || "Unknown ATS"),
+      }))
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
   }, [jobs])
 
   const filteredJobs = useMemo(() => {
@@ -97,16 +132,17 @@ export function Results({
       list = list.filter((job) => job.analysis?.opt_eligible === "YES")
     }
 
-    if (experience !== "all") {
-      const band = EXPERIENCE_FILTERS.find((item) => item.id === experience)
+    if (atsFilter.size > 0) {
+      list = list.filter((job) => atsFilter.has(job.ats))
+    }
 
-      // A posting whose requirement could not be read is left out of every
-      // band rather than guessed into one — its tile says "Not listed", and
-      // that is not the same as qualifying.
+    if (experience.size > 0) {
       list = list.filter((job) => {
-        const years = job.analysis?.minimum_years
+        const years = job.analysis?.minimum_years ?? null
 
-        return typeof years === "number" && (band?.match(years) ?? true)
+        return EXPERIENCE_FILTERS.some(
+          (band) => experience.has(band.id) && band.match(years),
+        )
       })
     }
 
@@ -115,14 +151,15 @@ export function Results({
         ? (a.age_hours ?? Infinity) - (b.age_hours ?? Infinity)
         : a.company.localeCompare(b.company),
     )
-  }, [jobs, query, role, sort, optOnly, experience])
+  }, [jobs, query, role, sort, optOnly, experience, atsFilter])
 
   function clearFilters() {
     setQuery("")
     setRole("all")
     setOptOnly(false)
     setSort("newest")
-    setExperience("all")
+    setExperience(new Set())
+    setAtsFilter(new Set())
   }
 
   if (loading && jobs.length === 0) {
@@ -160,7 +197,7 @@ export function Results({
         selected value. The captions above them were saying it a second time.
       */}
       <div className="rounded-[var(--radius-card)] border border-line bg-surface p-3 sm:p-4">
-        <div className="grid gap-2.5 lg:grid-cols-[minmax(12rem,1fr)_auto_auto_auto] lg:items-center">
+        <div className="grid gap-2.5 lg:grid-cols-[minmax(12rem,1fr)_auto_auto_auto_auto] lg:items-center">
           <span className="relative block min-w-0">
             <Search
               aria-hidden="true"
@@ -198,36 +235,23 @@ export function Results({
             OPT eligible only
           </button>
 
-          <span className="relative block">
-            <select
-              name="job-experience"
-              aria-label="Filter by required experience"
-              value={experience}
-              onChange={(event) =>
-                setExperience(event.target.value as ExperienceKey)
-              }
-              className={cn(
-                "min-h-11 w-full appearance-none rounded-xl border pl-3.5 pr-10 text-sm transition-colors lg:w-44",
-                "focus-visible:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/25",
-                experience === "all"
-                  ? "border-line bg-surface-2 text-muted hover:border-faint"
-                  : "border-brand-line bg-brand-soft font-medium text-brand-deep",
-              )}
-            >
-              {EXPERIENCE_FILTERS.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.label}
-                </option>
-              ))}
-            </select>
-            <ChevronDown
-              aria-hidden="true"
-              className={cn(
-                "pointer-events-none absolute right-3.5 top-1/2 size-4 -translate-y-1/2",
-                experience === "all" ? "text-faint" : "text-brand-deep",
-              )}
-            />
-          </span>
+          <MultiSelectFilter
+            options={experienceOptions}
+            selected={experience}
+            onChange={setExperience}
+            allLabel="Any experience"
+            summaryLabel={(n) => `${n} experience filters`}
+            groupLabel="Filter by required experience"
+          />
+
+          <MultiSelectFilter
+            options={atsOptions}
+            selected={atsFilter}
+            onChange={setAtsFilter}
+            allLabel="All ATS"
+            summaryLabel={(n) => `${n} ATS selected`}
+            groupLabel="Filter by ATS platform"
+          />
 
           <span className="relative block">
             <select
@@ -317,6 +341,135 @@ export function Results({
         </div>
       )}
     </section>
+  )
+}
+
+/*
+  A button that opens a checklist rather than a native <select multiple>: the
+  browser control for that requires a modifier click to pick more than one
+  option, which nobody discovers on their own. Shared by the experience and
+  ATS filters, which differ only in their option list and labels.
+*/
+function MultiSelectFilter<T extends string>({
+  options,
+  selected,
+  onChange,
+  allLabel,
+  summaryLabel,
+  groupLabel,
+}: {
+  options: { id: T; label: string; count?: number }[]
+  selected: Set<T>
+  onChange: (next: Set<T>) => void
+  allLabel: string
+  summaryLabel: (count: number) => string
+  groupLabel: string
+}) {
+  const [open, setOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+
+    function onPointerDown(event: MouseEvent) {
+      if (!containerRef.current?.contains(event.target as Node)) setOpen(false)
+    }
+
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false)
+    }
+
+    document.addEventListener("mousedown", onPointerDown)
+    window.addEventListener("keydown", onKeyDown)
+
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown)
+      window.removeEventListener("keydown", onKeyDown)
+    }
+  }, [open])
+
+  function toggle(id: T) {
+    const next = new Set(selected)
+
+    if (next.has(id)) next.delete(id)
+    else next.add(id)
+
+    onChange(next)
+  }
+
+  const active = selected.size > 0
+  const summary =
+    selected.size === 0
+      ? allLabel
+      : selected.size === 1
+        ? (options.find((option) => selected.has(option.id))?.label ??
+          summaryLabel(1))
+        : summaryLabel(selected.size)
+
+  if (options.length === 0) return null
+
+  return (
+    <div ref={containerRef} className="relative block">
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-haspopup="true"
+        aria-expanded={open}
+        className={cn(
+          "flex min-h-11 w-full items-center justify-between gap-2 rounded-xl border px-3.5 text-sm transition-colors lg:w-44",
+          "focus-visible:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/25",
+          active
+            ? "border-brand-line bg-brand-soft font-medium text-brand-deep"
+            : "border-line bg-surface-2 text-muted hover:border-faint",
+        )}
+      >
+        <span className="truncate">{summary}</span>
+        <ChevronDown
+          aria-hidden="true"
+          className={cn(
+            "size-4 shrink-0",
+            active ? "text-brand-deep" : "text-faint",
+          )}
+        />
+      </button>
+
+      {open && (
+        <div
+          role="group"
+          aria-label={groupLabel}
+          className="absolute right-0 top-[calc(100%+0.375rem)] z-20 max-h-72 w-56 overflow-y-auto rounded-xl border border-line bg-surface p-1.5 shadow-lg"
+        >
+          {active && (
+            <button
+              type="button"
+              onClick={() => onChange(new Set())}
+              className="mb-1 w-full rounded-lg px-2.5 py-1.5 text-left text-xs font-semibold text-brand hover:bg-brand-soft"
+            >
+              Clear
+            </button>
+          )}
+          {options.map((option) => (
+            <label
+              key={option.id}
+              className="flex min-h-9 cursor-pointer items-center gap-2.5 rounded-lg px-2.5 text-sm hover:bg-surface-2"
+            >
+              <input
+                type="checkbox"
+                checked={selected.has(option.id)}
+                onChange={() => toggle(option.id)}
+                className="size-4 shrink-0 rounded border-line accent-brand"
+              />
+              <span className="flex-1 truncate">{option.label}</span>
+              {option.count !== undefined && (
+                <span className="font-mono text-xs tabular-nums text-faint">
+                  {option.count.toLocaleString()}
+                </span>
+              )}
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
   )
 }
 

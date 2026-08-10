@@ -10,6 +10,8 @@ shape tests, not live calls.
 
 from __future__ import annotations
 
+import csv
+import json
 import sys
 import threading
 from datetime import datetime, timedelta, timezone
@@ -25,9 +27,29 @@ from scanner.analysis import (
     fallback_analysis,
     normalize_analysis,
 )
-from scanner.ats import greenhouse, lever, smartrecruiters, workday
+from scanner.ats import (
+    SUPPORTED_ATS,
+    apple,
+    atlassian,
+    ashby,
+    avature,
+    greenhouse,
+    ibm,
+    icims,
+    jibe,
+    lever,
+    oracle,
+    rippling,
+    smartrecruiters,
+    successfactors,
+    workday,
+)
 from scanner.companies import (
+    CORE_ATS,
+    DIRECT_ATS,
+    ENTERPRISE_ATS,
     dataset_for_ats,
+    dataset_summary,
     load_companies,
     resolve_dataset,
 )
@@ -245,46 +267,413 @@ class TestRecords:
 
 
 class TestCompanyCatalogs:
-    def test_supported_boards_route_to_their_catalog(self):
-        for ats in (
-            "greenhouse",
-            "ashby",
-            "lever",
-            "smartrecruiters",
-            "workable",
-        ):
-            assert dataset_for_ats(ats) == "main"
+    def test_rich_job_board_reference_preserves_every_source_field(self):
+        path = Path(__file__).resolve().parent.parent
+        path /= "data/job_boards_reference.csv"
 
-        assert dataset_for_ats("workday") == "workday"
+        with open(path, newline="", encoding="utf-8") as handle:
+            reader = csv.DictReader(handle)
+            rows = list(reader)
+
+        assert reader.fieldnames == [
+            "company",
+            "ats",
+            "token",
+            "site",
+            "host",
+            "board_url",
+            "api_url",
+            "api_method",
+            "status",
+            "notes",
+        ]
+        assert len(rows) == 77
+        assert len({row["company"] for row in rows}) == 77
+        assert sum(row["status"] == "confirmed" for row in rows) == 48
+        assert sum(row["status"] == "unverified" for row in rows) == 26
+        assert sum(row["status"] == "needs_site_number" for row in rows) == 3
+
+    def test_priority_source_ledger_preserves_all_submitted_rows(self):
+        path = Path(__file__).resolve().parent.parent
+        path /= "data/companies_priority.csv"
+
+        with open(path, newline="", encoding="utf-8") as handle:
+            rows = list(csv.DictReader(handle))
+
+        assert len(rows) == 154
+        assert all(row["source_url"].startswith("https://") for row in rows)
+        assert sum(
+            row["source_url"]
+            == "https://job-boards.greenhouse.io/pendo/jobs/"
+            for row in rows
+        ) == 2
+        assert sum(
+            row["source_url"] == "https://careers.amd.com/careers-home/jobs/"
+            for row in rows
+        ) == 2
+        assert sum(
+            row["slug"]
+            == "https://sonyglobal.wd1.myworkdayjobs.com/SonyGlobalCareers"
+            for row in rows
+        ) == 2
+        assert [
+            (row["name"], row["ats"], row["slug"], row["source_url"])
+            for row in rows[-18:]
+        ] == [
+            (
+                "Lyft",
+                "greenhouse",
+                "lyft",
+                "https://app.careerpuck.com/job-board/lyft/job/",
+            ),
+            (
+                "Lenovo",
+                "avature",
+                "https://jobs.lenovo.com/en_US/careers",
+                "https://jobs.lenovo.com/en_US/careers/JobDetail?",
+            ),
+            (
+                "Palantir",
+                "lever",
+                "palantir",
+                "https://jobs.lever.co/palantir/",
+            ),
+            (
+                "Sony",
+                "workday",
+                "https://sonyglobal.wd1.myworkdayjobs.com/SonyGlobalCareers",
+                (
+                    "https://sonyglobal.wd1.myworkdayjobs.com/en-US/"
+                    "SonyGlobalCareers/job/"
+                ),
+            ),
+            (
+                "HP",
+                "workday",
+                "https://hp.wd5.myworkdayjobs.com/ExternalCareerSite",
+                "https://hp.wd5.myworkdayjobs.com/ExternalCareerSite/job/",
+            ),
+            (
+                "Dropbox",
+                "greenhouse",
+                "dropbox",
+                "https://www.dropbox.jobs/en/jobs",
+            ),
+            (
+                "Sony",
+                "workday",
+                "https://sonyglobal.wd1.myworkdayjobs.com/SonyGlobalCareers",
+                (
+                    "https://sonyglobal.wd1.myworkdayjobs.com/"
+                    "SonyGlobalCareers/job/"
+                ),
+            ),
+            (
+                "Dell",
+                "oracle",
+                (
+                    "https://enterpriseplatform.dell.com/hcmUI/"
+                    "CandidateExperience/en/sites/careers"
+                ),
+                (
+                    "https://enterpriseplatform.dell.com/hcmUI/"
+                    "CandidateExperience/en/sites/careers/job/"
+                ),
+            ),
+            (
+                "CVS Health",
+                "workday",
+                (
+                    "https://cvshealth.wd1.myworkdayjobs.com/"
+                    "CVS_Health_Careers"
+                ),
+                (
+                    "https://jobs.cvshealth.com/us/en/job/"
+                    "CVSCHLUSR0954957EXTERNALENUS/"
+                ),
+            ),
+            (
+                "Walmart",
+                "workday",
+                "https://walmart.wd504.myworkdayjobs.com/WalmartExternal",
+                "https://careers.walmart.com/us/en/jobs/",
+            ),
+            (
+                "GitHub",
+                "jibe",
+                "https://githubinc.jibeapply.com",
+                "https://githubinc.jibeapply.com/jobs/",
+            ),
+            (
+                "JPMorgan Chase",
+                "oracle",
+                (
+                    "https://jpmc.fa.oraclecloud.com/hcmUI/"
+                    "CandidateExperience/en/sites/CX_1001"
+                ),
+                (
+                    "https://jpmc.fa.oraclecloud.com/hcmUI/"
+                    "CandidateExperience/en/sites/"
+                ),
+            ),
+            (
+                "HDFC Bank",
+                "oracle",
+                (
+                    "https://hdpc.fa.us2.oraclecloud.com/hcmUI/"
+                    "CandidateExperience/en/sites/LateralHiring"
+                ),
+                (
+                    "https://hdpc.fa.us2.oraclecloud.com/hcmUI/"
+                    "CandidateExperience/en/sites/LateralHiring/job/"
+                ),
+            ),
+            (
+                "Scale AI",
+                "greenhouse",
+                "scaleai",
+                "https://job-boards.greenhouse.io/scaleai/jobs/",
+            ),
+            (
+                "Samsung",
+                "workday",
+                "https://sec.wd3.myworkdayjobs.com/Samsung_Careers",
+                "https://sec.wd3.myworkdayjobs.com/Samsung_Careers/job/",
+            ),
+            (
+                "Spotify",
+                "lever",
+                "spotify",
+                "https://jobs.lever.co/spotify/",
+            ),
+            (
+                "AT&T",
+                "workday",
+                "https://att.wd1.myworkdayjobs.com/ATTGeneral",
+                "https://www.att.jobs/job/-/",
+            ),
+            (
+                "Citi",
+                "workday",
+                "https://citi.wd5.myworkdayjobs.com/2",
+                "https://jobs.citi.com/job/-/-/",
+            ),
+        ]
+
+    def test_supported_boards_route_to_their_catalog(self):
+        for ats in CORE_ATS:
+            assert dataset_for_ats(ats) == "core"
+
+        for ats in ENTERPRISE_ATS:
+            assert dataset_for_ats(ats) == "enterprise"
+
+        for ats in DIRECT_ATS:
+            assert dataset_for_ats(ats) == "direct"
 
     def test_unadapted_boards_route_to_plus(self):
         # The point of "plus": a board nothing can read is parked, not lost.
-        for ats in ("taleo", "icims", "", None):
+        for ats in ("taleo", "comeet", "", None):
             assert dataset_for_ats(ats) == "plus"
 
     def test_routing_ignores_case_and_padding(self):
-        assert dataset_for_ats("  Greenhouse ") == "main"
-        assert dataset_for_ats("WORKDAY") == "workday"
+        assert dataset_for_ats("  Greenhouse ") == "core"
+        assert dataset_for_ats("WORKDAY") == "enterprise"
+        assert dataset_for_ats(" Apple ") == "direct"
 
-    def test_unknown_dataset_falls_back_to_main(self):
-        assert resolve_dataset("nope") == "main"
-        assert resolve_dataset(None) == "main"
+    def test_unknown_dataset_falls_back_to_core(self):
+        assert resolve_dataset("nope") == "core"
+        assert resolve_dataset(None) == "core"
+        assert resolve_dataset("enterprise") == "enterprise"
+        assert resolve_dataset("direct") == "direct"
         assert resolve_dataset("plus") == "plus"
+        assert resolve_dataset("priority") == "priority"
+        assert resolve_dataset("reference") == "reference"
+
+    def test_only_the_three_authoritative_catalogs_are_selectable(self):
+        assert dataset_summary() == [
+            {
+                "id": "core",
+                "label": (
+                    "Core ATS boards · Ashby, Greenhouse, Lever, "
+                    "SmartRecruiters, Workable & Rippling"
+                ),
+                "count": 19_360,
+            },
+            {
+                "id": "enterprise",
+                "label": "Enterprise ATS boards · Workday, iCIMS, Oracle & more",
+                "count": 6_793,
+            },
+            {
+                "id": "direct",
+                "label": "Company-owned career sites",
+                "count": 3,
+            },
+        ]
+
+    def test_reference_catalog_normalizes_all_77_boards(self):
+        companies = load_companies("reference")
+        mapped = {
+            company["name"]: (company["ats"], company["slug"])
+            for company in companies
+        }
+
+        assert len(companies) == 77
+        assert len({(company["ats"], company["slug"]) for company in companies}) == 77
+        assert all(company["ats"] in SUPPORTED_ATS for company in companies)
+        assert all(company.get("source_url") for company in companies)
+        assert mapped["DigitalOcean"] == ("greenhouse", "digitalocean98")
+        assert mapped["Guild"] == ("greenhouse", "guild")
+        assert mapped["HubSpot"] == ("greenhouse", "hubspotjobs")
+        assert mapped["TRM Labs"] == ("ashby", "trm-labs")
+        assert mapped["Zipline"] == ("greenhouse", "flyzipline")
+        assert mapped["HDFC Bank"] == (
+            "oracle",
+            (
+                "https://hdpc.fa.us2.oraclecloud.com/hcmUI/"
+                "CandidateExperience/en/sites/LateralHiring"
+            ),
+        )
+
+    def test_priority_catalog_keeps_every_unique_submitted_board(self):
+        companies = load_companies("priority")
+
+        assert len(companies) == 130
+        assert all(company.get("source_url") for company in companies)
+        assert {
+            (company["name"], company["ats"], company["slug"])
+            for company in companies
+            if company["name"] in {
+                "AMD",
+                "Apple",
+                "Atlassian",
+                "IBM",
+                "Lenovo",
+                "Opendoor",
+                "SAP",
+                "Whatnot",
+            }
+        } == {
+            ("AMD", "jibe", "https://careers.amd.com"),
+            ("Apple", "apple", "apple"),
+            (
+                "Atlassian",
+                "atlassian",
+                "https://www.atlassian.com/endpoint/careers/listings",
+            ),
+            ("IBM", "ibm", "ibm"),
+            (
+                "Lenovo",
+                "avature",
+                "https://jobs.lenovo.com/en_US/careers",
+            ),
+            ("Opendoor", "rippling", "opendoor"),
+            ("SAP", "successfactors", "https://jobs.sap.com"),
+            ("Whatnot", "ashby", "whatnot"),
+        }
+
+    def test_rippling_catalog_has_two_thousand_distinct_live_entries(self):
+        companies = tuple(
+            company
+            for company in load_companies("core")
+            if company["ats"] == "rippling"
+        )
+        names = {company["name"].casefold() for company in companies}
+        slugs = {company["slug"].casefold() for company in companies}
+
+        assert len(companies) >= 2_000
+        assert len(names) == len(companies)
+        assert len(slugs) == len(companies)
+        assert all(company["ats"] == "rippling" for company in companies)
+        assert all(
+            company.get("source_url")
+            == f"https://ats.rippling.com/{company['slug']}/jobs"
+            for company in companies
+        )
+        assert all(
+            company["name"][0].isalnum()
+            and "<" not in company["name"]
+            and ">" not in company["name"]
+            for company in companies
+        )
+
+    def test_icims_catalog_has_five_thousand_verified_production_portals(self):
+        companies = tuple(
+            company
+            for company in load_companies("enterprise")
+            if company["ats"] == "icims"
+        )
+
+        assert len(companies) == 5_685
+        assert len({company["slug"] for company in companies}) == len(companies)
+        assert all(company["slug"].endswith(".icims.com") for company in companies)
+        assert all(
+            company.get("source_url")
+            == f"https://{company['slug']}/jobs/search?ss=1"
+            for company in companies
+        )
+        assert all(
+            not company["name"].casefold().startswith("(old)")
+            for company in companies
+        )
+        assert all(
+            "<" not in company["name"] and ">" not in company["name"]
+            for company in companies
+        )
+
+    def test_icims_reference_preserves_live_metadata_and_rejections(self):
+        data_dir = Path(__file__).resolve().parent.parent / "data"
+
+        with (data_dir / "icims_boards_reference.csv").open(
+            newline="",
+            encoding="utf-8",
+        ) as handle:
+            reference = list(csv.DictReader(handle))
+
+        with (data_dir / "icims_discovery_audit.csv").open(
+            newline="",
+            encoding="utf-8",
+        ) as handle:
+            audit = list(csv.DictReader(handle))
+
+        assert len(reference) == 5_714
+        assert sum(row["production_eligible"] == "True" for row in reference) == 5_685
+        assert sum(row["us_evidence"] == "True" for row in reference) == 2_549
+        assert len({row["company_key"] for row in reference}) == 1_990
+        assert len(audit) == 11_739
+        assert sum(row["accepted"] == "True" for row in audit) == 5_714
 
     def test_scannable_catalogs_hold_only_their_own_boards(self):
-        for dataset in ("main", "workday"):
+        for dataset in ("core", "enterprise", "direct"):
             for company in load_companies(dataset):
                 assert dataset_for_ats(company["ats"]) == dataset
+
+    def test_direct_catalog_is_only_the_three_company_owned_sources(self):
+        companies = load_companies("direct")
+
+        assert {
+            (company["name"], company["ats"], company["slug"])
+            for company in companies
+        } == {
+            ("Apple", "apple", "apple"),
+            ("IBM", "ibm", "ibm"),
+            (
+                "Atlassian",
+                "atlassian",
+                "https://www.atlassian.com/endpoint/careers/listings",
+            ),
+        }
 
     def test_plus_never_shadows_a_scannable_row(self):
         # "plus" holds unscannable rows — a board with no adapter, or one
         # that named an adapter but did not answer — plus a handful of
-        # hand-verified extras not yet folded into "main". None of it may
+        # hand-verified extras not yet folded into the active catalogs. None
+        # of it may
         # also sit in a scannable catalog, or one company would be scanned
         # under a slug already known to be dead (or double-counted).
         scannable = {
             (company["ats"], company["slug"].casefold())
-            for dataset in ("main", "workday")
+            for dataset in ("core", "enterprise", "direct")
             for company in load_companies(dataset)
         }
 
@@ -587,7 +976,7 @@ class TestIncrementalPublishing:
         )
         monkeypatch.setattr(scan_module.status, "_persist", lambda: None)
 
-        scan_module.run_scan(lookback_hours=24, dataset="main")
+        scan_module.run_scan(lookback_hours=24, dataset="core")
 
         # One save per screened posting, plus the final one — not a single
         # write at the end.
@@ -659,7 +1048,7 @@ class TestIncrementalPublishing:
         monkeypatch.setattr(scan_module, "save_jobs", record)
         monkeypatch.setattr(scan_module.status, "_persist", lambda: None)
 
-        scan_module.run_scan(lookback_hours=24, dataset="main")
+        scan_module.run_scan(lookback_hours=24, dataset="core")
 
         assert observed, "nothing was ever published"
 
@@ -769,6 +1158,533 @@ class TestCompanyLogos:
 
 
 class TestAtsExtraction:
+    def test_avature_reads_req_date_and_late_description(
+        self,
+        monkeypatch,
+    ):
+        search = """
+        <article class="article article--result">
+          <h3><a href="https://jobs.example.com/en_US/careers/JobDetail/
+          Software-Engineer/80265">Software Engineer</a></h3>
+          <span class="paragraph">Engineering</span>
+          <div class="article__header__text__subtitle">
+            <span>Austin, Texas, United States</span><br>
+            <span>Req #: WD00102092</span><br>
+            <span>Posted 07-Aug-2026</span>
+          </div>
+        </article>
+        """
+        detail = """
+        <article class="article article--details">
+          <h3>Description and Requirements</h3>
+          <div class="article__content">
+            <div class="article__content__view__field__value">
+              <p>Build reliable APIs.</p><p>1+ years of experience.</p>
+            </div>
+          </div>
+        </article>
+        """
+        monkeypatch.setattr(
+            avature,
+            "fetch_text",
+            lambda url, **_kwargs: search if url.endswith("SearchJobs") else detail,
+        )
+
+        record = avature.fetch(
+            {
+                "name": "Lenovo",
+                "slug": "https://jobs.example.com/en_US/careers",
+            }
+        )[0]
+
+        assert record["job_id"] == "WD00102092"
+        assert record["posted_at"].startswith("2026-08-07")
+        assert record["location"] == "Austin, Texas, United States"
+        assert record["team"] == "Engineering"
+        assert avature.fetch_detail(record) == (
+            "Build reliable APIs.\n1+ years of experience."
+        )
+
+    def test_oracle_reads_site_jobs_and_structured_detail(
+        self,
+        monkeypatch,
+    ):
+        site = (
+            "https://example.fa.oraclecloud.com/hcmUI/"
+            "CandidateExperience/en/sites/CX_1001"
+        )
+        monkeypatch.setattr(
+            oracle,
+            "_site_config",
+            lambda _value: (site, "https://example.fa.oraclecloud.com", "CX_1001"),
+        )
+
+        def payload(url, **_kwargs):
+            if url.endswith("recruitingCEJobRequisitionDetails"):
+                return {
+                    "items": [
+                        {
+                            "ExternalQualificationsStr": (
+                                "<p>1+ years of experience.</p>"
+                            ),
+                            "ExternalResponsibilitiesStr": "<p>Build APIs.</p>",
+                            "ExternalDescriptionStr": "<p>Join the team.</p>",
+                        }
+                    ]
+                }
+
+            return {
+                "items": [
+                    {
+                        "Limit": 1,
+                        "TotalJobsCount": 1,
+                        "requisitionList": [
+                            {
+                                "Id": "R-1",
+                                "Title": "Software Engineer",
+                                "PostedDate": "2026-08-08",
+                                "PrimaryLocation": "Austin, TX, United States",
+                                "JobFunction": "Technology",
+                                "secondaryLocations": [
+                                    {"LocationName": "New York, NY, United States"}
+                                ],
+                                "requisitionFlexFields": [
+                                    {
+                                        "Prompt": "Compensation Range",
+                                        "Value": "USD 100000 - USD 130000",
+                                    }
+                                ],
+                            }
+                        ],
+                    }
+                ]
+            }
+
+        monkeypatch.setattr(oracle, "fetch_json", payload)
+        record = oracle.fetch({"name": "Acme", "slug": site})[0]
+
+        assert record["url"] == f"{site}/job/R-1"
+        assert record["location"] == (
+            "Austin, TX, United States · New York, NY, United States"
+        )
+        assert record["team"] == "Technology"
+        assert "USD 100000" in record["salary_context"]
+        assert oracle.fetch_detail(record).startswith(
+            "Qualifications\n1+ years of experience."
+        )
+
+    def test_jibe_extracts_complete_posting_without_duplicate_sections(
+        self,
+        monkeypatch,
+    ):
+        monkeypatch.setattr(
+            jibe,
+            "fetch_json",
+            lambda *_args, **_kwargs: {
+                "totalCount": 1,
+                "jobs": [
+                    {
+                        "data": {
+                            "req_id": "R-1",
+                            "title": "Software Engineer",
+                            "full_location": "Austin, Texas",
+                            "categories": [{"name": "Engineering"}],
+                            "posted_date": "2026-08-08 08:10 AM",
+                            "description": "<p>Complete posting.</p>",
+                            "responsibilities": "<p>Duplicate excerpt.</p>",
+                            "tags1": ["USD $100,000/Yr."],
+                            "meta_data": {
+                                "canonical_url": (
+                                    "https://careers.example.com/jobs/R-1"
+                                )
+                            },
+                        }
+                    }
+                ],
+            },
+        )
+
+        record = jibe.fetch(
+            {"name": "AMD", "slug": "https://careers.example.com"}
+        )[0]
+
+        assert record["description"] == "Complete posting."
+        assert record["salary_context"] == "USD $100,000/Yr."
+        assert record["team"] == "Engineering"
+
+    def test_atlassian_reads_its_consolidated_regional_feed(
+        self,
+        monkeypatch,
+    ):
+        monkeypatch.setattr(
+            atlassian,
+            "fetch_json",
+            lambda *_args, **_kwargs: [
+                {
+                    "id": "25583",
+                    "title": "Data Engineer",
+                    "locations": ["Remote - US", "Austin, TX"],
+                    "category": "Engineering",
+                    "overview": "<p>Build data products.</p>",
+                    "portalJobPost": {
+                        "updatedDate": "2026-08-08 08:10 AM",
+                        "portalUrl": (
+                            "https://careers.example.com/jobs/25583/job"
+                        ),
+                    },
+                }
+            ],
+        )
+
+        record = atlassian.fetch(
+            {"name": "Atlassian", "slug": "atlassian"}
+        )[0]
+
+        assert record["location"] == "Remote - US · Austin, TX"
+        assert record["description"] == "Build data products."
+        assert record["team"] == "Engineering"
+
+    def test_icims_reads_and_paginates_public_job_cards(self, monkeypatch):
+        pages = {
+            0: """
+                <ul class="iCIMS_JobsTable">
+                  <li class="iCIMS_JobCardItem">
+                    <div class="header left"><span class="field-label">Location</span><span>US-CA-San Francisco</span></div>
+                    <a href="https://careers-acme.icims.com/jobs/101/software-engineer/job?in_iframe=1"><h3>Software Engineer</h3></a>
+                    <div class="description">Build reliable systems.</div>
+                    <dl class="iCIMS_JobHeaderGroup"><div class="iCIMS_JobHeaderTag"><dt class="iCIMS_JobHeaderField">Category:</dt><dd class="iCIMS_JobHeaderData">Engineering</dd></div></dl>
+                  </li>
+                </ul>
+                <div class="iCIMS_Paging"><a href="https://careers-acme.icims.com/jobs/search?pr=1&amp;in_iframe=1">2</a></div>
+            """,
+            1: """
+                <ul class="iCIMS_JobsTable">
+                  <li class="iCIMS_JobCardItem">
+                    <div class="header left"><span class="field-label">Location</span><span>US-NY-New York</span></div>
+                    <a href="/jobs/102/data-engineer/job"><h3>Data Engineer</h3></a>
+                  </li>
+                </ul>
+            """,
+        }
+
+        def page(url, **_kwargs):
+            return pages[1 if "pr=1" in url else 0]
+
+        monkeypatch.setattr(icims, "fetch_text", page)
+        records = icims.fetch(
+            {"name": "Acme", "slug": "careers-acme.icims.com"}
+        )
+
+        assert [record["job_id"] for record in records] == ["101", "102"]
+        assert records[0]["location"] == "US-CA-San Francisco"
+        assert records[0]["team"] == "Engineering"
+        assert records[1]["url"] == (
+            "https://careers-acme.icims.com/jobs/102/data-engineer/job"
+        )
+
+    def test_icims_hydrates_json_ld_job_details(self, monkeypatch):
+        monkeypatch.setattr(
+            icims,
+            "fetch_text",
+            lambda *_args, **_kwargs: """
+                <script type="application/ld+json">
+                {
+                  "@context": "https://schema.org",
+                  "@type": "JobPosting",
+                  "title": "Data Engineer",
+                  "datePosted": "2026-08-08T08:10:00Z",
+                  "url": "https://careers-acme.icims.com/jobs/102/data-engineer/job",
+                  "description": "<p>Build data products.</p>",
+                  "occupationalCategory": "Engineering",
+                  "jobLocation": {"address": {"addressLocality": "Austin", "addressRegion": "TX", "addressCountry": "US"}},
+                  "baseSalary": {"currency": "USD", "value": {"minValue": 90000, "maxValue": 120000}}
+                }
+                </script>
+            """,
+        )
+        hydrated = icims.hydrate(
+            {
+                "company": "Acme",
+                "company_slug": "careers-acme.icims.com",
+                "job_id": "102",
+                "title": "Data Engineer",
+                "url": "https://careers-acme.icims.com/jobs/102/data-engineer/job",
+                "location": "",
+                "team": "",
+            }
+        )
+
+        assert hydrated["posted_at"] == "2026-08-08T08:10:00+00:00"
+        assert hydrated["location"] == "Austin, TX, US"
+        assert hydrated["description"] == "Build data products."
+        assert '"currency": "USD"' in hydrated["salary_context"]
+
+    def test_ibm_reads_scoped_search_attributes(self, monkeypatch):
+        monkeypatch.setattr(
+            ibm,
+            "fetch_json",
+            lambda *_args, **_kwargs: {
+                "resultset": {
+                    "searchresults": {
+                        "totalresults": 1,
+                        "searchresultlist": [
+                            {
+                                "title": "Data Engineer",
+                                "url": (
+                                    "https://careers.ibm.com/careers/"
+                                    "JobDetail?jobId=124620"
+                                ),
+                                "docattributes": [
+                                    {"field_text_01": "124620"},
+                                    {"field_keyword_19": "Austin, US"},
+                                    {"field_keyword_08": "Engineering"},
+                                    {"dcdate": "2026-08-08"},
+                                    {
+                                        "raw_body": (
+                                            "<p>Build reliable pipelines.</p>"
+                                        )
+                                    },
+                                ],
+                            }
+                        ],
+                    }
+                }
+            },
+        )
+
+        record = ibm.fetch({"name": "IBM", "slug": "ibm"})[0]
+
+        assert record["job_id"] == "124620"
+        assert record["location"] == "Austin, US"
+        assert record["description"] == "Build reliable pipelines."
+
+    def test_apple_uses_search_summary_and_current_us_filter(
+        self,
+        monkeypatch,
+    ):
+        posted = datetime.now(timezone.utc).isoformat()
+        monkeypatch.setattr(apple, "_token", lambda: "csrf")
+        monkeypatch.setattr(
+            apple,
+            "_page",
+            lambda _token, _page: {
+                "totalRecords": 1,
+                "searchResults": [
+                    {
+                        "id": "2001",
+                        "postingTitle": "Software Engineer",
+                        "transformedPostingTitle": "software-engineer",
+                        "postDateInGMT": posted,
+                        "jobSummary": "Build Apple services.",
+                        "locations": [
+                            {"name": "Cupertino, California, United States"}
+                        ],
+                        "team": {
+                            "teamCode": "SFTWR",
+                            "teamName": "Software and Services",
+                        },
+                    }
+                ],
+            },
+        )
+
+        record = apple.fetch({"name": "Apple", "slug": "apple"})[0]
+
+        assert record["location"].startswith("Cupertino")
+        assert record["team"] == "Software and Services"
+        assert record["url"].endswith("?team=SFTWR")
+
+    def test_successfactors_hydrates_date_and_description(
+        self,
+        monkeypatch,
+    ):
+        search = """
+        <p>Results 1 – 1 of <b>1</b></p>
+        <table><tr class="data-row">
+          <td><a class="jobTitle-link" href="/job/Austin-Engineer/123/">
+            Software Engineer
+          </a></td>
+          <td><span class="jobLocation"><span>Austin, US</span></span></td>
+        </tr></table>
+        """
+        detail = """
+        <meta itemprop="datePosted" content="Sat Aug 08 08:10:00 UTC 2026">
+        <span itemprop="description"><p>Build APIs.<br>Ship safely.</p></span>
+        """
+
+        monkeypatch.setattr(
+            successfactors,
+            "fetch_text",
+            lambda url, **_kwargs: detail if "/123/" in url else search,
+        )
+
+        summary = successfactors.fetch(
+            {"name": "SAP", "slug": "https://jobs.sap.com"}
+        )[0]
+        record = successfactors.hydrate(summary)
+
+        assert record is not None
+        assert record["posted_at"].startswith("2026-08-08T08:10:00")
+        assert record["location"] == "Austin, US"
+        assert record["description"] == "Build APIs.\nShip safely."
+
+    def test_rippling_hydrates_only_after_title_match(self, monkeypatch):
+        import scanner.scan as scan_module
+
+        summaries = [
+            {
+                "ats": "rippling",
+                "company": "Acme",
+                "company_slug": "acme",
+                "job_id": "sales-1",
+                "title": "Account Executive",
+                "posted_at": None,
+            },
+            {
+                "ats": "rippling",
+                "company": "Acme",
+                "company_slug": "acme",
+                "job_id": "software-1",
+                "title": "Software Engineer",
+                "posted_at": None,
+            },
+        ]
+        hydrated = []
+
+        def hydrate(job):
+            hydrated.append(job["job_id"])
+
+            return {
+                **job,
+                "posted_at": datetime.now(timezone.utc).isoformat(),
+                "description": "Build APIs.",
+            }
+
+        monkeypatch.setattr(
+            scan_module,
+            "fetch_company",
+            lambda _company: summaries,
+        )
+        monkeypatch.setattr(scan_module, "hydrate_job", hydrate)
+
+        jobs = scan_module._scan_company(
+            {"name": "Acme", "ats": "rippling", "slug": "acme"},
+            24,
+            ["software"],
+        )
+
+        assert hydrated == ["software-1"]
+        assert [job["job_id"] for job in jobs] == ["software-1"]
+
+    def test_ashby_falls_back_to_public_html_when_api_is_disabled(
+        self,
+        monkeypatch,
+    ):
+        def api_disabled(*_args, **_kwargs):
+            raise ashby.BoardUnavailable("disabled")
+
+        board = {
+            "jobBoard": {
+                "jobPostings": [
+                    {
+                        "id": "job-1",
+                        "title": "Software Engineer",
+                    }
+                ]
+            }
+        }
+        detail = {
+            "posting": {
+                "id": "job-1",
+                "title": "Software Engineer",
+                "locationName": "New York, NY",
+                "secondaryLocationNames": ["Austin, TX"],
+                "workplaceType": "Hybrid",
+                "teamNames": ["Engineering", "Platform"],
+                "descriptionHtml": "<p>Build reliable APIs.</p>",
+                "compensationTierSummary": "$120K – $150K",
+                "isListed": True,
+            }
+        }
+
+        def html(url, **_kwargs):
+            payload = detail if url.endswith("/job-1") else board
+            date = '<script>{"datePosted":"2026-08-08"}</script>'
+
+            return f"window.__appData = {json.dumps(payload)};{date}"
+
+        monkeypatch.setattr(ashby, "fetch_json", api_disabled)
+        monkeypatch.setattr(ashby, "fetch_text", html)
+
+        record = ashby.fetch(
+            {
+                "name": "Acme",
+                "slug": "acme",
+                "source_url": "https://jobs.ashbyhq.com/acme/",
+            }
+        )[0]
+
+        assert record["posted_at"].startswith("2026-08-08")
+        assert record["location"] == "New York, NY · Austin, TX"
+        assert record["team"] == "Engineering · Platform"
+        assert record["description"] == "Build reliable APIs."
+        assert record["salary_context"] == "$120K – $150K"
+
+    def test_rippling_uses_detail_for_date_and_description(
+        self,
+        monkeypatch,
+    ):
+        def payload(url, **_kwargs):
+            if url.endswith("/jobs"):
+                return {
+                    "items": [
+                        {
+                            "id": "job-1",
+                            "name": "Data Analyst",
+                            "url": "https://ats.rippling.com/acme/jobs/job-1",
+                            "locations": [
+                                {
+                                    "name": "Remote - US",
+                                    "workplaceType": "REMOTE",
+                                }
+                            ],
+                        }
+                    ],
+                    "totalPages": 1,
+                }
+
+            return {
+                "uuid": "job-1",
+                "name": "Data Analyst",
+                "url": "https://ats.rippling.com/acme/jobs/job-1",
+                "createdOn": "2026-08-08T10:00:00-07:00",
+                "description": {
+                    "company": "<p>About Acme.</p>",
+                    "role": "<p>Analyze product data.</p>",
+                },
+                "department": {"name": "Analytics"},
+                "payRangeDetails": [{"min": 100000, "max": 130000}],
+                "unlistedFromSearch": False,
+            }
+
+        monkeypatch.setattr(rippling, "fetch_json", payload)
+
+        summary = rippling.fetch(
+            {"name": "Acme", "slug": "acme"}
+        )[0]
+        record = rippling.hydrate(summary)
+
+        assert summary["posted_at"] is None
+        assert summary["description"] == ""
+        assert record is not None
+        assert record["posted_at"].startswith("2026-08-08T17:00:00")
+        assert record["location"] == "Remote - US"
+        assert record["team"] == "Analytics"
+        assert record["description"] == (
+            "About Acme.\n\nAnalyze product data."
+        )
+        assert '"min": 100000' in record["salary_context"]
+
     def test_greenhouse_prefers_first_published_over_edit_time(
         self,
         monkeypatch,

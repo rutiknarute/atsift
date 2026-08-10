@@ -1,0 +1,78 @@
+name,ats,slug,source_url
+1Password,ashby,1password,https://jobs.ashbyhq.com/1password/
+Airwallex,ashby,airwallex,https://jobs.ashbyhq.com/airwallex/
+Ambience Healthcare,ashby,ambiencehealthcare,https://jobs.ashbyhq.com/ambiencehealthcare/
+Baseten,ashby,baseten,https://jobs.ashbyhq.com/baseten/
+Clay,ashby,claylabs,https://jobs.ashbyhq.com/claylabs/
+ClickUp,ashby,clickup,https://jobs.ashbyhq.com/clickup/
+DeepL,ashby,DeepL,https://jobs.ashbyhq.com/DeepL/
+Docker,ashby,docker,https://jobs.ashbyhq.com/docker/
+Kong,ashby,kong,https://jobs.ashbyhq.com/kong/
+Modern Treasury,ashby,moderntreasury,https://jobs.ashbyhq.com/moderntreasury/
+Plaid,ashby,plaid,https://jobs.ashbyhq.com/plaid/
+Synthesia,ashby,synthesia,https://jobs.ashbyhq.com/synthesia/
+Thumbtack,ashby,thumbtack,https://jobs.ashbyhq.com/thumbtack/
+Weave,ashby,weave,https://jobs.ashbyhq.com/weave/
+AlphaSense,greenhouse,alphasense,https://job-boards.greenhouse.io/alphasense/jobs/
+Anthropic,greenhouse,anthropic,https://job-boards.greenhouse.io/anthropic/jobs/
+Apollo.io,greenhouse,apolloio,https://job-boards.greenhouse.io/apolloio/jobs/
+Calendly,greenhouse,calendly,https://job-boards.greenhouse.io/calendly/jobs/
+Carta,greenhouse,carta,https://job-boards.greenhouse.io/carta/jobs/
+Cloudflare,greenhouse,cloudflare,https://job-boards.greenhouse.io/cloudflare/jobs/
+Dataiku,greenhouse,dataiku,https://job-boards.greenhouse.io/dataiku/jobs/
+Everlane,greenhouse,everlane,https://job-boards.greenhouse.io/everlane/jobs/
+Faire,greenhouse,faire,https://job-boards.greenhouse.io/faire/jobs/
+Figma,greenhouse,figma,https://job-boards.greenhouse.io/figma/jobs/
+Forter,greenhouse,forter,https://job-boards.greenhouse.io/forter/jobs/
+GitLab,greenhouse,gitlab,https://job-boards.greenhouse.io/gitlab/jobs/
+GlossGenius,greenhouse,glossgenius,https://job-boards.greenhouse.io/glossgenius/jobs/
+Glossier,greenhouse,glossier,https://job-boards.greenhouse.io/glossier/jobs/
+Gong,greenhouse,gongio,https://job-boards.greenhouse.io/gongio/jobs/
+Guidepoint,greenhouse,guidepoint,https://job-boards.greenhouse.io/guidepoint/jobs/
+Justworks,greenhouse,justworks,https://job-boards.greenhouse.io/justworks/jobs/
+Komodo Health,greenhouse,komodohealth,https://job-boards.greenhouse.io/komodohealth/jobs/
+Lucid Motors,greenhouse,lucidmotors,https://job-boards.greenhouse.io/lucidmotors/jobs/
+Mixpanel,greenhouse,mixpanel,https://job-boards.greenhouse.io/embed/job_app?for=mixpanel
+Motive,greenhouse,gomotive,https://job-boards.greenhouse.io/gomotive/jobs/
+Oklo,greenhouse,oklo,https://job-boards.greenhouse.io/oklo/jobs/
+OneTrust,greenhouse,onetrust,https://job-boards.greenhouse.io/onetrust/jobs/
+PagerDuty,greenhouse,pagerduty,https://job-boards.greenhouse.io/pagerduty/jobs/
+Pendo,greenhouse,pendo,https://job-boards.greenhouse.io/pendo/jobs/
+Postman,greenhouse,postman,https://job-boards.greenhouse.io/postman/jobs/
+Scale AI,greenhouse,scaleai,https://job-boards.greenhouse.io/scaleai/jobs/
+Tanium,greenhouse,tanium,https://job-boards.greenhouse.io/tanium/jobs/
+Vox Media,greenhouse,voxmedia,https://job-boards.greenhouse.io/embed/job_app?for=voxmedia
+Palantir,lever,palantir,https://jobs.lever.co/palantir/
+Spotify,lever,spotify,https://jobs.lever.co/spotify/
+HP,workday,https://hp.wd5.myworkdayjobs.com/ExternalCareerSite,https://hp.wd5.myworkdayjobs.com/ExternalCareerSite/
+Samsung,workday,https://sec.wd3.myworkdayjobs.com/Samsung_Careers,https://sec.wd3.myworkdayjobs.com/Samsung_Careers/
+Sony,workday,https://sonyglobal.wd1.myworkdayjobs.com/SonyGlobalCareers,https://sonyglobal.wd1.myworkdayjobs.com/en-US/SonyGlobalCareers/
+Avoca AI,ashby,avoca,https://www.avoca.ai/careers
+Lenovo,avature,https://jobs.lenovo.com/en_US/careers,https://jobs.lenovo.com/en_US/careers/
+Lyft,greenhouse,lyft,https://app.careerpuck.com/job-board/lyft
+Abnormal AI,greenhouse,abnormalsecurity,https://abnormal.ai/careers/jobs/
+Brex,greenhouse,brex,https://www.brex.com/careers/
+Cockroach Labs,greenhouse,cockroachlabs,https://www.cockroachlabs.com/careers/jobs/
+Cribl,greenhouse,cribl,https://cribl.io/job-detail/
+Datadog,greenhouse,datadog,https://careers.datadoghq.com/detail/
+DigitalOcean,greenhouse,digitalocean98,https://www.digitalocean.com/careers/
+Dropbox,greenhouse,dropbox,https://www.dropbox.jobs/en/jobs
+Fivetran,greenhouse,fivetran,https://www.fivetran.com/careers/job
+Flatiron Health,greenhouse,flatironhealth,https://flatiron.com/careers/open-positions/
+Guild,greenhouse,guild,https://guild.com/open-positions-at-guild
+HubSpot,greenhouse,hubspotjobs,https://www.hubspot.com/careers/jobs/
+Nuro,greenhouse,nuro,https://www.nuro.ai/careers
+Red Ventures,greenhouse,redventures,https://www.redventures.com/careers/positions/open
+Samsara,greenhouse,samsara,https://www.samsara.com/company/careers/roles/
+Squarespace,greenhouse,squarespace,https://www.squarespace.com/careers/jobs/
+TRM Labs,ashby,trm-labs,https://www.trmlabs.com/careers
+Wiz,greenhouse,wizinc,https://www.wiz.io/careers
+Zipline,greenhouse,flyzipline,https://www.zipline.com/open-roles
+GitHub,jibe,https://githubinc.jibeapply.com,https://githubinc.jibeapply.com/jobs/
+Dell,oracle,https://enterpriseplatform.dell.com/hcmUI/CandidateExperience/en/sites/careers,https://enterpriseplatform.dell.com/hcmUI/CandidateExperience/en/sites/careers/
+HDFC Bank,oracle,https://hdpc.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/LateralHiring,https://hdpc.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/LateralHiring/
+JPMorgan Chase,oracle,https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001,https://jpmc.fa.oraclecloud.com/hcmUI/CandidateExperience/en/sites/
+CVS Health,workday,https://cvshealth.wd1.myworkdayjobs.com/CVS_Health_Careers,https://jobs.cvshealth.com/us/en/
+Walmart,workday,https://walmart.wd504.myworkdayjobs.com/WalmartExternal,https://careers.walmart.com/us/en/jobs/
+AT&T,workday,https://att.wd1.myworkdayjobs.com/ATTGeneral,https://www.att.jobs/
+Citi,workday,https://citi.wd5.myworkdayjobs.com/2,https://jobs.citi.com/

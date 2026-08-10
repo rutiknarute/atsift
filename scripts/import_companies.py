@@ -1,11 +1,17 @@
 """
 Merge a `name,ats,slug` list into the company catalogs.
 
-Each row is routed by its board — the five token-slug boards to
-`companies.csv`, Workday to `companies_workday.csv`, and anything no adapter
-covers to `companies_plus.csv` — so an unknown ATS is parked instead of
-silently dropped. Rows already present under the same ats + slug are skipped,
-matching how the catalogs were deduplicated in the first place.
+Each row is routed by its board — the original six reusable platforms
+(Ashby, Greenhouse, Lever, Rippling, SmartRecruiters, Workable) to
+`companies_core_ats.csv`, larger enterprise multi-tenant platforms (Workday,
+iCIMS, Oracle, Avature, SuccessFactors, Jibe) to
+`companies_enterprise_ats.csv`, dedicated company-owned boards to
+`companies_direct.csv`, and anything no adapter covers to
+`companies_plus.csv` — so an unknown ATS is parked instead of silently
+dropped. The hand-curated priority catalog and generated reference catalog are
+not import targets. Rows already present under the same ats + slug are skipped,
+matching how the catalogs were deduplicated in the first place. An optional
+`source_url` column is preserved.
 
 `--verify` extends that to the board itself: a row whose named board does not
 answer is parked in "plus" too, rather than being re-homed onto whichever ATS
@@ -33,7 +39,7 @@ from scanner.companies import dataset_for_ats  # noqa: E402
 from scanner.config import COMPANY_DATASET_PATHS, MAX_WORKERS  # noqa: E402
 from scanner.http import BoardUnavailable  # noqa: E402
 
-FIELDS = ["name", "ats", "slug"]
+FIELDS = ["name", "ats", "slug", "source_url"]
 
 
 def board_resolves(row: dict) -> bool:
@@ -108,8 +114,17 @@ def main(argv: list[str]) -> int:
                 ats = str(row.get("ats") or "").strip().lower()
                 slug = str(row.get("slug") or "").strip()
 
+                source_url = str(row.get("source_url") or "").strip()
+
                 if name and ats and slug:
-                    incoming.append({"name": name, "ats": ats, "slug": slug})
+                    incoming.append(
+                        {
+                            "name": name,
+                            "ats": ats,
+                            "slug": slug,
+                            "source_url": source_url,
+                        }
+                    )
 
     catalogs = {
         dataset: read_catalog(path)
