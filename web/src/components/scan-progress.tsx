@@ -1,6 +1,6 @@
 "use client"
 
-import { Loader2, X } from "lucide-react"
+import { CheckCircle2, Loader2, X } from "lucide-react"
 
 import { cn, pct } from "@/lib/utils"
 import type { ScanStatus } from "@/lib/types"
@@ -8,7 +8,7 @@ import type { ScanStatus } from "@/lib/types"
 export function ScanProgress({ status }: { status: ScanStatus }) {
   const running = status.state === "running"
 
-  if (!running && status.state !== "error") return null
+  if (status.state === "idle") return null
 
   const progress = scanProgress(status)
 
@@ -20,6 +20,8 @@ export function ScanProgress({ status }: { status: ScanStatus }) {
         <div className="flex items-center gap-2.5">
           {status.state === "error" ? (
             <X aria-hidden="true" className="size-4 text-danger" />
+          ) : !running ? (
+            <CheckCircle2 aria-hidden="true" className="size-4 text-brand" />
           ) : (
             <Loader2
               aria-hidden="true"
@@ -62,9 +64,9 @@ export function ScanProgress({ status }: { status: ScanStatus }) {
         />
         <Stat label="Roles found" value={status.jobs_found.toLocaleString()} />
         <Stat
-          label="AI screened"
+          label={status.analysis_mode === "fast" ? "Screening mode" : "AI screened"}
           value={
-            status.analyzed_total
+            status.analysis_mode === "fast" ? "Posting rules" : status.analyzed_total
               ? `${status.analyzed.toLocaleString()} / ${status.analyzed_total.toLocaleString()}`
               : "—"
           }
@@ -75,6 +77,16 @@ export function ScanProgress({ status }: { status: ScanStatus }) {
           accent
         />
       </dl>
+
+      {status.state === "done" && status.matches === 0 && (
+        <p className="mt-4 text-xs leading-relaxed text-muted">
+          Read {status.boards_with_jobs.toLocaleString()} boards with listings;
+          {" "}{status.board_errors.toLocaleString()} boards were unavailable,
+          {" "}{status.title_matches.toLocaleString()} roles matched your
+          title filters, and {status.date_matches.toLocaleString()} were inside
+          the selected time window.
+        </p>
+      )}
 
       {status.error && (
         <p
@@ -95,6 +107,7 @@ export function ScanProgress({ status }: { status: ScanStatus }) {
   still waiting for the model.
 */
 function scanProgress(status: ScanStatus): number {
+  if (status.state === "done") return status.companies_done >= status.companies_total ? 100 : pct(status.companies_done, status.companies_total)
   if (status.phase === "starting") return 2
 
   const swept = pct(status.companies_done, status.companies_total)

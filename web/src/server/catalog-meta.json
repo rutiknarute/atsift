@@ -1,0 +1,26 @@
+{
+  "datasets": [
+    {
+      "id": "core",
+      "label": "Core ATS boards \u00b7 Ashby, Greenhouse, Lever, SmartRecruiters, Workable & Rippling",
+      "count": 20483
+    },
+    {
+      "id": "enterprise",
+      "label": "Enterprise ATS boards \u00b7 Workday, iCIMS, Oracle & more",
+      "count": 6797
+    },
+    {
+      "id": "direct",
+      "label": "Company-owned career sites",
+      "count": 4
+    },
+    {
+      "id": "expanded",
+      "label": "Expanded companies \u00b7 live-verified additional boards",
+      "count": 13717
+    }
+  ],
+  "catalog_total": 41001,
+  "adapter_count": 17
+}

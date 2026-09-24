@@ -52,12 +52,18 @@ export interface Job {
 }
 
 export interface ScanStatus {
+  analysis_mode?: "fast" | "full" | null
   state: "idle" | "running" | "done" | "error"
   phase: string
   message: string
   companies_done: number
   companies_total: number
   jobs_found: number
+  boards_with_jobs: number
+  board_errors: number
+  title_matches: number
+  non_us_jobs: number
+  date_matches: number
   matches: number
   analyzed: number
   analyzed_total: number
@@ -77,6 +83,8 @@ export interface JobsResponse {
 }
 
 export interface ScannerMeta {
+  catalog_total?: number
+  adapter_count?: number
   categories: { id: CategoryId; label: string }[]
   datasets: { id: string; label: string; count: number }[]
   lookback_options: number[]

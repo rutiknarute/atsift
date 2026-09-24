@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import catalogMeta from "@/server/catalog-meta.json"
 
 import { fetchScanner, scannerAvailable } from "@/server/scanner-client"
 import type { ScannerMeta } from "@/lib/types"
@@ -15,23 +16,7 @@ const FALLBACK: ScannerMeta = {
     { id: "ai_ml", label: "AI / ML" },
     { id: "gtm", label: "GTM" },
   ],
-  datasets: [
-    {
-      id: "core",
-      label: "Core ATS boards · Ashby, Greenhouse, Lever, SmartRecruiters, Workable & Rippling",
-      count: 19360,
-    },
-    {
-      id: "enterprise",
-      label: "Enterprise ATS boards · Workday, iCIMS, Oracle & more",
-      count: 6793,
-    },
-    {
-      id: "direct",
-      label: "Company-owned career sites",
-      count: 3,
-    },
-  ],
+  ...catalogMeta,
   lookback_options: [1, 2, 4, 6, 12, 24, 48, 72],
   default_lookback_hours: 24,
   max_lookback_hours: 72,

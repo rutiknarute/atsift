@@ -25,13 +25,14 @@ import {
 
 import { BrandLogo } from "@/components/brand"
 import { cn } from "@/lib/utils"
+import catalogMeta from "@/server/catalog-meta.json"
 
 type View = "signin" | "request" | "requested"
 
 const STATS = [
-  { value: "18,286", label: "Company boards" },
-  { value: "6", label: "Hiring systems" },
-  { value: "6–72h", label: "Freshness window" },
+  { value: catalogMeta.catalog_total.toLocaleString("en-US"), label: "Company boards" },
+  { value: String(catalogMeta.adapter_count), label: "Hiring systems" },
+  { value: "1–72h", label: "Freshness window" },
 ]
 
 const FEATURES = [

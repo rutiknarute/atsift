@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useRef, useState } from "react"
+import { memo, useDeferredValue, useEffect, useMemo, useRef, useState } from "react"
 import { CheckCircle2, ChevronDown, Search, SearchX } from "lucide-react"
 
 import { JobCard } from "@/components/job-card"
@@ -49,7 +49,7 @@ interface ResultsProps {
   onApply: (uid: string) => void
 }
 
-export function Results({
+export const Results = memo(function Results({
   jobs,
   source,
   lookbackHours,
@@ -58,7 +58,9 @@ export function Results({
   onApply,
 }: ResultsProps) {
   const [query, setQuery] = useState("")
-  const [role, setRole] = useState<CategoryId | "all">("all")
+  const deferredQuery = useDeferredValue(query)
+  const [pagination, setPagination] = useState({ key: "", limit: 40 })
+  const [roles, setRoles] = useState<Set<CategoryId>>(new Set())
   const [sort, setSort] = useState<SortKey>("newest")
   // Empty set reads as "no filter" rather than "match nothing" for both of
   // these — see `experience.size > 0` and `atsFilter.size > 0` below.
@@ -108,12 +110,14 @@ export function Results({
   }, [jobs])
 
   const filteredJobs = useMemo(() => {
-    const needle = query.trim().toLowerCase()
+    const needle = deferredQuery.trim().toLowerCase()
 
     let list = jobs
 
-    if (role !== "all") {
-      list = list.filter((job) => (job.categories ?? []).includes(role))
+    if (roles.size > 0) {
+      list = list.filter((job) =>
+        (job.categories ?? []).some((category) => roles.has(category)),
+      )
     }
 
     if (needle) {
@@ -151,11 +155,14 @@ export function Results({
         ? (a.age_hours ?? Infinity) - (b.age_hours ?? Infinity)
         : a.company.localeCompare(b.company),
     )
-  }, [jobs, query, role, sort, optOnly, experience, atsFilter])
+  }, [jobs, deferredQuery, roles, sort, optOnly, experience, atsFilter])
+
+  const filterKey = JSON.stringify([deferredQuery, [...roles].sort(), sort, optOnly, [...experience].sort(), [...atsFilter].sort(), lookbackHours])
+  const visibleCount = pagination.key === filterKey ? pagination.limit : 40
 
   function clearFilters() {
     setQuery("")
-    setRole("all")
+    setRoles(new Set())
     setOptOnly(false)
     setSort("newest")
     setExperience(new Set())
@@ -181,7 +188,12 @@ export function Results({
   }
 
   return (
-    <section aria-labelledby="results-heading" className="flex flex-col gap-4">
+    <section aria-labelledby="results-heading" aria-busy={loading || query !== deferredQuery} className="flex flex-col gap-4">
+      {source === "snapshot" && (
+        <p className="rounded-xl border border-line bg-surface-2 px-4 py-3 text-sm text-muted">
+          Packaged sample{scannedAt ? ` from ${new Date(scannedAt).toLocaleDateString()}` : ""}. These are historical postings; the live time window does not apply.
+        </p>
+      )}
       <h2
         id="results-heading"
         aria-live="polite"
@@ -280,9 +292,11 @@ export function Results({
             )}
           >
             {ROLE_FILTERS.map((filter) => {
-              const active = role === filter.id
+              const categoryId = filter.id === "all" ? null : filter.id
+              const active =
+                categoryId === null ? roles.size === 0 : roles.has(categoryId)
               const count =
-                filter.id === "all" ? jobs.length : (counts.get(filter.id) ?? 0)
+                categoryId === null ? jobs.length : (counts.get(categoryId) ?? 0)
 
               if (filter.id !== "all" && count === 0) return null
 
@@ -291,7 +305,21 @@ export function Results({
                   key={filter.id}
                   type="button"
                   aria-pressed={active}
-                  onClick={() => setRole(filter.id)}
+                  onClick={() => {
+                    if (filter.id === "all") {
+                      setRoles(new Set())
+                      return
+                    }
+
+                    const selectedRole = filter.id
+
+                    setRoles((current) => {
+                      const next = new Set(current)
+                      if (next.has(selectedRole)) next.delete(selectedRole)
+                      else next.add(selectedRole)
+                      return next
+                    })
+                  }}
                   className={cn(
                     "min-h-11 shrink-0 whitespace-nowrap rounded-lg border px-3 text-xs font-medium transition-colors",
                     "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2",
@@ -327,10 +355,8 @@ export function Results({
           </button>
         </div>
       ) : (
-        // Every match renders. The filters above are the way to narrow a long
-        // list; a "show more" button only ever hid results behind a click.
         <div className="grid items-start gap-4 lg:grid-cols-2">
-          {filteredJobs.map((job) => (
+          {filteredJobs.slice(0, visibleCount).map((job) => (
             <JobCard
               key={job.uid}
               job={job}
@@ -340,9 +366,18 @@ export function Results({
           ))}
         </div>
       )}
+      {filteredJobs.length > visibleCount && (
+        <div className="flex flex-col items-center gap-2 py-3">
+          <p className="text-sm text-muted">Showing {visibleCount.toLocaleString()} of {filteredJobs.length.toLocaleString()} matches. Filters search every result.</p>
+          <button type="button" onClick={() => setPagination({ key: filterKey, limit: visibleCount + 40 })}
+            className="min-h-11 rounded-xl border border-line bg-surface px-5 text-sm font-semibold hover:border-brand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand">
+            Show 40 more roles
+          </button>
+        </div>
+      )}
     </section>
   )
-}
+})
 
 /*
   A button that opens a checklist rather than a native <select multiple>: the

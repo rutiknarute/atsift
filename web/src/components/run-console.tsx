@@ -17,6 +17,8 @@ import type { ScannerMeta } from "@/lib/types"
 
 interface RunConsoleProps {
   meta: ScannerMeta
+  analysisMode: "fast" | "full"
+  onAnalysisModeChange: (mode: "fast" | "full") => void
   lookbackHours: number
   onLookbackChange: (hours: number) => void
   dataset: string
@@ -40,6 +42,8 @@ interface RunConsoleProps {
 
 export function RunConsole({
   meta,
+  analysisMode,
+  onAnalysisModeChange,
   lookbackHours,
   onLookbackChange,
   dataset,
@@ -114,12 +118,12 @@ export function RunConsole({
             onChange={onDatasetChange}
             options={meta.datasets.map((option) => ({
               value: option.id,
-              label: option.label,
+              label: `${option.label} (${option.count.toLocaleString()})`,
             }))}
           />
         )}
 
-        {running ? (
+        {running && !demo ? (
           <button
             type="button"
             onClick={onStop}
@@ -173,6 +177,17 @@ export function RunConsole({
         )}
       </div>
 
+      <div className="flex flex-wrap items-center justify-center gap-3 text-sm">
+        <label htmlFor="analysis-mode" className="font-medium text-muted">Screening</label>
+        <select id="analysis-mode" value={analysisMode} disabled={controlsDisabled}
+          onChange={(event) => onAnalysisModeChange(event.target.value as "fast" | "full")}
+          className="min-h-11 max-w-full rounded-xl border border-line bg-surface px-3 text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand disabled:opacity-60">
+          <option value="fast">Fast · posting rules</option>
+          <option value="full">Full · local AI analysis</option>
+        </select>
+        {analysisMode === "full" && <span className="max-w-md text-xs text-muted">Adds AI screening and summaries. Local model analysis takes longer.</span>}
+      </div>
+
       <p
         aria-live="polite"
         className="flex max-w-2xl items-start justify-center gap-2 text-center text-sm leading-relaxed text-muted"
@@ -188,7 +203,9 @@ export function RunConsole({
           : demo
             ? "You are on the demo account. Browse everything below; starting a scan needs the owner's sign-in."
             : scannerAvailable
-              ? `Ready to sweep ${(meta.datasets.find((d) => d.id === dataset)?.count ?? 0).toLocaleString()} job boards.`
+              ? dataset === "expanded"
+                ? `Ready to check ${(meta.datasets.find((d) => d.id === dataset)?.count ?? 0).toLocaleString()} additional verified boards. This catalog includes international employers; results still require a confirmed US location.`
+                : `Ready to sweep ${(meta.datasets.find((d) => d.id === dataset)?.count ?? 0).toLocaleString()} job boards.`
               : "The live scanner is offline. You can still browse the packaged sample below."}
       </p>
     </fieldset>

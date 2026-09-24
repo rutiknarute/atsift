@@ -81,6 +81,8 @@ export function LogoTile({
         <img
           src={source}
           alt=""
+          width={48}
+          height={48}
           aria-hidden="true"
           loading="lazy"
           decoding="async"
