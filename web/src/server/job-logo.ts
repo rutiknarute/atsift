@@ -7,10 +7,19 @@ import type { Job } from "@/lib/types"
   needs to serve the brand mark.
 */
 const ATS_DOMAINS: Record<string, string> = {
-  greenhouse: "greenhouse.io",
+  apple: "apple.com",
+  atlassian: "atlassian.com",
   ashby: "ashbyhq.com",
+  avature: "avature.net",
+  greenhouse: "greenhouse.io",
+  ibm: "ibm.com",
+  icims: "icims.com",
+  jibe: "icims.com",
   lever: "lever.co",
+  oracle: "oracle.com",
+  rippling: "rippling.com",
   smartrecruiters: "smartrecruiters.com",
+  successfactors: "sap.com",
   workable: "workable.com",
   workday: "workday.com",
 }

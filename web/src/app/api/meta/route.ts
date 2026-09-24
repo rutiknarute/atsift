@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import catalogMeta from "@/server/catalog-meta.json"
 
 import { fetchScanner, scannerAvailable } from "@/server/scanner-client"
 import type { ScannerMeta } from "@/lib/types"
@@ -15,11 +16,8 @@ const FALLBACK: ScannerMeta = {
     { id: "ai_ml", label: "AI / ML" },
     { id: "gtm", label: "GTM" },
   ],
-  datasets: [
-    { id: "main", label: "Greenhouse · Ashby · Lever · SmartRecruiters · Workable", count: 17167 },
-    { id: "workday", label: "Workday", count: 1097 },
-  ],
-  lookback_options: [6, 12, 24, 48, 72],
+  ...catalogMeta,
+  lookback_options: [1, 2, 4, 6, 12, 24, 48, 72],
   default_lookback_hours: 24,
   max_lookback_hours: 72,
 }

@@ -10,6 +10,9 @@ import { Results } from "@/components/results"
 import { JobScout } from "@/components/job-scout"
 import { ScrollTop } from "@/components/scroll-top"
 import { BrandLogo } from "@/components/brand"
+import { AppSidebar } from "@/components/app-sidebar"
+import { AnalyticsView, recordApplication } from "@/components/analytics-view"
+import { ForMeView } from "@/components/for-me-view"
 import { VanishingWord } from "@/components/vanishing-word"
 import { cn } from "@/lib/utils"
 import type {
@@ -36,6 +39,11 @@ const EMPTY_STATUS: ScanStatus = {
   companies_done: 0,
   companies_total: 0,
   jobs_found: 0,
+  boards_with_jobs: 0,
+  board_errors: 0,
+  title_matches: 0,
+  non_us_jobs: 0,
+  date_matches: 0,
   matches: 0,
   analyzed: 0,
   analyzed_total: 0,
@@ -94,11 +102,17 @@ export default function Page() {
   const [retryNonce, setRetryNonce] = useState(0)
 
   const [lookbackHours, setLookbackHours] = useState(24)
-  const [dataset, setDataset] = useState("main")
+  const [dataset, setDataset] = useState("core")
+  const [analysisMode, setAnalysisMode] = useState<"fast" | "full">("fast")
+  const [activeSection, setActiveSection] = useState<"scan" | "analytics" | "for-me">("scan")
 
+  const [connectionLost, setConnectionLost] = useState(false)
+  const jobsRequest = useRef(0)
+  const pendingApplied = useRef(new Set<string>())
   const wasRunning = useRef(false)
   const defaultsSet = useRef(false)
 
+  const running = status?.state === "running"
   const router = useRouter()
 
   const signOut = useCallback(async () => {
@@ -115,6 +129,7 @@ export default function Page() {
   // is already reading would flicker and nag on every tick.
   const loadJobs = useCallback(
     async (signal?: AbortSignal, quiet = false) => {
+      const requestId = ++jobsRequest.current
       await Promise.resolve()
       if (!signal?.aborted && !quiet) setLoadingJobs(true)
 
@@ -124,8 +139,12 @@ export default function Page() {
           { signal },
         )
 
-        if (signal?.aborted) return
-        setJobs(data.jobs ?? [])
+        if (signal?.aborted || requestId !== jobsRequest.current) return
+        if (quiet && data.source === "snapshot" && wasRunning.current) {
+          setConnectionLost(true)
+          return
+        }
+        setJobs((data.jobs ?? []).map((job) => pendingApplied.current.has(job.uid) ? { ...job, viewed: true } : job))
         setSource(data.source ?? "snapshot")
         setScannedAt(data.scanned_at ?? null)
       } catch (loadError) {
@@ -135,7 +154,7 @@ export default function Page() {
           )
         }
       } finally {
-        if (!signal?.aborted && !quiet) setLoadingJobs(false)
+        if (!signal?.aborted) setLoadingJobs(false)
       }
     },
     [lookbackHours],
@@ -156,7 +175,7 @@ export default function Page() {
 
         if (!defaultsSet.current) {
           setLookbackHours(data.default_lookback_hours)
-          setDataset(data.datasets[0]?.id ?? "main")
+          setDataset(data.datasets[0]?.id ?? "core")
           defaultsSet.current = true
         }
       })
@@ -198,12 +217,16 @@ export default function Page() {
     if (status?.state !== "running") return
 
     const controller = new AbortController()
-    const timer = setInterval(() => {
-      void loadJobs(controller.signal, true)
-    }, STREAM_MS)
+    let timer: ReturnType<typeof setTimeout>
+    async function refresh() {
+      if (controller.signal.aborted) return
+      if (!document.hidden) await loadJobs(controller.signal, true)
+      if (!controller.signal.aborted) timer = setTimeout(refresh, STREAM_MS)
+    }
+    timer = setTimeout(refresh, STREAM_MS)
 
     return () => {
-      clearInterval(timer)
+      clearTimeout(timer)
       controller.abort()
     }
   }, [status?.state, loadJobs])
@@ -215,6 +238,10 @@ export default function Page() {
     let controller: AbortController | null = null
 
     async function poll() {
+      if (document.hidden) {
+        timer = setTimeout(poll, 15_000)
+        return
+      }
       controller = new AbortController()
 
       try {
@@ -224,11 +251,16 @@ export default function Page() {
 
         if (cancelled) return
 
+        if (!data.scanner_available && wasRunning.current) {
+          setConnectionLost(true)
+          return
+        }
+        setConnectionLost(false)
         setStatus(data)
         setScannerAvailable(data.scanner_available)
 
         if (wasRunning.current && data.state !== "running") {
-          void loadJobs()
+          void loadJobs(controller.signal)
         }
 
         if (data.state !== "running") setStopping(false)
@@ -236,19 +268,29 @@ export default function Page() {
       } catch (pollError) {
         // A dropped poll is not worth surfacing; the next one will tell.
         if (isAbortError(pollError)) return
+        setConnectionLost(true)
       } finally {
-        if (!cancelled) timer = setTimeout(poll, POLL_MS)
+        controller = null
+        if (!cancelled) timer = setTimeout(poll, wasRunning.current ? POLL_MS : 15_000)
       }
     }
 
+    function onVisible() {
+      if (!document.hidden && !controller) {
+        if (timer) clearTimeout(timer)
+        void poll()
+      }
+    }
+    document.addEventListener("visibilitychange", onVisible)
     void poll()
 
     return () => {
+      document.removeEventListener("visibilitychange", onVisible)
       cancelled = true
       controller?.abort()
       if (timer) clearTimeout(timer)
     }
-  }, [loadJobs])
+  }, [loadJobs, running])
 
   async function runScan() {
     setError(null)
@@ -263,6 +305,7 @@ export default function Page() {
         body: JSON.stringify({
           lookback_hours: lookbackHours,
           dataset,
+          analysis_mode: analysisMode,
         }),
       })
 
@@ -300,19 +343,32 @@ export default function Page() {
     }
   }
 
-  async function markApplied(uid: string) {
+  const markApplied = useCallback(async (uid: string) => {
+    pendingApplied.current.add(uid)
+    const appliedJob = jobs.find((job) => job.uid === uid)
+    recordApplication(uid, appliedJob ? {
+      title: appliedJob.title,
+      company: appliedJob.company,
+      categories: appliedJob.categories,
+    } : undefined)
     setJobs((current) =>
       current.map((job) => (job.uid === uid ? { ...job, viewed: true } : job)),
     )
 
-    await fetch("/api/jobs/viewed", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ uid }),
-    }).catch(() => {})
-  }
+    if (isDemo) return
 
-  const running = status?.state === "running"
+    try {
+      await fetchJson("/api/jobs/viewed", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uid }),
+      })
+    } catch {
+      setJobs((current) => current.map((job) => job.uid === uid ? { ...job, viewed: false } : job))
+      setError("The job opened, but its applied status could not be saved. Check your connection and try again.")
+      pendingApplied.current.delete(uid)
+    }
+  }, [isDemo, jobs])
 
   function retry() {
     setError(null)
@@ -322,12 +378,14 @@ export default function Page() {
   }
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col lg:flex-row">
+      <AppSidebar activeSection={activeSection} onSectionChange={setActiveSection} />
+      <div className="min-w-0 flex-1">
       <a href="#main-content" className="skip-link">
         Skip to results
       </a>
 
-      <header className="border-b border-line bg-bg">
+      <header className="border-b border-line/70 bg-white/70 backdrop-blur-xl">
         <div className={cn(SHELL, "flex min-h-16 items-center gap-3")}>
           <BrandLogo />
 
@@ -356,6 +414,7 @@ export default function Page() {
           <button
             type="button"
             onClick={signOut}
+            aria-label="Sign out"
             className="inline-flex min-h-9 items-center gap-1.5 rounded-lg px-2.5 text-xs font-medium text-faint transition-colors hover:bg-surface-2 hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
           >
             <LogOut aria-hidden="true" className="size-3.5" />
@@ -365,11 +424,12 @@ export default function Page() {
       </header>
 
       <main id="main-content" tabIndex={-1} className="min-h-[calc(100dvh-8rem)]">
-        <section className="grid-paper border-b border-line">
+        {activeSection === "analytics" ? <AnalyticsView /> : activeSection === "for-me" ? <ForMeView jobs={jobs} onApply={markApplied} loading={loadingJobs} source={source} /> : <>
+        <section className="hero-stage border-b border-line">
           <div className="mx-auto w-full max-w-5xl px-5 py-10 text-center sm:py-14">
-            <p className="label text-brand">18,000+ verified company boards</p>
+            <p className="label text-brand">{meta ? `${(meta.catalog_total ?? meta.datasets.reduce((total, entry) => total + entry.count, 0)).toLocaleString()} company boards` : "Scan company career boards"}</p>
 
-            <h1 className="mx-auto mt-3 max-w-4xl text-balance font-display text-[2.5rem] font-extrabold leading-[1.02] tracking-[-0.035em] sm:text-5xl lg:text-6xl">
+            <h1 className="hero-heading mx-auto mt-3 max-w-4xl text-balance text-[2.5rem] leading-[1.02] sm:text-5xl lg:text-6xl">
               If you&rsquo;re not in the first 10 applicants, you&rsquo;re{" "}
               <VanishingWord word="invisible" />.
             </h1>
@@ -384,6 +444,8 @@ export default function Page() {
               {meta ? (
                 <RunConsole
                   meta={meta}
+                  analysisMode={status?.state === "running" ? status.analysis_mode ?? analysisMode : analysisMode}
+                  onAnalysisModeChange={setAnalysisMode}
                   lookbackHours={lookbackHours}
                   onLookbackChange={(hours) => {
                     setError(null)
@@ -396,6 +458,8 @@ export default function Page() {
                   starting={starting}
                   stopping={stopping}
                   scannerAvailable={scannerAvailable && !isDemo}
+                  activeLookbackHours={status?.lookback_hours ?? null}
+                  activeDataset={status?.dataset ?? null}
                   demo={isDemo}
                   onRun={runScan}
                   onStop={stopScan}
@@ -422,6 +486,12 @@ export default function Page() {
 
         <div className={cn(SHELL, "flex flex-col gap-5 py-7 sm:py-9")}>
           {status && <ScanProgress status={status} />}
+
+          {connectionLost && (
+            <p role="status" className="rounded-xl border border-line bg-surface px-4 py-3 text-sm text-muted">
+              Connection interrupted. Reconnecting automatically; the last results remain available.
+            </p>
+          )}
 
           {error && (
             <div
@@ -453,29 +523,17 @@ export default function Page() {
             onApply={markApplied}
           />
         </div>
+        </>}
       </main>
 
       <footer className="border-t border-line">
         <div
           className={cn(
             SHELL,
-            "flex flex-col gap-2 py-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between",
+            "flex justify-center py-10 sm:py-12",
           )}
         >
-          <span translate="no">ATSift</span>
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 sm:justify-end">
-            <span>
-              Greenhouse · Ashby · Lever · SmartRecruiters · Workable · Workday
-            </span>
-            <a
-              href="https://logo.dev"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-sm underline underline-offset-2 hover:text-text focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
-            >
-              Company logos provided by Logo.dev
-            </a>
-          </div>
+          <BrandLogo className="h-14 w-auto sm:h-20" />
         </div>
       </footer>
 
@@ -492,6 +550,7 @@ export default function Page() {
           }
         />
       )}
-    </>
+      </div>
+    </div>
   )
 }

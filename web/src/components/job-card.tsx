@@ -11,6 +11,7 @@ import {
 } from "lucide-react"
 
 import { AtsBadge, LogoTile } from "@/components/brand"
+import { ApplyButton } from "@/components/ui/apply-button"
 import { detectBlocker } from "@/lib/eligibility"
 import { experienceLabel } from "@/lib/experience"
 import { cn, formatAge, formatStamp } from "@/lib/utils"
@@ -166,31 +167,7 @@ export function JobCard({ job, lastSeen, onApply }: JobCardProps) {
           </div>
         )}
 
-        <a
-          href={job.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={() => onApply(job.uid)}
-          className={cn(
-            "inline-flex min-h-11 items-center gap-1.5 rounded-xl px-5 text-sm font-semibold transition-colors",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2",
-            applied
-              ? "border border-brand-line bg-brand-soft text-brand-deep hover:bg-brand-soft/70"
-              : "bg-brand text-brand-ink hover:bg-brand-strong",
-          )}
-        >
-          {applied ? (
-            <>
-              <CheckCircle2 aria-hidden="true" className="size-4" />
-              Already Applied
-            </>
-          ) : (
-            <>
-              Apply now
-              <ArrowUpRight aria-hidden="true" className="size-3.5" />
-            </>
-          )}
-        </a>
+        <ApplyButton uid={job.uid} url={job.url} applied={applied} onApply={onApply} />
       </div>
 
       {detailsAvailable && analysis && panel === "qa" && (

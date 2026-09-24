@@ -52,7 +52,7 @@ export async function GET(request: Request) {
     count: jobs.length,
     scanned_at: null,
     lookback_hours: hours,
-    dataset: "main",
+    dataset: "core",
     source: "snapshot",
   } satisfies JobsResponse & { source: string })
 }

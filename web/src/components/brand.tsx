@@ -25,11 +25,20 @@ export function BrandLogo({ className }: { className?: string }) {
   )
 }
 
-const ATS_LABELS: Record<string, string> = {
-  greenhouse: "Greenhouse",
+export const ATS_LABELS: Record<string, string> = {
+  apple: "Apple Careers",
+  atlassian: "Atlassian Careers",
   ashby: "Ashby",
+  avature: "Avature",
+  greenhouse: "Greenhouse",
+  ibm: "IBM Careers",
+  icims: "iCIMS",
+  jibe: "Jibe",
   lever: "Lever",
+  oracle: "Oracle Recruiting",
+  rippling: "Rippling",
   smartrecruiters: "SmartRecruiters",
+  successfactors: "SAP SuccessFactors",
   workable: "Workable",
   workday: "Workday",
 }
@@ -72,6 +81,8 @@ export function LogoTile({
         <img
           src={source}
           alt=""
+          width={48}
+          height={48}
           aria-hidden="true"
           loading="lazy"
           decoding="async"

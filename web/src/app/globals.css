@@ -40,7 +40,7 @@
   --color-danger-line: #f6ccc8;
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-inter-tight), var(--font-inter), sans-serif;
+  --font-display: var(--font-inter-tight), var(--font-inter), Arial, Helvetica, sans-serif;
   --font-mono: var(--font-mono-label), ui-monospace, monospace;
 
   --radius-card: 0.875rem;
@@ -48,6 +48,41 @@
 
 :root {
   color-scheme: light;
+}
+
+:where(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+.job-dialog::backdrop {
+  background: rgb(8 12 20 / 35%);
+  backdrop-filter: blur(4px);
+}
+
+@layer components {
+  .workspace-section {
+    width: 100%;
+    max-width: 84rem;
+    margin-inline: auto;
+    padding: clamp(1.5rem, 4vw, 3rem) 1.25rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .workspace-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1.875rem, 3vw, 2.5rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1.15;
+    text-wrap: balance;
+    color: var(--color-text);
+  }
+  .ui-panel {
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    background: var(--color-surface);
+    box-shadow: 0 2px 8px rgb(8 12 20 / 3%);
+  }
 }
 
 html {
@@ -82,6 +117,129 @@ select:not(:disabled) {
     linear-gradient(to right, rgba(0, 90, 253, 0.06) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(0, 90, 253, 0.06) 1px, transparent 1px);
   background-size: 56px 56px;
+}
+
+/* Dashboard hero: a quiet, airy field of blue and lilac light, with the
+   oversized elliptical sweep from the visual reference kept behind content. */
+.hero-stage {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 50% 18%, rgba(255, 255, 255, 0.97) 0%, rgba(246, 248, 255, 0.9) 42%, transparent 72%),
+    radial-gradient(ellipse at 8% 78%, rgba(123, 176, 255, 0.24), transparent 48%),
+    radial-gradient(ellipse at 94% 72%, rgba(168, 157, 255, 0.2), transparent 46%),
+    linear-gradient(180deg, #f8faff 0%, #eef4ff 100%);
+}
+
+.hero-stage::before {
+  position: absolute;
+  z-index: -1;
+  top: -43%;
+  left: -13%;
+  width: 126%;
+  height: 126%;
+  border: 1px solid rgba(95, 148, 255, 0.13);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 46px rgba(116, 164, 255, 0.045),
+    0 0 0 92px rgba(145, 135, 255, 0.035);
+  content: "";
+  pointer-events: none;
+  transform: rotate(-8deg);
+}
+
+.hero-stage::after {
+  position: absolute;
+  z-index: -1;
+  right: -10rem;
+  bottom: -16rem;
+  width: 34rem;
+  height: 34rem;
+  border-radius: 50%;
+  background: rgba(192, 184, 255, 0.14);
+  content: "";
+  filter: blur(35px);
+  pointer-events: none;
+}
+
+.hero-stage > div {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-heading {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  color: #071126;
+}
+
+.hero-stage select,
+.hero-stage [role="button"] {
+  box-shadow: 0 10px 28px rgba(66, 105, 180, 0.08);
+}
+
+.hero-stage select {
+  border-color: rgba(180, 198, 230, 0.72);
+  background-color: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(12px);
+}
+
+.hero-stage button.bg-brand {
+  box-shadow: 0 12px 24px rgba(0, 90, 253, 0.2);
+}
+
+/* Login canvas: quiet depth around a high-contrast, single-focus form. */
+.auth-page {
+  background-color: var(--color-bg);
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.7), rgba(245, 247, 252, 0.82)),
+    linear-gradient(to right, rgba(0, 90, 253, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(0, 90, 253, 0.045) 1px, transparent 1px);
+  background-size: auto, 48px 48px, 48px 48px;
+}
+
+.auth-story {
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 84% 8%, rgba(42, 111, 255, 0.35), transparent 34%),
+    linear-gradient(145deg, #07142f 0%, #0a2455 54%, #0b3b9e 116%);
+}
+
+.auth-story::before {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+  background-size: 44px 44px;
+  content: "";
+  mask-image: linear-gradient(to bottom right, black, transparent 78%);
+}
+
+.auth-orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(2px);
+  pointer-events: none;
+}
+
+.auth-orb-one {
+  top: -9rem;
+  right: -7rem;
+  width: 24rem;
+  height: 24rem;
+  background: rgba(0, 90, 253, 0.11);
+}
+
+.auth-orb-two {
+  bottom: -12rem;
+  left: -10rem;
+  width: 30rem;
+  height: 30rem;
+  background: rgba(30, 107, 255, 0.08);
 }
 
 /*
@@ -138,6 +296,17 @@ select:not(:disabled) {
 }
 
 .vanish > span {
+  display: inline-block;
+  white-space: pre;
+}
+
+.vanish-letter {
+  display: inline-block;
+  transition: transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
+}
+
+.vanish-glyph {
   display: inline-block;
   white-space: pre;
   /*
@@ -257,7 +426,7 @@ select:not(:disabled) {
   .rise,
   .stagger > *,
   .shimmer::after,
-  .vanish > span,
+  .vanish-glyph,
   .typing > span {
     animation: none;
   }

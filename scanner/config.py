@@ -15,19 +15,47 @@ load_dotenv(BASE_DIR / ".env.local", override=True)
 DATA_DIR = BASE_DIR / "data"
 
 # --- Company catalogs -------------------------------------------------------
+#
+# There are three active scan catalogs, split by board type: the original six
+# reusable platforms, the larger enterprise multi-tenant platforms, and
+# dedicated company-specific board APIs. Curated submissions, imported
+# references, and unresolved rows remain available as hidden provenance
+# ledgers, but do not clutter the scan selector.
 
 COMPANY_DATASETS = {
-    "main": {
-        "filename": "companies.csv",
-        "label": "Greenhouse · Ashby · Lever · SmartRecruiters · Workable",
+    "core": {
+        "filename": "companies_core_ats.csv",
+        "label": "Core ATS boards · Ashby, Greenhouse, Lever, SmartRecruiters, Workable & Rippling",
+        "selectable": True,
     },
-    "workday": {
-        "filename": "companies_workday.csv",
-        "label": "Workday",
+    "enterprise": {
+        "filename": "companies_enterprise_ats.csv",
+        "label": "Enterprise ATS boards · Workday, iCIMS, Oracle & more",
+        "selectable": True,
+    },
+    "direct": {
+        "filename": "companies_direct.csv",
+        "label": "Company-owned career sites",
+        "selectable": True,
+    },
+    "priority": {
+        "filename": "companies_priority.csv",
+        "label": "Curated submitted URLs · 13 live ATS types",
+        "selectable": False,
+    },
+    "reference": {
+        "filename": "companies_reference.csv",
+        "label": "Imported job_boards.csv · 77 boards",
+        "selectable": False,
+    },
+    "plus": {
+        "filename": "companies_plus.csv",
+        "label": "Unresolved holding catalog",
+        "selectable": False,
     },
 }
 
-DEFAULT_DATASET = "main"
+DEFAULT_DATASET = "core"
 
 COMPANY_DATASET_PATHS = {
     dataset_id: DATA_DIR / str(config["filename"])
@@ -47,8 +75,12 @@ BRANDFETCH_LOGO_CACHE_PATH = DATA_DIR / "brandfetch_logo_cache.json"
 # The window the user picks drives the scan AND the results. These are the
 # options the UI offers; MAX_LOOKBACK_HOURS is the hard ceiling because
 # freshness is the whole point of the product.
+#
+# The 1/2/4-hour windows exist for the "first 10 applicants" case: a sweep run
+# on a schedule wants to see only what landed since the last one, and a 6-hour
+# floor re-screens hours of postings that were already read.
 
-LOOKBACK_OPTIONS = [6, 12, 24, 48, 72]
+LOOKBACK_OPTIONS = [1, 2, 4, 6, 12, 24, 48, 72]
 DEFAULT_LOOKBACK_HOURS = 24
 MAX_LOOKBACK_HOURS = 72
 

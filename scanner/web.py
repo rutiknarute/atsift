@@ -191,7 +191,7 @@ def create_app() -> Flask:
             lookback_hours=payload.get(
                 "lookback_hours", DEFAULT_LOOKBACK_HOURS
             ),
-            dataset=payload.get("dataset", "main"),
+            dataset=payload.get("dataset", "core"),
             categories=payload.get("categories"),
         )
 

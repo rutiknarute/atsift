@@ -37,6 +37,8 @@ export function formatStamp(value: string | null): string {
 }
 
 export function formatWindow(hours: number): string {
+  // "1 hour", not "1 hours" — the 1h window made the plural reachable.
+  if (hours === 1) return "1 hour"
   if (hours < 24) return `${hours} hours`
   if (hours === 24) return "24 hours"
 
